@@ -40,6 +40,39 @@ const initPromise = init().catch((err) => {
   self.postMessage({ type: 'fatal', message: String(err) })
 })
 
+const TEST_HARNESS = `
+import json, traceback
+__ns = {}
+__report = {"compileError": None, "tests": []}
+try:
+    exec(__user_code, __ns)
+except Exception:
+    __report["compileError"] = traceback.format_exc()
+else:
+    for __t in json.loads(__tests_json):
+        __entry = {"name": __t["name"], "ok": False, "error": None}
+        try:
+            __entry["ok"] = bool(eval(__t["expr"], __ns))
+        except Exception as __e:
+            __entry["error"] = f"{type(__e).__name__}: {__e}"
+        __report["tests"].append(__entry)
+json.dumps(__report)
+`
+
+async function runTests(id, code, tests) {
+  await initPromise
+  if (!ready) return
+  try {
+    await pyodide.loadPackagesFromImports(code)
+    pyodide.globals.set('__user_code', code)
+    pyodide.globals.set('__tests_json', JSON.stringify(tests))
+    const out = await pyodide.runPythonAsync(TEST_HARNESS)
+    self.postMessage({ type: 'tests', id, report: JSON.parse(out) })
+  } catch (err) {
+    self.postMessage({ type: 'tests-error', id, message: String(err.message || err) })
+  }
+}
+
 async function run(id, code) {
   await initPromise
   if (!ready) return
@@ -74,6 +107,9 @@ self.onmessage = (e) => {
       break
     case 'run':
       run(msg.id, msg.code)
+      break
+    case 'runtests':
+      runTests(msg.id, msg.code, msg.tests)
       break
     default:
       break
