@@ -62,13 +62,16 @@ export function usePyodide({ onOutput, onInputRequest }) {
     };
 
     worker.postMessage({ type: "handshake" });
+
     return () => worker.terminate();
   }, []);
 
   const run = useCallback(
     (code) => {
       if (status !== "ready") return Promise.resolve({ ok: false });
+
       setStatus("running");
+
       return new Promise((resolve) => {
         runResolveRef.current = resolve;
         workerRef.current.postMessage({ type: "run", id: Date.now(), code });
@@ -80,7 +83,9 @@ export function usePyodide({ onOutput, onInputRequest }) {
   const sendInput = useCallback((line) => {
     const control = controlRef.current;
     const data = dataRef.current;
+
     if (!control || !data) return;
+
     const bytes = new TextEncoder().encode(line);
     const len = Math.min(bytes.length, data.length);
     data.set(bytes.subarray(0, len));
