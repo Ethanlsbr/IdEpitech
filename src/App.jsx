@@ -24,8 +24,10 @@ export default function App() {
       if (last && last.stream === stream) {
         const merged = [...prev];
         merged[merged.length - 1] = { stream, text: last.text + "\n" + text };
+
         return merged;
       }
+
       return [...prev, { stream, text }];
     });
   }, []);
@@ -39,6 +41,7 @@ export default function App() {
 
   const handleRun = useCallback(async () => {
     if (status !== "ready") return;
+
     setLines((prev) => [
       ...prev,
       {
@@ -65,6 +68,7 @@ export default function App() {
 
   const handleDragMove = useCallback((event) => {
     const container = splitRef.current;
+
     if (!container) return;
 
     const { startX, startWidth } = dragStateRef.current;
