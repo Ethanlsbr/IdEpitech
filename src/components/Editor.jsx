@@ -1,14 +1,14 @@
-import Monaco from '@monaco-editor/react'
-import { useRef } from 'react'
+import Monaco from "@monaco-editor/react";
+import { useRef } from "react";
 
 export default function Editor({ value, onChange, onRunRef }) {
-  const monacoRef = useRef(null)
+  const monacoRef = useRef(null);
 
   function handleMount(editor, monaco) {
-    monacoRef.current = monaco
+    monacoRef.current = monaco;
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-      onRunRef.current?.()
-    })
+      onRunRef.current?.();
+    });
   }
 
   return (
@@ -17,7 +17,7 @@ export default function Editor({ value, onChange, onRunRef }) {
       defaultLanguage="python"
       theme="vs-dark"
       value={value}
-      onChange={(v) => onChange(v ?? '')}
+      onChange={(v) => onChange(v ?? "")}
       onMount={handleMount}
       options={{
         fontSize: 14,
@@ -30,11 +30,11 @@ export default function Editor({ value, onChange, onRunRef }) {
         automaticLayout: true,
         padding: { top: 12 },
         wordWrap: "on",
-        renderWhitespace: 'selection',
+        renderWhitespace: "selection",
         cursorSmoothCaretAnimation: "on",
         cursorWidth: 3,
         cursorBlinking: "expand",
       }}
     />
-  )
+  );
 }
