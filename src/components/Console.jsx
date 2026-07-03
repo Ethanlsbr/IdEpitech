@@ -1,25 +1,30 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react";
 
 const STREAM_STYLE = {
-  stdout: 'text-zinc-100',
-  stderr: 'text-red-400',
-  system: 'text-zinc-500 italic',
-  result: 'text-emerald-400',
-  prompt: 'text-sky-400',
-  input: 'text-amber-300',
-}
+  stdout: "text-zinc-100",
+  stderr: "text-red-400",
+  system: "text-zinc-500 italic",
+  result: "text-emerald-400",
+  prompt: "text-sky-400",
+  input: "text-amber-300",
+};
 
-export default function Console({ lines, awaitingInput, onSubmitInput, onClear }) {
-  const endRef = useRef(null)
-  const inputRef = useRef(null)
+export default function Console({
+  lines,
+  awaitingInput,
+  onSubmitInput,
+  onClear,
+}) {
+  const endRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ block: 'end' })
-  }, [lines, awaitingInput])
+    endRef.current?.scrollIntoView({ block: "end" });
+  }, [lines, awaitingInput]);
 
   useEffect(() => {
-    if (awaitingInput) inputRef.current?.focus()
-  }, [awaitingInput])
+    if (awaitingInput) inputRef.current?.focus();
+  }, [awaitingInput]);
 
   return (
     <div className="flex h-full flex-col bg-[#0d1117]">
@@ -36,19 +41,22 @@ export default function Console({ lines, awaitingInput, onSubmitInput, onClear }
       </div>
 
       <div className="thin-scroll flex-1 overflow-auto px-3 py-2 font-mono text-[13px] leading-relaxed">
-        {lines.map((l, i) => (
-          <span key={i} className={`whitespace-pre-wrap ${STREAM_STYLE[l.stream] || ''}`}>
-            {l.text}
+        {lines.map((line, index) => (
+          <span
+            key={index}
+            className={`whitespace-pre-wrap ${STREAM_STYLE[line.stream] || ""}`}
+          >
+            {line.text}
           </span>
         ))}
 
         {awaitingInput && (
           <form
             className="flex"
-            onSubmit={(e) => {
-              e.preventDefault()
-              onSubmitInput(inputRef.current.value)
-              inputRef.current.value = ''
+            onSubmit={(event) => {
+              event.preventDefault();
+              onSubmitInput(inputRef.current.value);
+              inputRef.current.value = "";
             }}
           >
             <span className="text-sky-400">❯ </span>
@@ -63,5 +71,5 @@ export default function Console({ lines, awaitingInput, onSubmitInput, onClear }
         <div ref={endRef} />
       </div>
     </div>
-  )
+  );
 }
