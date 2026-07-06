@@ -9,13 +9,16 @@ const STATUS = {
   error: { label: "Erreur", color: "bg-red-500", pulse: false },
 };
 
-export default function Toolbar({ status, version, onRun }) {
+export default function Toolbar({ status, version, onRun, onBack }) {
   const s = STATUS[status] || STATUS.loading;
   const canRun = status === "ready";
 
   return (
     <header className="flex items-center justify-between border-b border-zinc-800 bg-[#161b22] px-4 py-2">
       <div className="flex items-center gap-2">
+        {onBack && (
+          <button onClick={onBack} className="rounded-md px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"> ← Projets </button>
+        )}
         <span className="text-lg">🐍</span>
         <h1 className="text-sm font-semibold text-zinc-100">IdEpitech</h1>
         <span className="text-xs text-zinc-500">
