@@ -4,6 +4,7 @@ import Console from "./components/Console";
 import Toolbar from "./components/Toolbar";
 import { usePyodide } from "./usePyodide";
 import Subject from "./components/Subject";
+import MobileBlock from "./components/MobileBlock";
 import Projects from "./projects/list.json";
 
 const SAMPLE = `# Welcome to Manta Editor
@@ -114,8 +115,10 @@ export default function App() {
   );
 
   return (
-    <div className="flex h-full flex-col">
-      <Toolbar status={status} version={version} onRun={handleRun} />
+    <>
+      <MobileBlock />
+      <div className="hidden h-full flex-col md:flex">
+        <Toolbar status={status} version={version} onRun={handleRun} />
 
       <main
         ref={splitRef}
@@ -173,6 +176,7 @@ export default function App() {
           )}
         </section>
       </main>
-    </div>
+      </div>
+    </>
   );
 }
