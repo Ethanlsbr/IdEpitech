@@ -4,6 +4,11 @@ export const LANGUAGES = {
     icon: "🐍",
     badge: "bg-emerald-500/10 text-emerald-300",
   },
+//  c: {
+//    label: "C",
+//    icon: "C",
+//    badge: "bg-sky-500/10 text-sky-300",
+//  },
 };
 
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
