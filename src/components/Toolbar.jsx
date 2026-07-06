@@ -20,7 +20,7 @@ export default function Toolbar({ status, version, onRun, onBack }) {
           <button onClick={onBack} className="rounded-md px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"> ← Projets </button>
         )}
         <span className="text-lg">🐍</span>
-        <h1 className="text-sm font-semibold text-zinc-100">IdEpitech</h1>
+        <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
         <span className="text-xs text-zinc-500">
           {version ? `Python ${version}` : "Pyodide"}
         </span>

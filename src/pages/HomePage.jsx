@@ -6,7 +6,7 @@ export default function HomePage({ projects, onOpen }) {
       <header className="border-b border-zinc-800 bg-[#161b22] px-6 py-4">
         <div className="flex items-center gap-2">
           <span className="text-lg">🐍</span>
-          <h1 className="text-sm font-semibold text-zinc-100">IdEpitech</h1>
+          <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
         </div>
         <p className="mt-1 text-xs text-zinc-500">
           Choisissez un projet pour commencer à coder.

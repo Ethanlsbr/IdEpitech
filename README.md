@@ -1,4 +1,4 @@
-# 🐍 IdEpitech
+# 🐍 IDEpitech
 
 Un IDE Python qui tourne **entièrement dans le navigateur** : éditeur
 [Monaco](https://microsoft.github.io/monaco-editor/) + exécution
