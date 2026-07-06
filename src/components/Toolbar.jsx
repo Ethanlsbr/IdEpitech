@@ -37,7 +37,7 @@ export default function Toolbar({ status, version, onRun, onBack, langage }) {
           </button>
         )}
         <span className="text-lg">{icon}</span>
-        <h1 className="text-sm font-semibold text-zinc-100">IdEpitech</h1>
+        <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
         <span className="text-xs text-zinc-500">{label}</span>
       </div>
 
