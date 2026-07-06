@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Editor from "./components/Editor";
 import Console from "./components/Console";
 import Toolbar from "./components/Toolbar";
@@ -9,14 +9,22 @@ const SAMPLE = `# Welcome to Manta Editor
 print("Hello Manta!\\nDiscover code with IDEpitech")
 `;
 
+const STORAGE_KEY = "manta-code";
+
 export default function App() {
-  const [code, setCode] = useState(SAMPLE);
+  const [code, setCode] = useState(() => {
+    return localStorage.getItem(STORAGE_KEY) ?? SAMPLE;
+  });
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
   const [editorWidth, setEditorWidth] = useState(50);
   const runRef = useRef(null);
   const splitRef = useRef(null);
   const dragStateRef = useRef({ startX: 0, startWidth: 50 });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, code);
+  }, [code]);
 
   const appendOutput = useCallback(({ stream, text }) => {
     setLines((prev) => {
