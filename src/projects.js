@@ -26,9 +26,9 @@ export const projects = [
     description: "Fizz, Buzz, FizzBuzz de 1 à 100.",
   },
   {
-  id: "mon-projet",
-  name: "Mon Projet",
-  language: "python",
-  description: "…",
+    id: "mon-projet",
+    name: "Mon Projet",
+    language: "python",
+    description: "…",
   },
 ];
