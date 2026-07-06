@@ -1,3 +1,5 @@
+import { LANGUAGES } from "../projects";
+
 const STATUS = {
   loading: {
     label: "Chargement de Pyodide…",
@@ -9,21 +11,34 @@ const STATUS = {
   error: { label: "Erreur", color: "bg-red-500", pulse: false },
 };
 
-export default function Toolbar({ status, version, onRun, onBack }) {
+export default function Toolbar({ status, version, onRun, onBack, langage }) {
   const s = STATUS[status] || STATUS.loading;
   const canRun = status === "ready";
+  const isHtml = langage === "html";
+  const icon = isHtml ? LANGUAGES.html.icon : LANGUAGES.python.icon;
+  const label = isHtml
+    ? version
+      ? `HTML ${version}`
+      : "HTML"
+    : version
+      ? `Python ${version}`
+      : "Pyodide";
 
   return (
     <header className="flex items-center justify-between border-b border-zinc-800 bg-[#161b22] px-4 py-2">
       <div className="flex items-center gap-2">
         {onBack && (
-          <button onClick={onBack} className="rounded-md px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"> ← Projets </button>
+          <button
+            onClick={onBack}
+            className="rounded-md px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"
+          >
+            {" "}
+            ← Projets{" "}
+          </button>
         )}
-        <span className="text-lg">🐍</span>
-        <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
-        <span className="text-xs text-zinc-500">
-          {version ? `Python ${version}` : "Pyodide"}
-        </span>
+        <span className="text-lg">{icon}</span>
+        <h1 className="text-sm font-semibold text-zinc-100">IdEpitech</h1>
+        <span className="text-xs text-zinc-500">{label}</span>
       </div>
 
       <div className="flex items-center gap-3">
