@@ -3,7 +3,8 @@
     {
       "id": "fildariane",
       "name": "Fil d'Ariane",
-      "subject": "src/projects/filDariane/fil-d-ariane.pdf"
+      "subject": "src/projects/filDariane/fil-d-ariane.pdf",
+      "python": "src/projects/filDariane/dedale.py?raw"
     }
   ]
 }

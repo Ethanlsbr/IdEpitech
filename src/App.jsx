@@ -6,6 +6,7 @@ import { usePyodide } from "./usePyodide";
 import Subject from "./components/Subject";
 import MobileBlock from "./components/MobileBlock";
 import Projects from "./projects/list.json";
+import ArianePython from "./projects/filDariane/dedale.py?raw"
 
 const SAMPLE = `# Welcome to Manta Editor
 
@@ -50,6 +51,7 @@ export default function App() {
   const { status, version, run, sendInput } = usePyodide({
     onOutput: appendOutput,
     onInputRequest: handleInputRequest,
+    ArianePython: ArianePython,
   });
 
   const handleRun = useCallback(async () => {
@@ -63,7 +65,7 @@ export default function App() {
         text: `\n$ run · ${new Date().toLocaleTimeString()}\n`,
       },
     ]);
-    const res = await run(code);
+    const res = await run(ArianePython + code);
     if (res?.ok && res.result != null) {
       appendOutput({ stream: "result", text: `=> ${res.result}\n` });
     }
