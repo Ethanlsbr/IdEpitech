@@ -3,6 +3,9 @@ import Editor from "./components/Editor";
 import Console from "./components/Console";
 import Toolbar from "./components/Toolbar";
 import { usePyodide } from "./usePyodide";
+import Subject from "./components/Subject";
+import MobileBlock from "./components/MobileBlock";
+import Projects from "./projects/list.json";
 
 const SAMPLE = `# Welcome to Manta Editor
 
@@ -18,9 +21,11 @@ export default function App() {
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
   const [editorWidth, setEditorWidth] = useState(50);
+  const [rightPanel, setRightPanel] = useState(false);
   const runRef = useRef(null);
   const splitRef = useRef(null);
   const dragStateRef = useRef({ startX: 0, startWidth: 50 });
+  const [project, setProject] = useState(0);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, code);
@@ -50,6 +55,7 @@ export default function App() {
   const handleRun = useCallback(async () => {
     if (status !== "ready") return;
 
+    setRightPanel(true);
     setLines((prev) => [
       ...prev,
       {
@@ -109,8 +115,10 @@ export default function App() {
   );
 
   return (
-    <div className="flex h-full flex-col">
-      <Toolbar status={status} version={version} onRun={handleRun} />
+    <>
+      <MobileBlock />
+      <div className="hidden h-full flex-col md:flex">
+        <Toolbar status={status} version={version} onRun={handleRun} />
 
       <main
         ref={splitRef}
@@ -131,15 +139,44 @@ export default function App() {
           className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-zinc-800/60 md:hover:bg-sky-500/60"
           style={{ touchAction: "none" }}
         />
-        <section className="min-h-0 min-w-0 md:flex-1">
-          <Console
-            lines={lines}
-            awaitingInput={awaitingInput}
-            onSubmitInput={submitInput}
-            onClear={() => setLines([])}
-          />
+        <section className="flex min-h-0 min-w-0 flex-col md:flex-1">
+          <div className="flex flex-none border-b border-zinc-800">
+            <button
+              type="button"
+              onClick={() => setRightPanel(false)}
+              className={`flex-1 px-3 py-1.5 text-xs font-medium ${
+                !rightPanel
+                  ? "bg-[#484E6A] text-white-800"
+                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+              }`}
+            >
+              SUJET
+            </button>
+            <button
+              type="button"
+              onClick={() => setRightPanel(true)}
+              className={`flex-1 px-3 py-1.5 text-xs font-medium ${
+                rightPanel
+                  ? "bg-[#484E6A] text-white-800"
+                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+              }`}
+            >
+              CONSOLE
+            </button>
+          </div>
+          {rightPanel ? (
+            <Console
+              lines={lines}
+              awaitingInput={awaitingInput}
+              onSubmitInput={submitInput}
+              onClear={() => setLines([])}
+            />
+          ) : (
+            <Subject subject={Projects.list[project].subject} />
+          )}
         </section>
       </main>
-    </div>
+      </div>
+    </>
   );
 }
