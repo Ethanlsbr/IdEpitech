@@ -1,23 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Editor from "../components/Editor";
-import Console from "../components/Console";
 import Toolbar from "../components/Toolbar";
 import Subject from "../components/Subject";
-import { usePyodide } from "../usePyodide";
-
-const SAMPLE = `# Welcome to Manta Editor
-
-print("Hello Manta!\\nDiscover code with IDEpitech")
-`;
+import { usePythonLanguage, SAMPLE_PYTHON } from "../languages/python";
+import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
 
 const STORAGE_KEY = "manta-code";
 
 export default function Sandbox({ project, onBack }) {
+  const langage = project.language;
+  const isHtml = langage === "html";
+
   const [code, setCode] = useState(() => {
-    return localStorage.getItem(STORAGE_KEY) ?? SAMPLE;
+    return (
+      localStorage.getItem(STORAGE_KEY) ??
+      (isHtml ? SAMPLE_HTML : SAMPLE_PYTHON)
+    );
   });
-  const [lines, setLines] = useState([]);
-  const [awaitingInput, setAwaitingInput] = useState(false);
   const [editorWidth, setEditorWidth] = useState(50);
   const [rightPanel, setRightPanel] = useState(false);
   const runRef = useRef(null);
@@ -28,54 +27,17 @@ export default function Sandbox({ project, onBack }) {
     localStorage.setItem(STORAGE_KEY, code);
   }, [code]);
 
-  const appendOutput = useCallback(({ stream, text }) => {
-    setLines((prev) => {
-      const last = prev[prev.length - 1];
-      if (last && last.stream === stream) {
-        const merged = [...prev];
-        merged[merged.length - 1] = { stream, text: last.text + "\n" + text };
+  const onRequestPanel = useCallback(() => setRightPanel(true), []);
 
-        return merged;
-      }
+  const python = usePythonLanguage({ onRequestPanel, project });
+  const html = useHtmlLanguage({ onRequestPanel, project });
+  const active = isHtml ? html : python;
 
-      return [...prev, { stream, text }];
-    });
-  }, []);
+  const { status, version, execute, renderPanel } = active;
 
-  const handleInputRequest = useCallback(() => setAwaitingInput(true), []);
-
-  const { status, version, run, sendInput } = usePyodide({
-    onOutput: appendOutput,
-    onInputRequest: handleInputRequest,
-  });
-
-  const handleRun = useCallback(async () => {
-    if (status !== "ready") return;
-
-    setRightPanel(true);
-    setLines((prev) => [
-      ...prev,
-      {
-        stream: "system",
-        text: `\n$ run · ${new Date().toLocaleTimeString()}\n`,
-      },
-    ]);
-    const res = await run(project.code + code);
-    if (res?.ok && res.result != null) {
-      appendOutput({ stream: "result", text: `=> ${res.result}\n` });
-    }
-  }, [status, code, run, appendOutput]);
+  const handleRun = useCallback(() => execute(code), [execute, code]);
 
   runRef.current = handleRun;
-
-  const submitInput = useCallback(
-    (line) => {
-      appendOutput({ stream: "input", text: line + "\n" });
-      setAwaitingInput(false);
-      sendInput(line);
-    },
-    [appendOutput, sendInput],
-  );
 
   const handleDragMove = useCallback((event) => {
     const container = splitRef.current;
@@ -111,15 +73,14 @@ export default function Sandbox({ project, onBack }) {
     [editorWidth, handleDragMove, stopDragging],
   );
 
-  const showConsole = !project.subject || rightPanel;
-
   return (
-    <div className="flex h-full flex-col">
+    <div className="hidden h-full flex-col md:flex">
       <Toolbar
         status={status}
         version={version}
         onRun={handleRun}
         onBack={onBack}
+        langage={langage}
       />
 
       <main
@@ -132,7 +93,12 @@ export default function Sandbox({ project, onBack }) {
             flex: `0 0 ${editorWidth}%`,
           }}
         >
-          <Editor value={code} onChange={setCode} onRunRef={runRef} />
+          <Editor
+            value={code}
+            onChange={setCode}
+            onRunRef={runRef}
+            langage={langage}
+          />
         </section>
         <button
           type="button"
@@ -168,16 +134,7 @@ export default function Sandbox({ project, onBack }) {
               </button>
             </div>
           )}
-          {showConsole ? (
-            <Console
-              lines={lines}
-              awaitingInput={awaitingInput}
-              onSubmitInput={submitInput}
-              onClear={() => setLines([])}
-            />
-          ) : (
-            <Subject subject={project.subject} />
-          )}
+          {rightPanel ? renderPanel() : <Subject subject={project.subject} />}
         </section>
       </main>
     </div>

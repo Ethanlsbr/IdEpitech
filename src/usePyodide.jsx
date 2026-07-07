@@ -71,8 +71,7 @@ export function PyodideProvider({ children }) {
   }, []);
   const run = useCallback(
     (code) => {
-      if (status !== "ready")
-        return Promise.resolve({ ok: false });
+      if (status !== "ready") return Promise.resolve({ ok: false });
       setStatus("running");
       return new Promise((resolve) => {
         runResolveRef.current = resolve;
@@ -84,8 +83,7 @@ export function PyodideProvider({ children }) {
   const sendInput = useCallback((line) => {
     const control = controlRef.current;
     const data = dataRef.current;
-    if ((!control) || (!data))
-      return;
+    if (!control || !data) return;
     const bytes = new TextEncoder().encode(line);
     const len = Math.min(bytes.length, data.length);
     data.set(bytes.subarray(0, len));
@@ -110,8 +108,7 @@ export function usePyodide({ onOutput, onInputRequest } = {}) {
       onOutput: onOutput ?? (() => {}),
       onInputRequest: onInputRequest ?? (() => {}),
     });
-    return () =>
-      setCallbacks({ onOutput: () => {}, onInputRequest: () => {} });
+    return () => setCallbacks({ onOutput: () => {}, onInputRequest: () => {} });
   }, [setCallbacks, onOutput, onInputRequest]);
   return { status, version, run, sendInput };
 }

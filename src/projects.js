@@ -6,11 +6,11 @@ export const LANGUAGES = {
     icon: "🐍",
     badge: "bg-emerald-500/10 text-emerald-300",
   },
-//  c: {
-//    label: "C",
-//    icon: "C",
-//    badge: "bg-sky-500/10 text-sky-300",
-//  },
+  html: {
+    label: "HTML",
+    icon: "🌐",
+    badge: "bg-sky-500/10 text-sky-300",
+  },
 };
 
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
@@ -29,7 +29,14 @@ const guidedProjects = [
     language: "python",
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: "src/projects/filDariane/fil-d-ariane.pdf",
-    code: ArianeCode
+    code: ArianeCode,
+  },
+  {
+    id: "appleton-calculator",
+    name: "Appleton Calculator",
+    language: "html",
+    description: "...",
+    subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
   },
   {
     id: "fizzbuzz",

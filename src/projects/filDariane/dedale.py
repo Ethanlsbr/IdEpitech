@@ -37,7 +37,7 @@ x-----------------x-----------------x-----x--------------x-----x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
 
-def load_from_file(data=MAP) -> (list[list[str]], int, int):
+def load_from_file(data=MAP) -> tuple[list[list[str]], int, int]:
     map: list[list[str]] = []
 
     for line in data.splitlines():
@@ -60,7 +60,7 @@ if map is None:
 def up():
     global canvas, map, PosY, PosX
     if PosY != 0 and map[PosY - 1][PosX] != "x":
-        map[PosY][PosX] = '.'
+        map[PosY][PosX] = "."
         PosY -= 1
         sleep(DELAY)
         print("Nord")
@@ -69,7 +69,7 @@ def up():
 def down():
     global canvas, map, PosY, PosX
     if PosY != len(map) - 1 and map[PosY + 1][PosX] != "x":
-        map[PosY][PosX] = '.'
+        map[PosY][PosX] = "."
         PosY += 1
         sleep(DELAY)
         print("Sud")
@@ -78,7 +78,7 @@ def down():
 def left():
     global canvas, map, PosY, PosX
     if PosX != 0 and map[PosY][PosX - 1] != "x":
-        map[PosY][PosX] = '.'
+        map[PosY][PosX] = "."
         PosX -= 1
         sleep(DELAY)
         print("Ouest")
@@ -87,7 +87,7 @@ def left():
 def right():
     global canvas, map, PosY, PosX
     if PosX != len(map[PosY]) - 1 and map[PosY][PosX + 1] != "x":
-        map[PosY][PosX] = '.'
+        map[PosY][PosX] = "."
         PosX += 1
         sleep(DELAY)
         print("Est")
