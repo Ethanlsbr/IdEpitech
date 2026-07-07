@@ -11,7 +11,9 @@
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^8.1.0",
+    "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
