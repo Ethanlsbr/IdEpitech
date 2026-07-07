@@ -60,7 +60,7 @@ export default function Sandbox({ project, onBack }) {
         text: `\n$ run · ${new Date().toLocaleTimeString()}\n`,
       },
     ]);
-    const res = await run(code);
+    const res = await run(project.code + code);
     if (res?.ok && res.result != null) {
       appendOutput({ stream: "result", text: `=> ${res.result}\n` });
     }

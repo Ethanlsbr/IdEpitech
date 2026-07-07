@@ -23,7 +23,7 @@ export default function Editor({ value, onChange, onRunRef }) {
         fontSize: 14,
         fontFamily: "'Cascadia Code', 'Fira Code', monospace",
         fontLigatures: true,
-        minimap: { enabled: false },
+        minimap: { enabled: true },
         scrollBeyondLastLine: true,
         smoothScrolling: true,
         tabSize: 4,
