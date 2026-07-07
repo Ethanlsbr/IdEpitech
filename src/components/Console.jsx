@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const STREAM_STYLE = {
   stdout: "text-zinc-100",
@@ -15,19 +15,21 @@ export default function Console({
   onSubmitInput,
   onClear,
 }) {
-  const endRef = useRef(null);
+  const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
-  // useEffect(() => {
-  //   endRef.current?.scrollIntoView({ block: "end" });
-  // }, [lines, awaitingInput]);
+  useLayoutEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+  }, [lines, awaitingInput]);
 
   useEffect(() => {
     if (awaitingInput) inputRef.current?.focus();
   }, [awaitingInput]);
 
   return (
-    <div className="flex h-full flex-col bg-[#0d1117]">
+    <div className="flex min-h-0 flex-1 flex-col bg-[#0d1117]">
       <div className="flex items-center justify-between border-b border-zinc-800 px-3 py-1.5">
         <span className="text-xs font-semibold tracking-wide text-zinc-400">
           CONSOLE
@@ -40,7 +42,10 @@ export default function Console({
         </button>
       </div>
 
-      <div className="thin-scroll flex-1 overflow-auto px-3 py-2 font-mono text-[13px] leading-relaxed">
+      <div
+        ref={scrollRef}
+        className="thin-scroll flex-1 overflow-auto px-3 py-2 font-mono text-[13px] leading-relaxed"
+      >
         {lines.map((line, index) => (
           <span
             key={index}
@@ -68,7 +73,6 @@ export default function Console({
             />
           </form>
         )}
-        <div ref={endRef} />
       </div>
     </div>
   );
