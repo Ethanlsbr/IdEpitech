@@ -10,11 +10,11 @@ const SAMPLE = `# Welcome to Manta Editor
 print("Hello Manta!\\nDiscover code with IDEpitech")
 `;
 
-const STORAGE_KEY = "manta-code";
+const STORAGE_KEY = "manta-code-";
 
 export default function Sandbox({ project, onBack }) {
   const [code, setCode] = useState(() => {
-    return localStorage.getItem(STORAGE_KEY) ?? SAMPLE;
+    return localStorage.getItem(STORAGE_KEY + project.id) ?? SAMPLE;
   });
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
@@ -25,7 +25,7 @@ export default function Sandbox({ project, onBack }) {
   const dragStateRef = useRef({ startX: 0, startWidth: 50 });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, code);
+    localStorage.setItem(STORAGE_KEY + project.id, code);
   }, [code]);
 
   const appendOutput = useCallback(({ stream, text }) => {
