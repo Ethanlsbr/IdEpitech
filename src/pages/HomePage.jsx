@@ -17,6 +17,11 @@ export default function HomePage({ projects, onOpen }) {
               description={"Apprenez les mots clés"}
               goTo={"/glossary"}
             />
+            <LearningCard
+              name={"Exercices d'Apprentissage"}
+              description={"Apprenez les bases"}
+              goTo={"/learning"}
+            />
           </div>
         </section>
         <section className="mt-10">
