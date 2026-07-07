@@ -1,5 +1,4 @@
 from time import sleep
-import sys
 
 DELAY = 0.08  # in seconds
 

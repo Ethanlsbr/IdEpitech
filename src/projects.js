@@ -37,6 +37,7 @@ const guidedProjects = [
     language: "html",
     description: "...",
     subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
+    code: "",
   },
   {
     id: "fizzbuzz",
