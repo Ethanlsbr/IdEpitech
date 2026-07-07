@@ -37,7 +37,7 @@ x-----------------x-----------------x-----x--------------x-----x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
 
-def load_from_file(data=MAP) -> (list[list[str]], int, int):
+def load_from_file(data=MAP) -> tuple[list[list[str]], int, int]:
     map: list[list[str]] = []
 
     for line in data.splitlines():
