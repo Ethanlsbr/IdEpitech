@@ -1,14 +1,16 @@
+import ArianeCode from "./projects/filDariane/dedale.py?raw";
+
 export const LANGUAGES = {
   python: {
     label: "Python",
     icon: "🐍",
     badge: "bg-emerald-500/10 text-emerald-300",
   },
-//  c: {
-//    label: "C",
-//    icon: "C",
-//    badge: "bg-sky-500/10 text-sky-300",
-//  },
+  html: {
+    label: "HTML",
+    icon: "🌐",
+    badge: "bg-sky-500/10 text-sky-300",
+  },
 };
 
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
@@ -17,6 +19,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   language,
   description: `Écrivez et exécutez du ${LANGUAGES[language].label} librement.`,
   subject: null,
+  code: "",
 }));
 
 const guidedProjects = [
@@ -26,6 +29,14 @@ const guidedProjects = [
     language: "python",
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: "src/projects/filDariane/fil-d-ariane.pdf",
+    code: ArianeCode,
+  },
+  {
+    id: "appleton-calculator",
+    name: "Appleton Calculator",
+    language: "html",
+    description: "...",
+    subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
   },
   {
     id: "fizzbuzz",
@@ -33,6 +44,7 @@ const guidedProjects = [
     language: "python",
     description: "Fizz, Buzz, FizzBuzz de 1 à 100.",
     subject: null,
+    code: "",
   },
   {
     id: "mon-projet",
@@ -40,6 +52,7 @@ const guidedProjects = [
     language: "python",
     description: "…",
     subject: null,
+    code: "",
   },
 ];
 
