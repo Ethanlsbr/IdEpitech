@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import MobileBlock from "../components/MobileBlock";
@@ -47,11 +48,28 @@ const markdownComponents = {
         {children}
       </code>
     ),
+  table: ({ children }) => (
+    <div className="thin-scroll my-4 overflow-x-auto">
+      <table className="w-full border-collapse text-sm text-zinc-300">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-[#161b22]">{children}</thead>,
+  th: ({ children }) => (
+    <th className="border border-zinc-800 px-4 py-2 text-left font-semibold text-zinc-100">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="border border-zinc-800 px-4 py-2 align-top">{children}</td>
+  ),
 };
 
 function Markdown({ source }) {
   return (
     <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeHighlight]}
       components={markdownComponents}
     >
