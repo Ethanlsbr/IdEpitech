@@ -1,20 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-export function usePyodide({ onOutput, onInputRequest }) {
+const PyodideContext = createContext(null);
+
+export function PyodideProvider({ children }) {
   const workerRef = useRef(null);
   const controlRef = useRef(null);
   const dataRef = useRef(null);
   const runResolveRef = useRef(null);
+  const cbRef = useRef({ onOutput: () => {}, onInputRequest: () => {} });
   const [status, setStatus] = useState("loading");
   const [version, setVersion] = useState(null);
-
-  const cbRef = useRef({ onOutput, onInputRequest });
-  cbRef.current = { onOutput, onInputRequest };
 
   useEffect(() => {
     const worker = new Worker(new URL("./pyodide.worker.js", import.meta.url));
     workerRef.current = worker;
-
     worker.onmessage = (event) => {
       const msg = event.data;
       switch (msg.type) {
@@ -60,18 +66,13 @@ export function usePyodide({ onOutput, onInputRequest }) {
           break;
       }
     };
-
     worker.postMessage({ type: "handshake" });
-
     return () => worker.terminate();
   }, []);
-
   const run = useCallback(
     (code) => {
       if (status !== "ready") return Promise.resolve({ ok: false });
-
       setStatus("running");
-
       return new Promise((resolve) => {
         runResolveRef.current = resolve;
         workerRef.current.postMessage({ type: "run", id: Date.now(), code });
@@ -79,13 +80,10 @@ export function usePyodide({ onOutput, onInputRequest }) {
     },
     [status],
   );
-
   const sendInput = useCallback((line) => {
     const control = controlRef.current;
     const data = dataRef.current;
-
     if (!control || !data) return;
-
     const bytes = new TextEncoder().encode(line);
     const len = Math.min(bytes.length, data.length);
     data.set(bytes.subarray(0, len));
@@ -93,6 +91,24 @@ export function usePyodide({ onOutput, onInputRequest }) {
     Atomics.store(control, 0, 1);
     Atomics.notify(control, 0);
   }, []);
+  const setCallbacks = useCallback((callbacks) => {
+    cbRef.current = callbacks;
+  }, []);
+  const value = { status, version, run, sendInput, setCallbacks };
+  return (
+    <PyodideContext.Provider value={value}>{children}</PyodideContext.Provider>
+  );
+}
 
+export function usePyodide({ onOutput, onInputRequest } = {}) {
+  const { status, version, run, sendInput, setCallbacks } =
+    useContext(PyodideContext);
+  useEffect(() => {
+    setCallbacks({
+      onOutput: onOutput ?? (() => {}),
+      onInputRequest: onInputRequest ?? (() => {}),
+    });
+    return () => setCallbacks({ onOutput: () => {}, onInputRequest: () => {} });
+  }, [setCallbacks, onOutput, onInputRequest]);
   return { status, version, run, sendInput };
 }

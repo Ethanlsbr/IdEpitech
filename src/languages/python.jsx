@@ -7,7 +7,7 @@ export const SAMPLE_PYTHON = `# Welcome to Manta Editor
 print("Hello Manta!\\nDiscover code with IDEpitech")
 `;
 
-export function usePythonLanguage({ onRequestPanel }) {
+export function usePythonLanguage({ onRequestPanel, project }) {
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
 
@@ -24,7 +24,6 @@ export function usePythonLanguage({ onRequestPanel }) {
       return [...prev, { stream, text }];
     });
   }, []);
-
   const handleInputRequest = useCallback(() => setAwaitingInput(true), []);
 
   const { status, version, run, sendInput } = usePyodide({
@@ -45,7 +44,7 @@ export function usePythonLanguage({ onRequestPanel }) {
           text: `\n$ run · ${new Date().toLocaleTimeString()}\n`,
         },
       ]);
-      const res = await run(code);
+      const res = await run(project.code + code);
       if (res?.ok && res.result != null) {
         appendOutput({ stream: "result", text: `=> ${res.result}\n` });
       }

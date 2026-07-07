@@ -18,9 +18,9 @@ export default function Console({
   const endRef = useRef(null);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ block: "end" });
-  }, [lines, awaitingInput]);
+  // useEffect(() => {
+  //   endRef.current?.scrollIntoView({ block: "end" });
+  // }, [lines, awaitingInput]);
 
   useEffect(() => {
     if (awaitingInput) inputRef.current?.focus();

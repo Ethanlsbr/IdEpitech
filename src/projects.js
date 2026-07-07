@@ -1,3 +1,5 @@
+import ArianeCode from "./projects/filDariane/dedale.py?raw";
+
 export const LANGUAGES = {
   python: {
     label: "Python",
@@ -17,6 +19,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   language,
   description: `Écrivez et exécutez du ${LANGUAGES[language].label} librement.`,
   subject: null,
+  code: "",
 }));
 
 const guidedProjects = [
@@ -26,6 +29,7 @@ const guidedProjects = [
     language: "python",
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: "src/projects/filDariane/fil-d-ariane.pdf",
+    code: ArianeCode,
   },
   {
     id: "appleton-calculator",
@@ -40,6 +44,7 @@ const guidedProjects = [
     language: "python",
     description: "Fizz, Buzz, FizzBuzz de 1 à 100.",
     subject: null,
+    code: "",
   },
   {
     id: "mon-projet",
@@ -47,6 +52,7 @@ const guidedProjects = [
     language: "python",
     description: "…",
     subject: null,
+    code: "",
   },
 ];
 

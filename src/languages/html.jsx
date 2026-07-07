@@ -14,13 +14,13 @@ export const SAMPLE_HTML = `<!DOCTYPE html>
 </html>
 `;
 
-export function useHtmlLanguage({ onRequestPanel }) {
+export function useHtmlLanguage({ onRequestPanel, project }) {
   const [preview, setPreview] = useState("");
 
   const execute = useCallback(
     async (code) => {
       onRequestPanel?.();
-      setPreview(code);
+      setPreview(project.code + code);
     },
     [onRequestPanel],
   );

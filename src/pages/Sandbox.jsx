@@ -29,8 +29,8 @@ export default function Sandbox({ project, onBack }) {
 
   const onRequestPanel = useCallback(() => setRightPanel(true), []);
 
-  const python = usePythonLanguage({ onRequestPanel });
-  const html = useHtmlLanguage({ onRequestPanel });
+  const python = usePythonLanguage({ onRequestPanel, project });
+  const html = useHtmlLanguage({ onRequestPanel, project });
   const active = isHtml ? html : python;
 
   const { status, version, execute, renderPanel } = active;
