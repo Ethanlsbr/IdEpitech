@@ -23,6 +23,17 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   explanation: null,
 }));
 
+export const learningPythonProjects = [
+  {
+    id: "print",
+    name: "Print",
+    language: "python",
+    description: "Apprendre la base de python",
+    subject: null,
+    code: "",
+  },
+];
+
 const guidedProjects = [
   {
     id: "fil-ariane",
@@ -37,7 +48,7 @@ const guidedProjects = [
     id: "appleton-calculator",
     name: "Appleton Calculator",
     language: "html",
-    description: "...",
+    description: "Recréez la fameuse calculatrice d'Apple",
     subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
     code: "",
     explanation: null
