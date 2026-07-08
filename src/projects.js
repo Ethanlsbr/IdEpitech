@@ -20,6 +20,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   description: `Écrivez et exécutez du ${LANGUAGES[language].label} librement.`,
   subject: null,
   code: "",
+  explanation: null,
 }));
 
 export const learningPythonProjects = [
@@ -30,7 +31,7 @@ export const learningPythonProjects = [
     description: "Affiche du texte dans la console.",
     subject: null,
     code: "",
-    starter: "# Affiche exactement : Bonjour !\n",
+    explanation: "# Affiche exactement : Bonjour !\n",
     expected: "Bonjour !",
   },
   {
@@ -40,7 +41,7 @@ export const learningPythonProjects = [
     description: "Explique ton code sans le modifier.",
     subject: null,
     code: "",
-    starter:
+    explanation:
       "# Écris un commentaire de ton choix,\n# puis affiche exactement : Compris\n",
     expected: "Compris",
   },
@@ -51,7 +52,7 @@ export const learningPythonProjects = [
     description: "Stocke des informations.",
     subject: null,
     code: "",
-    starter: '# Stocke "Alice" dans une variable prenom, puis affiche-la\n',
+    explanation: '# Stocke "Alice" dans une variable prenom, puis affiche-la\n',
     expected: "Alice",
   },
   {
@@ -61,7 +62,7 @@ export const learningPythonProjects = [
     description: "Effectue des calculs.",
     subject: null,
     code: "",
-    starter: "# Affiche le résultat du calcul 7 + 5\n",
+    explanation: "# Affiche le résultat du calcul 7 + 5\n",
     expected: "12",
   },
   {
@@ -71,7 +72,7 @@ export const learningPythonProjects = [
     description: "Prends des décisions avec if.",
     subject: null,
     code: "",
-    starter:
+    explanation:
       "# age vaut 20 : crée la variable age,\n# et si elle est supérieure ou égale à 18, affiche : Majeur\n",
     expected: "Majeur",
   },
@@ -82,7 +83,7 @@ export const learningPythonProjects = [
     description: "Répète plusieurs fois une action.",
     subject: null,
     code: "",
-    starter:
+    explanation:
       "# Avec une boucle, affiche les nombres 1, 2 puis 3 (un par ligne)\n",
     expected: "1\n2\n3",
   },
@@ -93,7 +94,7 @@ export const learningPythonProjects = [
     description: "Stocke plusieurs valeurs.",
     subject: null,
     code: "",
-    starter: "# Crée une liste contenant 1, 2 et 3, puis affiche-la\n",
+    explanation: "# Crée une liste contenant 1, 2 et 3, puis affiche-la\n",
     expected: "[1, 2, 3]",
   },
   {
@@ -103,7 +104,7 @@ export const learningPythonProjects = [
     description: "Regroupe du code réutilisable.",
     subject: null,
     code: "",
-    starter: '# Écris une fonction qui affiche "Salut", puis appelle-la\n',
+    explanation: '# Écris une fonction qui affiche "Salut", puis appelle-la\n',
     expected: "Salut",
   },
 ];
@@ -116,6 +117,7 @@ const guidedProjects = [
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: "src/projects/filDariane/fil-d-ariane.pdf",
     code: ArianeCode,
+    explanation: "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finnish() quand vous pensez que votre player est a la sortie pour finir la partie" // A changer et Update le pdf
   },
   {
     id: "appleton-calculator",
@@ -124,6 +126,7 @@ const guidedProjects = [
     description: "Recréez la fameuse calculatrice d'Apple",
     subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
     code: "",
+    explanation: null
   },
 ];
 

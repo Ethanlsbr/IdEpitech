@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import Console from "../components/Console";
+import FilDariane from "../projects/filDariane/filDariane";
 import { usePyodide } from "../usePyodide";
 
 export const SAMPLE_PYTHON = `# Welcome to Manta Editor
@@ -29,14 +30,15 @@ export function usePythonLanguage({ onRequestPanel, project }) {
   }, []);
   const handleInputRequest = useCallback(() => setAwaitingInput(true), []);
 
-  const { status, version, run, sendInput } = usePyodide({
+  const { status, version, run, interrupt, sendInput } = usePyodide({
     onOutput: appendOutput,
     onInputRequest: handleInputRequest,
   });
 
   const execute = useCallback(
     async (code) => {
-      if (status !== "ready") return;
+      if (status !== "ready" && status !== "running") return;
+      if (status === "running") interrupt();
 
       onRequestPanel?.();
 
@@ -45,7 +47,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         ...prev,
         {
           stream: "system",
-          text: `\n$ run · ${new Date().toLocaleTimeString()}\n`,
+          text: `\n$ run · ${new Date().toLocaleTimeString('fr-FR', { hour12: false }) }\n`,
         },
       ]);
       const res = await run(project.code + code);
@@ -60,7 +62,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         });
       }
     },
-    [status, run, appendOutput, onRequestPanel],
+    [status, run, interrupt, appendOutput, onRequestPanel],
   );
 
   const submitInput = useCallback(
@@ -72,17 +74,26 @@ export function usePythonLanguage({ onRequestPanel, project }) {
     [appendOutput, sendInput],
   );
 
-  const renderPanel = useCallback(
-    () => (
+  const renderPanel = useCallback(() => {
+    if (project.id === "fil-ariane") {
+      return (
+        <FilDariane
+          lines={lines}
+          status={status}
+          onClear={() => setLines([])}
+        />
+      );
+    }
+
+    return (
       <Console
         lines={lines}
         awaitingInput={awaitingInput}
         onSubmitInput={submitInput}
         onClear={() => setLines([])}
       />
-    ),
-    [lines, awaitingInput, submitInput],
-  );
+    );
+  }, [project.id, lines, status, awaitingInput, submitInput]);
 
   return { status, version, execute, renderPanel };
 }

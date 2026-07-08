@@ -1,9 +1,6 @@
 from time import sleep
 
-DELAY = 0.08  # in seconds
-
-MAP = """
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MAP = """xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 x--------x--------x--------------------------------------------x
 x--xxxx--x--xxxxxxx--xxxxxxxxxxxxxxxxxxxxxxxxxxxx--xxxxxxxxxx--x
 x-----x-----x--------x-----x-----x--------------x-----x--------x
@@ -57,41 +54,42 @@ if map is None:
 
 # Movement
 def up():
-    global canvas, map, PosY, PosX
+    global map, PosY, PosX
     if PosY != 0 and map[PosY - 1][PosX] != "x":
         map[PosY][PosX] = "."
         PosY -= 1
-        sleep(DELAY)
-        print("Nord")
+        print("North")
 
 
 def down():
-    global canvas, map, PosY, PosX
+    global map, PosY, PosX
     if PosY != len(map) - 1 and map[PosY + 1][PosX] != "x":
         map[PosY][PosX] = "."
         PosY += 1
-        sleep(DELAY)
-        print("Sud")
+        print("South")
 
 
 def left():
-    global canvas, map, PosY, PosX
+    global map, PosY, PosX
     if PosX != 0 and map[PosY][PosX - 1] != "x":
         map[PosY][PosX] = "."
         PosX -= 1
-        sleep(DELAY)
-        print("Ouest")
+        print("West")
 
 
 def right():
-    global canvas, map, PosY, PosX
+    global map, PosY, PosX
     if PosX != len(map[PosY]) - 1 and map[PosY][PosX + 1] != "x":
         map[PosY][PosX] = "."
         PosX += 1
-        sleep(DELAY)
-        print("Est")
+        print("East")
 
+def finnish():
+    global map, PosY, PosX
+    if map[PosY][PosX] == "o":
+        print("PlayerOut")
 
 path = []
 
+print(PosY, PosX)
 print(map)

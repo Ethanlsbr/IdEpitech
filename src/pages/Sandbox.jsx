@@ -14,7 +14,7 @@ export default function Sandbox({ project, onBack }) {
   const [code, setCode] = useState(() => {
     return (
       localStorage.getItem(STORAGE_KEY + project.id) ??
-      project.starter ??
+      project.explanation ??
       (isHtml ? SAMPLE_HTML : SAMPLE_PYTHON)
     );
   });
@@ -132,7 +132,7 @@ export default function Sandbox({ project, onBack }) {
                     : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
                 }`}
               >
-                CONSOLE
+                {project.id === "fil-ariane" ? "LABYRINTHE" : "CONSOLE"}
               </button>
             </div>
           )}
