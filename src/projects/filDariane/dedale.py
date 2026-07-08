@@ -84,10 +84,41 @@ def right():
         PosX += 1
         print("East")
 
-def finnish():
+
+def finish():
     global map, PosY, PosX
     if map[PosY][PosX] == "o":
         print("PlayerOut")
+
+
+def testVictory():
+    compteur = 0
+    while map[PosY][PosX] != "o" and compteur < 1000:
+        compteur += 1
+        if map[PosY][PosX + 1] in "-o":
+            right()
+            path.append("r")
+        elif map[PosY][PosX - 1] in "-o":
+            left()
+            path.append("l")
+        elif map[PosY + 1][PosX] in "-o":
+            down()
+            path.append("d")
+        elif map[PosY - 1][PosX] in "-o":
+            up()
+            path.append("u")
+        else:
+            past = path.pop()
+            if past == "u":
+                down()
+            if past == "d":
+                up()
+            if past == "r":
+                left()
+            if past == "l":
+                right()
+    finish()
+
 
 path = []
 
