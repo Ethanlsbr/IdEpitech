@@ -128,24 +128,6 @@ const guidedProjects = [
     code: "",
     explanation: null
   },
-  {
-    id: "fizzbuzz",
-    name: "FizzBuzz",
-    language: "python",
-    description: "Fizz, Buzz, FizzBuzz de 1 à 100.",
-    subject: null,
-    code: "",
-    explanation: null,
-  },
-  {
-    id: "mon-projet",
-    name: "Mon Projet",
-    language: "python",
-    description: "…",
-    subject: null,
-    code: "",
-    explanation: null,
-  },
 ];
 
 export const projects = [...sandboxProjects, ...guidedProjects];
