@@ -81,6 +81,7 @@ export default function Sandbox({ project, onBack }) {
         onRun={handleRun}
         onBack={onBack}
         langage={langage}
+        projectName={project.name}
       />
 
       <main

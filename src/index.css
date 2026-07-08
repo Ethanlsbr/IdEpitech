@@ -18,6 +18,50 @@ body {
   color: #e6edf3;
 }
 
+/* Notch / "dynamic island" tab that hangs below the toolbar.
+   The ::before / ::after are the concave shoulders that sweep the bar's
+   bottom edge outward into the sides of the tab. */
+.notch {
+  --notch-bg: #161b22;
+  --notch-r: 16px;
+  background-color: var(--notch-bg);
+}
+.notch::before,
+.notch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: var(--notch-r);
+  height: var(--notch-r);
+  background-color: var(--notch-bg);
+}
+.notch::before {
+  left: calc(-1 * var(--notch-r));
+  -webkit-mask: radial-gradient(
+    circle at 0 100%,
+    transparent var(--notch-r),
+    #000 calc(var(--notch-r) + 0.5px)
+  );
+  mask: radial-gradient(
+    circle at 0 100%,
+    transparent var(--notch-r),
+    #000 calc(var(--notch-r) + 0.5px)
+  );
+}
+.notch::after {
+  right: calc(-1 * var(--notch-r));
+  -webkit-mask: radial-gradient(
+    circle at 100% 100%,
+    transparent var(--notch-r),
+    #000 calc(var(--notch-r) + 0.5px)
+  );
+  mask: radial-gradient(
+    circle at 100% 100%,
+    transparent var(--notch-r),
+    #000 calc(var(--notch-r) + 0.5px)
+  );
+}
+
 .thin-scroll::-webkit-scrollbar {
   width: 10px;
   height: 10px;
