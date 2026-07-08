@@ -27,14 +27,15 @@ export function usePythonLanguage({ onRequestPanel, project }) {
   }, []);
   const handleInputRequest = useCallback(() => setAwaitingInput(true), []);
 
-  const { status, version, run, sendInput } = usePyodide({
+  const { status, version, run, interrupt, sendInput } = usePyodide({
     onOutput: appendOutput,
     onInputRequest: handleInputRequest,
   });
 
   const execute = useCallback(
     async (code) => {
-      if (status !== "ready") return;
+      if (status !== "ready" && status !== "running") return;
+      if (status === "running") interrupt();
 
       onRequestPanel?.();
 
@@ -50,7 +51,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         appendOutput({ stream: "result", text: `=> ${res.result}\n` });
       }
     },
-    [status, run, appendOutput, onRequestPanel],
+    [status, run, interrupt, appendOutput, onRequestPanel],
   );
 
   const submitInput = useCallback(

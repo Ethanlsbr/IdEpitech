@@ -20,7 +20,7 @@ export default function Toolbar({
   projectName,
 }) {
   const s = STATUS[status] || STATUS.loading;
-  const canRun = status === "ready";
+  const canRun = status === "ready" || status === "running";
   const isHtml = langage === "html";
   const icon = isHtml ? LANGUAGES.html.icon : LANGUAGES.python.icon;
   const label = isHtml

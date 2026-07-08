@@ -9,6 +9,7 @@ let ready = false;
 const control = new Int32Array(new SharedArrayBuffer(8));
 const DATA_SIZE = 1 << 20;
 const data = new Uint8Array(new SharedArrayBuffer(DATA_SIZE));
+const interrupt = new Uint8Array(new SharedArrayBuffer(1));
 
 function makeWriter(stream) {
   return (text) => self.postMessage({ type: "output", stream, text });
@@ -31,6 +32,7 @@ async function init() {
     stderr: makeWriter("stderr"),
   });
   pyodide.setStdin({ stdin, autoEOF: true });
+  pyodide.setInterruptBuffer(interrupt);
   await pyodide.loadPackage("micropip");
   ready = true;
   self.postMessage({ type: "ready", version: pyodide.version });
@@ -43,6 +45,7 @@ const initPromise = init().catch((error) => {
 async function run(id, code) {
   await initPromise;
   if (!ready) return;
+  interrupt[0] = 0;
   try {
     await pyodide.loadPackagesFromImports(code, {
       messageCallback: (msg) => self.postMessage({ type: "status", text: msg }),
@@ -58,11 +61,12 @@ async function run(id, code) {
     }
     self.postMessage({ type: "done", id, result: repr ?? null });
   } catch (error) {
-    self.postMessage({
-      type: "error",
-      id,
-      message: String(error.message || error),
-    });
+    const message = String(error.message || error);
+    if (message.includes("KeyboardInterrupt")) {
+      self.postMessage({ type: "interrupted", id });
+    } else {
+      self.postMessage({ type: "error", id, message });
+    }
   }
 }
 
@@ -74,6 +78,7 @@ self.onmessage = (event) => {
         type: "shared",
         control: control.buffer,
         data: data.buffer,
+        interrupt: interrupt.buffer,
       });
       break;
     case "run":

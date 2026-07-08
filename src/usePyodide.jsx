@@ -13,6 +13,8 @@ export function PyodideProvider({ children }) {
   const workerRef = useRef(null);
   const controlRef = useRef(null);
   const dataRef = useRef(null);
+  const interruptRef = useRef(null);
+  const inflightRef = useRef(null);
   const runResolveRef = useRef(null);
   const cbRef = useRef({ onOutput: () => {}, onInputRequest: () => {} });
   const [status, setStatus] = useState("loading");
@@ -27,6 +29,7 @@ export function PyodideProvider({ children }) {
         case "shared":
           controlRef.current = new Int32Array(msg.control);
           dataRef.current = new Uint8Array(msg.data);
+          interruptRef.current = new Uint8Array(msg.interrupt);
           break;
         case "ready":
           setVersion(msg.version);
@@ -44,6 +47,11 @@ export function PyodideProvider({ children }) {
         case "done":
           setStatus("ready");
           runResolveRef.current?.({ ok: true, result: msg.result });
+          runResolveRef.current = null;
+          break;
+        case "interrupted":
+          setStatus("ready");
+          runResolveRef.current?.({ ok: false, interrupted: true });
           runResolveRef.current = null;
           break;
         case "error":
@@ -69,16 +77,29 @@ export function PyodideProvider({ children }) {
     worker.postMessage({ type: "handshake" });
     return () => worker.terminate();
   }, []);
+  const interrupt = useCallback(() => {
+    if (interruptRef.current) interruptRef.current[0] = 2;
+  }, []);
+
   const run = useCallback(
-    (code) => {
-      if (status !== "ready") return Promise.resolve({ ok: false });
+    async (code) => {
+      if (inflightRef.current) {
+        interrupt();
+        await inflightRef.current;
+      }
       setStatus("running");
-      return new Promise((resolve) => {
+      const promise = new Promise((resolve) => {
         runResolveRef.current = resolve;
         workerRef.current.postMessage({ type: "run", id: Date.now(), code });
       });
+      let tracked;
+      tracked = promise.finally(() => {
+        if (inflightRef.current === tracked) inflightRef.current = null;
+      });
+      inflightRef.current = tracked;
+      return promise;
     },
-    [status],
+    [interrupt],
   );
   const sendInput = useCallback((line) => {
     const control = controlRef.current;
@@ -94,14 +115,14 @@ export function PyodideProvider({ children }) {
   const setCallbacks = useCallback((callbacks) => {
     cbRef.current = callbacks;
   }, []);
-  const value = { status, version, run, sendInput, setCallbacks };
+  const value = { status, version, run, interrupt, sendInput, setCallbacks };
   return (
     <PyodideContext.Provider value={value}>{children}</PyodideContext.Provider>
   );
 }
 
 export function usePyodide({ onOutput, onInputRequest } = {}) {
-  const { status, version, run, sendInput, setCallbacks } =
+  const { status, version, run, interrupt, sendInput, setCallbacks } =
     useContext(PyodideContext);
   useEffect(() => {
     setCallbacks({
@@ -110,5 +131,5 @@ export function usePyodide({ onOutput, onInputRequest } = {}) {
     });
     return () => setCallbacks({ onOutput: () => {}, onInputRequest: () => {} });
   }, [setCallbacks, onOutput, onInputRequest]);
-  return { status, version, run, sendInput };
+  return { status, version, run, interrupt, sendInput };
 }
