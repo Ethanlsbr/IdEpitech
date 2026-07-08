@@ -14,6 +14,7 @@ export default function Sandbox({ project, onBack }) {
   const [code, setCode] = useState(() => {
     return (
       localStorage.getItem(STORAGE_KEY + project.id) ??
+      project.starter ??
       (isHtml ? SAMPLE_HTML : SAMPLE_PYTHON)
     );
   });
