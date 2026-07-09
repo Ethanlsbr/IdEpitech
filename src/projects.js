@@ -136,7 +136,7 @@ const guidedProjects = [
     description: "Recréez la fameuse calculatrice d'Apple",
     subject: AppletonSubject,
     code: "",
-    explanation: null
+    explanation: null,
   },
 ];
 
