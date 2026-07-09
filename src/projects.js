@@ -1,4 +1,6 @@
 import ArianeCode from "./projects/filDariane/dedale.py?raw";
+import ArianeSubject from "./projects/filDariane/fil-d-ariane.pdf";
+import AppletonSubject from "./projects/appletonCalculator/appletonCalculator.pdf";
 
 export const LANGUAGES = {
   python: {
@@ -115,7 +117,7 @@ const guidedProjects = [
     name: "Fil d'Ariane",
     language: "python",
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
-    subject: "src/projects/filDariane/fil-d-ariane.pdf",
+    subject: ArianeSubject,
     code: ArianeCode,
     explanation: "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finnish() quand vous pensez que votre player est a la sortie pour finir la partie" // A changer et Update le pdf
   },
@@ -124,7 +126,7 @@ const guidedProjects = [
     name: "Appleton Calculator",
     language: "html",
     description: "Recréez la fameuse calculatrice d'Apple",
-    subject: "src/projects/appletonCalculator/appletonCalculator.pdf",
+    subject: AppletonSubject,
     code: "",
     explanation: null
   },
