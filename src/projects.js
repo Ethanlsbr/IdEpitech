@@ -119,7 +119,8 @@ const guidedProjects = [
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: ArianeSubject,
     code: ArianeCode,
-    explanation: "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finnish() quand vous pensez que votre player est a la sortie pour finir la partie" // A changer et Update le pdf
+    explanation:
+      "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finish() quand vous pensez que votre player est a la sortie pour finir la partie", // A changer et Update le pdf
   },
   {
     id: "appleton-calculator",
@@ -128,7 +129,7 @@ const guidedProjects = [
     description: "Recréez la fameuse calculatrice d'Apple",
     subject: AppletonSubject,
     code: "",
-    explanation: null
+    explanation: null,
   },
 ];
 

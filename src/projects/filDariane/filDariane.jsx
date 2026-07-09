@@ -26,14 +26,12 @@ const LEGEND = [
   { style: CELL_STYLE.o, label: "Sortie" },
 ];
 
-
 function extractFirstList(text) {
   const start = text.indexOf("[");
   if (start === -1) return null;
   let depth = 0;
   for (let i = start; i < text.length; i += 1) {
-    if (text[i] === "[")
-      depth += 1;
+    if (text[i] === "[") depth += 1;
     else if (text[i] === "]") {
       depth -= 1;
       if (depth === 0) return { json: text.slice(start, i + 1), start, end: i };
@@ -81,7 +79,8 @@ export function parseRun(lines) {
   const header = text.slice(0, found.start).trim().split(" ");
   const py = Number(header[0]);
   const px = Number(header[1]);
-  let start = Number.isInteger(py) && Number.isInteger(px) ? { y: py, x: px } : null;
+  let start =
+    Number.isInteger(py) && Number.isInteger(px) ? { y: py, x: px } : null;
 
   for (let y = 0; y < grid.length && !start; y += 1) {
     for (let x = 0; x < grid[y].length; x += 1) {
@@ -150,7 +149,9 @@ export default function FilDariane({ lines, status, onClear }) {
   }, [step, total, delay]);
 
   const cols = run ? Math.max(...run.grid.map((row) => row.length)) : 0;
-  const { current, visited } = run ? walk(run.start, run.moves, Math.min(step, total)) : {};
+  const { current, visited } = run
+    ? walk(run.start, run.moves, Math.min(step, total))
+    : {};
   const finished = run && step >= total;
   const outcome = finished ? run.outcome : null;
 
@@ -241,7 +242,9 @@ export default function FilDariane({ lines, status, onClear }) {
                   key={label}
                   className="flex items-center gap-1.5 text-xs text-zinc-400"
                 >
-                  <span className={`inline-block h-3 w-3 rounded-sm ${style}`} />
+                  <span
+                    className={`inline-block h-3 w-3 rounded-sm ${style}`}
+                  />
                   {label}
                 </span>
               ))}
@@ -252,7 +255,9 @@ export default function FilDariane({ lines, status, onClear }) {
             Exécutez votre code pour guider Thésée.
             <br />
             Utilisez{" "}
-            <code className="text-zinc-300">up() · down() · left() · right()</code>{" "}
+            <code className="text-zinc-300">
+              up() · down() · left() · right()
+            </code>{" "}
             pour le déplacer.
           </div>
         )}
