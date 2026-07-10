@@ -8,8 +8,8 @@ import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
 const STORAGE_KEY = "manta-code-";
 
 export default function Sandbox({ project, onBack }) {
-  const langage = project.language;
-  const isHtml = langage === "html";
+  const language = project.language;
+  const isHtml = language === "html";
 
   const [code, setCode] = useState(() => {
     return (
@@ -81,7 +81,7 @@ export default function Sandbox({ project, onBack }) {
         version={version}
         onRun={handleRun}
         onBack={onBack}
-        langage={langage}
+        langage={language}
         projectName={project.name}
       />
 
@@ -99,7 +99,7 @@ export default function Sandbox({ project, onBack }) {
             value={code}
             onChange={setCode}
             onRunRef={runRef}
-            langage={langage}
+            language={language}
           />
         </section>
         <button

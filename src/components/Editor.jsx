@@ -1,7 +1,7 @@
 import Monaco from "@monaco-editor/react";
 import { useRef } from "react";
 
-export default function Editor({ value, onChange, onRunRef }) {
+export default function Editor({ value, onChange, onRunRef, language }) {
   const monacoRef = useRef(null);
 
   function handleMount(editor, monaco) {
@@ -14,7 +14,7 @@ export default function Editor({ value, onChange, onRunRef }) {
   return (
     <Monaco
       height="100%"
-      defaultLanguage="python"
+      defaultLanguage={language}
       theme="vs-dark"
       value={value}
       onChange={(v) => onChange(v ?? "")}
