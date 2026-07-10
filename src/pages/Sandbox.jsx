@@ -4,6 +4,7 @@ import Toolbar from "../components/Toolbar";
 import Subject from "../components/Subject";
 import { usePythonLanguage, SAMPLE_PYTHON } from "../languages/python";
 import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
+import Hints from "../components/Hints";
 
 const STORAGE_KEY = "manta-code-";
 
@@ -75,7 +76,7 @@ export default function Sandbox({ project, onBack }) {
   );
 
   return (
-    <div className="hidden h-full flex-col md:flex">
+    <div className="relative hidden h-full flex-col md:flex">
       <Toolbar
         status={status}
         version={version}
@@ -139,6 +140,7 @@ export default function Sandbox({ project, onBack }) {
           {rightPanel ? renderPanel() : <Subject subject={project.subject} />}
         </section>
       </main>
+      <Hints project={project} />
     </div>
   );
 }

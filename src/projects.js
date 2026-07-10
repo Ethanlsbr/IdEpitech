@@ -120,7 +120,14 @@ const guidedProjects = [
     subject: ArianeSubject,
     code: ArianeCode,
     explanation:
-      "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finish() quand vous pensez que votre player est a la sortie pour finir la partie", // A changer et Update le pdf
+      "# Vous pouvez utiliser les fonctions de mouvement top, down, right, left.\n# Une case déjà visitée sera transformée en '.' et affichée\n# Utilisez finnish() quand vous pensez que votre player est a la sortie pour finir la partie", // A changer et Update le pdf
+    hints: [
+      "Utilise une boucle while qui continue tant que tu n'es pas sur la sortie 'o'.",
+      "À chaque tour, regarde les cases voisines et déplace-toi si elle vaut '-' (chemin) ou 'o' (sortie).",
+      "Mémorise chaque déplacement dans une liste pour savoir par où tu es passé.",
+      "Si tu es bloqué, dépile ton dernier déplacement et fais le mouvement inverse (right<->left, up<->down) pour revenir en arrière.",
+      "Lèves toi va voir un cobra et dire leur ton top 3 spotify",
+    ],
   },
   {
     id: "appleton-calculator",
