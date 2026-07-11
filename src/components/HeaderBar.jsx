@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import EpitechLogo from "../assets/epitech-eu_BIG.D.svg";
 
 export default function HeaderBar() {
   let navigate = useNavigate();
@@ -33,9 +34,9 @@ export default function HeaderBar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Epitech"
-          className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:border-emerald-500/50 hover:bg-zinc-800 hover:text-white"
+          className="shrink-0 transition hover:opacity-80"
         >
-          <span className="truncate">Epitech</span>
+          <img src={EpitechLogo} alt="Epitech" className="h-8 w-auto" />
         </a>
       )}
     </header>
