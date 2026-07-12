@@ -15,6 +15,8 @@ export const LANGUAGES = {
   },
 };
 
+export const DIFFICULTIES = ["Facile", "Moyen", "Difficile"];
+
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   id: `libre-${language}`,
   name: "Code Libre",
@@ -23,6 +25,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   subject: null,
   code: "",
   explanation: null,
+  difficulty: "Facile",
 }));
 
 export const learningPythonProjects = [
@@ -128,6 +131,7 @@ const guidedProjects = [
       "Si tu es bloqué, dépile ton dernier déplacement et fais le mouvement inverse (right<->left, up<->down) pour revenir en arrière.",
       "Lèves toi va voir un cobra et dire leur ton top 3 spotify",
     ],
+    difficulty: "Difficile",
   },
   {
     id: "appleton-calculator",
@@ -137,6 +141,7 @@ const guidedProjects = [
     subject: AppletonSubject,
     code: "",
     explanation: null,
+    difficulty: "Moyen",
   },
 ];
 
