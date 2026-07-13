@@ -1,8 +1,10 @@
 import Monaco from "@monaco-editor/react";
 import { useRef } from "react";
+import { useTheme } from "../theme/ThemeContext";
 
 export default function Editor({ value, onChange, onRunRef }) {
   const monacoRef = useRef(null);
+  const { mode } = useTheme();
 
   function handleMount(editor, monaco) {
     monacoRef.current = monaco;
@@ -15,7 +17,7 @@ export default function Editor({ value, onChange, onRunRef }) {
     <Monaco
       height="100%"
       defaultLanguage="python"
-      theme="vs-dark"
+      theme={mode === "light" ? "vs" : "vs-dark"}
       value={value}
       onChange={(v) => onChange(v ?? "")}
       onMount={handleMount}

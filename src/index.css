@@ -14,15 +14,15 @@ body,
 }
 
 body {
-  background-color: #0d1117;
-  color: #e6edf3;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 /* Notch / "dynamic island" tab that hangs below the toolbar.
    The ::before / ::after are the concave shoulders that sweep the bar's
    bottom edge outward into the sides of the tab. */
 .notch {
-  --notch-bg: #161b22;
+  --notch-bg: var(--surface);
   --notch-r: 16px;
   background-color: var(--notch-bg);
 }
@@ -67,9 +67,123 @@ body {
   height: 10px;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: var(--scroll-thumb);
   border-radius: 6px;
 }
 .thin-scroll::-webkit-scrollbar-thumb:hover {
-  background: #484f58;
+  background: var(--scroll-thumb-hover);
+}
+
+.home-pattern {
+  background-image: var(--home-pattern);
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.theme-decorations {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ocean-bubble {
+  position: absolute;
+  bottom: -48px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.55),
+    color-mix(in srgb, var(--accent) 40%, transparent) 70%,
+    transparent
+  );
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  animation-name: bubble-rise;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-45vh) translateX(10px);
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-92vh) translateX(-8px);
+    opacity: 0;
+  }
+}
+
+.forest-flower {
+  position: absolute;
+  transform-origin: bottom center;
+  animation: flower-sway 4s ease-in-out infinite;
+}
+@keyframes flower-sway {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+.forest-snake {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  font-size: 1.75rem;
+  animation: snake-crawl 22s linear infinite;
+}
+.forest-snake > span {
+  display: inline-block;
+  animation: snake-wiggle 0.9s ease-in-out infinite;
+}
+@keyframes snake-crawl {
+  0% {
+    transform: translateX(-12vw) scaleX(1);
+  }
+  49% {
+    transform: translateX(108vw) scaleX(1);
+  }
+  50% {
+    transform: translateX(108vw) scaleX(-1);
+  }
+  99% {
+    transform: translateX(-12vw) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-12vw) scaleX(1);
+  }
+}
+@keyframes snake-wiggle {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }

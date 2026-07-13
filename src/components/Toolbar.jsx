@@ -1,4 +1,5 @@
 import { LANGUAGES } from "../projects";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const STATUS = {
   loading: {
@@ -32,33 +33,34 @@ export default function Toolbar({
       : "Pyodide";
 
   return (
-    <header className="relative flex items-center justify-between border-b border-zinc-800 bg-[#161b22] px-4 py-2">
+    <header className="relative flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-4 py-2">
       <div className="flex items-center gap-2">
         {onBack && (
           <button
             onClick={onBack}
-            className="rounded-md px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"
+            className="rounded-md px-2 py-1 text-xs text-[var(--text-muted)] transition hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
           >
             {" "}
             ← Projets{" "}
           </button>
         )}
         <span className="text-lg">{icon}</span>
-        <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
-        <span className="text-xs text-zinc-500">{label}</span>
+        <h1 className="text-sm font-semibold text-[var(--text)]">IDEpitech</h1>
+        <span className="text-xs text-[var(--text-faint)]">{label}</span>
       </div>
 
-      <h1 className="notch absolute left-1/2 top-0 flex -translate-x-1/2 items-center gap-1.5 rounded-b-2xl border-x border-b border-zinc-700/60 px-6 pb-3 pt-2.5 text-xs font-semibold text-white shadow-[0_8px_18px_-10px_rgba(0,0,0,0.8)]">
-        <span className="font-normal text-zinc-400">Project</span>
+      <h1 className="notch absolute left-1/2 top-0 flex -translate-x-1/2 items-center gap-1.5 rounded-b-2xl border-x border-b border-[var(--border-strong)] px-6 pb-3 pt-2.5 text-xs font-semibold text-[var(--text)] shadow-[0_8px_18px_-10px_rgba(0,0,0,0.8)]">
+        <span className="font-normal text-[var(--text-muted)]">Project</span>
         {projectName}
       </h1>
 
       <div className="flex items-center gap-3">
+        <ThemeSwitcher />
         <div className="flex items-center gap-2">
           <span
             className={`h-2 w-2 rounded-full ${s.color} ${s.pulse ? "animate-pulse" : ""}`}
           />
-          <span className="text-xs text-zinc-400">{s.label}</span>
+          <span className="text-xs text-[var(--text-muted)]">{s.label}</span>
         </div>
 
         <button

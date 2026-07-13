@@ -1,7 +1,20 @@
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang="fr" class="dark" data-theme="manta" data-mode="dark">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("manta-theme");
+          var mode = localStorage.getItem("manta-mode");
+          var root = document.documentElement;
+
+          root.setAttribute("data-theme", theme);
+          root.setAttribute("data-mode", mode === "light" ? "light" : "dark");
+          root.classList.toggle("dark", mode !== "light");
+        } catch (error) {}
+      })();
+    </script>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐍</text></svg>"

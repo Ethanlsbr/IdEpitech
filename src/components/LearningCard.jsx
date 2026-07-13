@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../theme/ThemeContext";
 
 export default function LearningCard({
   name,
@@ -8,6 +9,7 @@ export default function LearningCard({
   onOpen,
 }) {
   let navigate = useNavigate();
+  const { theme } = useTheme();
   const handleClick = () => {
     if (project && onOpen) {
       onOpen(project.id);
@@ -18,11 +20,14 @@ export default function LearningCard({
 
   const title = project?.name ?? name;
   const desc = project?.description ?? description;
+  const shell =
+    theme.slots?.card ??
+    "rounded-xl border border-purple-500/20 bg-[var(--surface)] hover:border-purple-500/60 hover:bg-[var(--surface-hover)]";
 
   return (
     <button
       type="button"
-      className="group flex flex-col gap-3 rounded-xl border border-purple-500/20 bg-[#161b22] p-5 text-left transition hover:border-purple-500/60 hover:bg-[#1b222c]"
+      className={`group flex flex-col gap-3 p-5 text-left transition ${shell}`}
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">
@@ -34,8 +39,10 @@ export default function LearningCard({
         </span>
       </div>
       <div>
-        <h2 className="text-sm font-semibold text-zinc-100">{title}</h2>
-        <p className="mt-1 text-xs leading-relaxed text-zinc-400">{desc}</p>
+        <h2 className="text-sm font-semibold text-[var(--text)]">{title}</h2>
+        <p className="mt-1 text-xs leading-relaxed text-[var(--text-muted)]">
+          {desc}
+        </p>
       </div>
       <span className="mt-auto text-xs font-medium text-purple-300 opacity-0 transition group-hover:opacity-100">
         Ouvrir →
