@@ -12,7 +12,8 @@ export default function ProjectCard({ project, onOpen }) {
     <button
       type="button"
       onClick={() => onOpen(project.id)}
-      className={`group flex flex-col gap-3 p-5 text-left transition ${shell}`}
+      style={{ "--lang-color": lang.color }}
+      className={`group flex flex-col gap-3 p-5 text-left transition hover:!border-[var(--lang-color)] ${shell}`}
     >
       <div className="flex items-center justify-between">
         <span className="text-3xl">{lang.icon}</span>
@@ -30,7 +31,7 @@ export default function ProjectCard({ project, onOpen }) {
           {project.description}
         </p>
       </div>
-      <span className="mt-auto text-xs font-medium text-emerald-400 opacity-0 transition group-hover:opacity-100">
+      <span className="mt-auto text-xs font-medium text-[var(--lang-color)] opacity-0 transition group-hover:opacity-100">
         Ouvrir →
       </span>
     </button>

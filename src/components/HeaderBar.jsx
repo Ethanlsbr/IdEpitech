@@ -1,17 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/ThemeContext";
 import ThemeSwitcher from "./ThemeSwitcher";
+import EpitechLogoWhite from "../assets/epitech-eu_BIG.D.svg";
+import EpitechLogoBlue from "../assets/epitech-eu_BIG.svg";
 
 export default function HeaderBar() {
   let navigate = useNavigate();
-  const { theme } = useTheme();
+  const { theme, mode } = useTheme();
   const isHome = useLocation().pathname === "/";
   const routeChange = () => {
     navigate("/");
   };
 
   return (
-    <header className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-6 py-4">
+    <header className="flex items-start justify-between border-b border-[var(--border)] bg-[var(--surface)] px-6 py-4">
       <button
         onClick={routeChange}
         disabled={isHome}
@@ -32,10 +34,23 @@ export default function HeaderBar() {
             IDEpitech
           </h1>
         </div>
-        <p className="mt-1 text-left text-xs text-[var(--text-faint)]">
-          Choisissez un projet pour commencer à coder.
-        </p>
       </button>
+
+      {isHome && (
+        <a
+          href="https://www.epitech.eu/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Epitech"
+          className="shrink-0 transition hover:opacity-80"
+        >
+          <img
+            src={mode === "dark" ? EpitechLogoWhite : EpitechLogoBlue}
+            alt="Epitech"
+            className="h-8 w-auto"
+          />
+        </a>
+      )}
 
       <ThemeSwitcher />
     </header>

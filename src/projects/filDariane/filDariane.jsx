@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const TRAIL_STYLE = "bg-sky-400";
+const TRAIL_STYLE = "bg-[var(--text-faint)]";
 const PLAYER_STYLE = "bg-rose-400 ring-1 ring-rose-200";
 const STEP_DELAY = 90;
 const MIN_DELAY = 5;
 const MAX_DELAY = 300;
 
 const CELL_STYLE = {
-  x: "bg-slate-500",
-  "-": "bg-slate-950",
+  x: "bg-slate-800",
+  "-": "bg-transparent",
   o: "bg-emerald-400",
 };
 
@@ -219,7 +219,7 @@ export default function FilDariane({ lines, status, onClear }) {
               </div>
             )}
             <div
-              className="mx-auto grid w-full max-w-3xl gap-px"
+              className="mx-auto grid w-full max-w-3xl gap-0px"
               style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
             >
               {run.grid.flatMap((row, y) =>

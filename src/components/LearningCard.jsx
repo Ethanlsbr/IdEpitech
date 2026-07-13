@@ -22,12 +22,12 @@ export default function LearningCard({
   const desc = project?.description ?? description;
   const shell =
     theme.slots?.card ??
-    "rounded-xl border border-purple-500/20 bg-[var(--surface)] hover:border-purple-500/60 hover:bg-[var(--surface-hover)]";
+    "rounded-xl border border-purple-500/20 bg-[var(--surface)] hover:bg-[var(--surface-hover)]";
 
   return (
     <button
       type="button"
-      className={`group flex flex-col gap-3 p-5 text-left transition ${shell}`}
+      className={`group flex flex-col gap-3 p-5 text-left transition hover:!border-purple-500/60 ${shell}`}
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">
