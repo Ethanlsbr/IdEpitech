@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import EpitechLogo from "../assets/epitech-eu_BIG.D.svg";
 
 export default function HeaderBar() {
   let navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function HeaderBar() {
   };
 
   return (
-    <header className="border-b border-zinc-800 bg-[#161b22] px-6 py-4">
+    <header className="flex items-start justify-between border-b border-zinc-800 bg-[#161b22] px-6 py-4">
       <button
         onClick={routeChange}
         disabled={isHome}
@@ -27,6 +28,17 @@ export default function HeaderBar() {
           Choisissez un projet pour commencer à coder.
         </p>
       </button>
+      {isHome && (
+        <a
+          href="https://www.epitech.eu/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Epitech"
+          className="shrink-0 transition hover:opacity-80"
+        >
+          <img src={EpitechLogo} alt="Epitech" className="h-8 w-auto" />
+        </a>
+      )}
     </header>
   );
 }
