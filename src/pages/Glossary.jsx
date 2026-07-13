@@ -108,31 +108,28 @@ export function Glossary() {
   const active = glossary.find((entry) => entry.id === activeId) ?? null;
 
   return (
-    <>
-      <MobileBlock />
-      <div className="hidden h-full md:block">
-        {active ? (
-          <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
-        ) : (
-          <div className="thin-scroll h-full overflow-auto bg-[#0d1117]">
-            <HeaderBar />
-            <main className="mx-auto max-w-5xl px-6 py-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Glossaire Python
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {glossary.map((entry) => (
-                  <LearningCard
-                    key={entry.id}
-                    project={entry}
-                    onOpen={setActiveId}
-                  />
-                ))}
-              </div>
-            </main>
-          </div>
-        )}
-      </div>
-    </>
+    <div className="h-full block">
+      {active ? (
+        <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
+      ) : (
+        <div className="thin-scroll h-full overflow-auto bg-[#0d1117]">
+          <HeaderBar />
+          <main className="mx-auto max-w-5xl px-6 py-8">
+            <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Glossaire Python
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {glossary.map((entry) => (
+                <LearningCard
+                  key={entry.id}
+                  project={entry}
+                  onOpen={setActiveId}
+                />
+              ))}
+            </div>
+          </main>
+        </div>
+      )}
+    </div>
   );
 }

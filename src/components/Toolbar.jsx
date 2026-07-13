@@ -43,9 +43,11 @@ export default function Toolbar({
             ← Projets{" "}
           </button>
         )}
-        <span className="text-lg">{icon}</span>
-        <h1 className="text-sm font-semibold text-zinc-100">IDEpitech</h1>
-        <span className="text-xs text-zinc-500">{label}</span>
+        <span className="text-lg md:block hidden">{icon}</span>
+        <h1 className="text-sm font-semibold text-zinc-100 md:block hidden">
+          IDEpitech
+        </h1>
+        <span className="text-xs text-zinc-500 md:block hidden">{label}</span>
       </div>
 
       <h1 className="notch absolute left-1/2 top-0 flex -translate-x-1/2 items-center gap-1.5 rounded-b-2xl border-x border-b border-zinc-700/60 px-6 pb-3 pt-2.5 text-xs font-semibold text-white shadow-[0_8px_18px_-10px_rgba(0,0,0,0.8)]">
@@ -53,7 +55,7 @@ export default function Toolbar({
         {projectName}
       </h1>
 
-      <div className="flex items-center gap-3">
+      <div className="md:flex items-center gap-3 hidden">
         <div className="flex items-center gap-2">
           <span
             className={`h-2 w-2 rounded-full ${s.color} ${s.pulse ? "animate-pulse" : ""}`}
