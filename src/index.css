@@ -153,19 +153,19 @@ body {
 }
 @keyframes snake-crawl {
   0% {
-    transform: translateX(-12vw) scaleX(1);
-  }
-  49% {
-    transform: translateX(108vw) scaleX(1);
-  }
-  50% {
-    transform: translateX(108vw) scaleX(-1);
-  }
-  99% {
     transform: translateX(-12vw) scaleX(-1);
   }
-  100% {
+  49% {
+    transform: translateX(108vw) scaleX(-1);
+  }
+  50% {
+    transform: translateX(108vw) scaleX(1);
+  }
+  99% {
     transform: translateX(-12vw) scaleX(1);
+  }
+  100% {
+    transform: translateX(-12vw) scaleX(-1);
   }
 }
 @keyframes snake-wiggle {

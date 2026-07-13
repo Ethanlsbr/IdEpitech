@@ -63,7 +63,7 @@ function Roots({ className, flip }) {
 function ForestSnake() {
   return (
     <div className="forest-snake" aria-hidden="true">
-      <span>🐍</span>
+      <span className="flip-text">🐍</span>
     </div>
   );
 }
