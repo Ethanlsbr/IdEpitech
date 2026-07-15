@@ -61,6 +61,7 @@ async function run(id, code) {
   await initPromise;
   if (!ready) return;
   interrupt[0] = 0;
+  outputCount = 0;
   try {
     await pyodide.loadPackagesFromImports(code, {
       messageCallback: (msg) => self.postMessage({ type: "status", text: msg }),
