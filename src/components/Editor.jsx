@@ -1,5 +1,6 @@
 import Monaco from "@monaco-editor/react";
 import { useRef } from "react";
+import { useTheme } from "../theme/ThemeContext";
 
 const HTML_TABS = [
   { id: "html", label: "HTML" },
@@ -16,6 +17,7 @@ export default function Editor({
   onLangChange,
 }) {
   const monacoRef = useRef(null);
+  const { mode } = useTheme();
 
   function handleMount(editor, monaco) {
     monacoRef.current = monaco;
@@ -27,7 +29,7 @@ export default function Editor({
   return (
     <div className="flex h-full flex-col">
       {language === "html" && (
-        <div className="flex flex-none border-b border-zinc-800">
+        <div className="flex flex-none border-b border-[var(--border)]">
           {HTML_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -35,8 +37,8 @@ export default function Editor({
               onClick={() => onLangChange(tab.id)}
               className={`flex-1 px-3 py-1.5 text-xs font-medium ${
                 lang === tab.id
-                  ? "bg-[#484E6A] text-white-800"
-                  : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                  ? "bg-[var(--tab-active)] text-white"
+                  : "text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
               }`}
             >
               {tab.label}
@@ -48,7 +50,7 @@ export default function Editor({
         <Monaco
           height="100%"
           language={lang}
-          theme="vs-dark"
+          theme={mode === "light" ? "vs" : "vs-dark"}
           value={value}
           onChange={(v) => onChange(v ?? "")}
           onMount={handleMount}

@@ -1,6 +1,6 @@
 export default function Subject({ subject }) {
   return (
-    <div className="flex h-full flex-col bg-[#0d1117]">
+    <div className="flex h-full flex-col bg-[var(--bg)]">
       <object width="100%" height="100%" data={subject} type="application/pdf">
         {" "}
       </object>

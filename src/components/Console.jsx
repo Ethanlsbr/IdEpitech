@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 
 const STREAM_STYLE = {
-  stdout: "text-zinc-100",
+  stdout: "text-[var(--text)]",
   stderr: "text-red-400",
-  system: "text-zinc-500 italic",
+  system: "text-[var(--text-faint)] italic",
   result: "text-emerald-400",
   prompt: "text-sky-400",
   input: "text-amber-300",
@@ -29,14 +29,14 @@ export default function Console({
   }, [awaitingInput]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col bg-[#0d1117]">
-      <div className="flex items-center justify-between border-b border-zinc-800 px-3 py-1.5">
-        <span className="text-xs font-semibold tracking-wide text-zinc-400">
+    <div className="flex min-h-0 flex-1 flex-col bg-[var(--bg)]">
+      <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-1.5">
+        <span className="text-xs font-semibold tracking-wide text-[var(--text-muted)]">
           CONSOLE
         </span>
         <button
           onClick={onClear}
-          className="rounded px-2 py-0.5 text-xs text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+          className="rounded px-2 py-0.5 text-xs text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
         >
           Effacer
         </button>
