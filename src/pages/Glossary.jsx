@@ -88,13 +88,6 @@ const markdownComponents = {
   ),
 };
 
-const SECTIONS = [
-  { language: "python", label: "Glossaire Python" },
-  { language: "html", label: "Glossaire HTML" },
-  { language: "css", label: "Glossaire CSS" },
-  { language: "js", label: "Glossaire JavaScript" },
-];
-
 function Markdown({ source }) {
   return (
     <ReactMarkdown
@@ -148,30 +141,18 @@ export function Glossary() {
         <PatternPage>
           <HeaderBar />
           <main className="mx-auto max-w-5xl px-6 py-8">
-            {SECTIONS.map(({ language, label }) => {
-              const entries = glossary.filter(
-                (entry) => entry.language === language,
-              );
-
-              if (entries.length === 0) return null;
-
-              return (
-                <section key={language} className="mb-10 last:mb-0">
-                  <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                    {label}
-                  </h2>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {entries.map((entry) => (
-                      <LearningCard
-                        key={entry.id}
-                        project={entry}
-                        onOpen={setActiveId}
-                      />
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
+            <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+              Glossaire Python
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {glossary.map((entry) => (
+                <LearningCard
+                  key={entry.id}
+                  project={entry}
+                  onOpen={setActiveId}
+                />
+              ))}
+            </div>
           </main>
         </PatternPage>
       )}
