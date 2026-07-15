@@ -20,9 +20,9 @@ export function useHtmlLanguage({ onRequestPanel, project }) {
   const execute = useCallback(
     async (code) => {
       onRequestPanel?.();
-      setPreview(project.code + code);
+      setPreview(project.beforeCode + code + project.afterCode);
     },
-    [onRequestPanel],
+    [onRequestPanel, project],
   );
 
   const renderPanel = useCallback(
