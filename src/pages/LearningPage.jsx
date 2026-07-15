@@ -3,6 +3,7 @@ import Sandbox from "./Sandbox";
 import MobileBlock from "../components/MobileBlock";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
+import PatternPage from "../components/PatternPage";
 import { learningPythonProjects } from "../projects";
 import { useNavigate } from "react-router-dom";
 
@@ -35,10 +36,10 @@ export function LearningPage() {
         {active ? (
           <Sandbox project={active} onBack={() => setActiveId(null)} />
         ) : (
-          <div className="thin-scroll h-full overflow-auto bg-[#0d1117]">
+          <PatternPage>
             <HeaderBar />
             <main className="mx-auto max-w-5xl px-6 py-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
                 Python
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -51,7 +52,7 @@ export function LearningPage() {
                 ))}
               </div>
             </main>
-          </div>
+          </PatternPage>
         )}
       </div>
     </>

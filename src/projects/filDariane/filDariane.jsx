@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const TRAIL_STYLE = "bg-sky-400";
+const TRAIL_STYLE = "bg-[var(--text-faint)]";
 const PLAYER_STYLE = "bg-rose-400 ring-1 ring-rose-200";
 const STEP_DELAY = 90;
 const MIN_DELAY = 5;
 const MAX_DELAY = 300;
 
 const CELL_STYLE = {
-  x: "bg-slate-500",
-  "-": "bg-slate-950",
+  x: "bg-slate-800",
+  "-": "bg-transparent",
   o: "bg-emerald-400",
 };
 
@@ -156,13 +156,13 @@ export default function FilDariane({ lines, status, onClear }) {
   const outcome = finished ? run.outcome : null;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col bg-[#0d1117]">
-      <div className="flex items-center justify-between border-b border-zinc-800 px-3 py-1.5">
-        <span className="text-xs font-semibold tracking-wide text-zinc-400">
+    <div className="flex min-h-0 flex-1 flex-col bg-[var(--bg)]">
+      <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-1.5">
+        <span className="text-xs font-semibold tracking-wide text-[var(--text-muted)]">
           LABYRINTHE
         </span>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-xs text-zinc-400">
+          <label className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
             Vitesse
             <input
               type="range"
@@ -175,11 +175,13 @@ export default function FilDariane({ lines, status, onClear }) {
               }
               className="h-1 w-24 cursor-pointer accent-sky-400"
             />
-            <span className="w-12 tabular-nums text-zinc-500">{delay} ms</span>
+            <span className="w-12 tabular-nums text-[var(--text-faint)]">
+              {delay} ms
+            </span>
           </label>
           <button
             onClick={onClear}
-            className="rounded px-2 py-0.5 text-xs text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+            className="rounded px-2 py-0.5 text-xs text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
           >
             Arrêter
           </button>
@@ -188,7 +190,7 @@ export default function FilDariane({ lines, status, onClear }) {
 
       <div className="thin-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-auto p-4">
         {running ? (
-          <div className="m-auto flex items-center gap-2 text-sm text-zinc-400">
+          <div className="m-auto flex items-center gap-2 text-sm text-[var(--text-muted)]">
             <span className="h-3 w-3 animate-ping rounded-full bg-sky-400" />
             Exécution en cours…
           </div>
@@ -217,7 +219,7 @@ export default function FilDariane({ lines, status, onClear }) {
               </div>
             )}
             <div
-              className="mx-auto grid w-full max-w-3xl gap-px"
+              className="mx-auto grid w-full max-w-3xl gap-0px"
               style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
             >
               {run.grid.flatMap((row, y) =>
@@ -240,7 +242,7 @@ export default function FilDariane({ lines, status, onClear }) {
               {LEGEND.map(({ style, label }) => (
                 <span
                   key={label}
-                  className="flex items-center gap-1.5 text-xs text-zinc-400"
+                  className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]"
                 >
                   <span
                     className={`inline-block h-3 w-3 rounded-sm ${style}`}
@@ -251,11 +253,11 @@ export default function FilDariane({ lines, status, onClear }) {
             </div>
           </>
         ) : (
-          <div className="m-auto text-center text-sm text-zinc-500">
+          <div className="m-auto text-center text-sm text-[var(--text-faint)]">
             Exécutez votre code pour guider Thésée.
             <br />
             Utilisez{" "}
-            <code className="text-zinc-300">
+            <code className="text-[var(--text-muted)]">
               up() · down() · left() · right()
             </code>{" "}
             pour le déplacer.
