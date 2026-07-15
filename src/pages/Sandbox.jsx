@@ -9,8 +9,8 @@ import Hints from "../components/Hints";
 const STORAGE_KEY = "manta-code-";
 
 export default function Sandbox({ project, onBack }) {
-  const langage = project.language;
-  const isHtml = langage === "html";
+  const language = project.language;
+  const isHtml = language === "html";
 
   const [code, setCode] = useState(() => {
     return (
@@ -82,7 +82,7 @@ export default function Sandbox({ project, onBack }) {
         version={version}
         onRun={handleRun}
         onBack={onBack}
-        langage={langage}
+        langage={language}
         projectName={project.name}
       />
 
@@ -91,7 +91,7 @@ export default function Sandbox({ project, onBack }) {
         className="grid flex-1 grid-cols-1 overflow-hidden md:flex md:flex-row"
       >
         <section
-          className="min-h-0 min-w-0 border-zinc-800 md:border-r"
+          className="min-h-0 min-w-0 border-[var(--border)] md:border-r"
           style={{
             flex: `0 0 ${editorWidth}%`,
           }}
@@ -100,26 +100,26 @@ export default function Sandbox({ project, onBack }) {
             value={code}
             onChange={setCode}
             onRunRef={runRef}
-            langage={langage}
+            language={language}
           />
         </section>
         <button
           type="button"
           aria-label="Resize editor and console"
           onPointerDown={handleDividerPointerDown}
-          className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-zinc-800/60 md:hover:bg-sky-500/60"
+          className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-[var(--border)] md:hover:bg-sky-500/60"
           style={{ touchAction: "none" }}
         />
         <section className="flex min-h-0 min-w-0 flex-col md:flex-1">
           {project.subject && (
-            <div className="flex flex-none border-b border-zinc-800">
+            <div className="flex flex-none border-b border-[var(--border)]">
               <button
                 type="button"
                 onClick={() => setRightPanel(false)}
                 className={`flex-1 px-3 py-1.5 text-xs font-medium ${
                   !rightPanel
-                    ? "bg-[#484E6A] text-white-800"
-                    : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                    ? "bg-[var(--tab-active)] text-white"
+                    : "text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
                 }`}
               >
                 SUJET
@@ -129,8 +129,8 @@ export default function Sandbox({ project, onBack }) {
                 onClick={() => setRightPanel(true)}
                 className={`flex-1 px-3 py-1.5 text-xs font-medium ${
                   rightPanel
-                    ? "bg-[#484E6A] text-white-800"
-                    : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                    ? "bg-[var(--tab-active)] text-white"
+                    : "text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
                 }`}
               >
                 {project.id === "fil-ariane" ? "LABYRINTHE" : "CONSOLE"}

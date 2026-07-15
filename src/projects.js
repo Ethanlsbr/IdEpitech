@@ -1,5 +1,5 @@
 import ArianeCode from "./projects/filDariane/dedale.py?raw";
-import ArianeSubject from "./projects/filDariane/fil-d-ariane.pdf";
+import ArianeSubject from "./projects/filDariane/filDariane.pdf";
 import AppletonSubject from "./projects/appletonCalculator/appletonCalculator.pdf";
 
 export const LANGUAGES = {
@@ -7,13 +7,17 @@ export const LANGUAGES = {
     label: "Python",
     icon: "🐍",
     badge: "bg-emerald-500/10 text-emerald-300",
+    color: "#10b981",
   },
   html: {
     label: "HTML",
     icon: "🌐",
     badge: "bg-sky-500/10 text-sky-300",
+    color: "#0ea5e9",
   },
 };
+
+export const DIFFICULTIES = ["Facile", "Moyen", "Difficile"];
 
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   id: `libre-${language}`,
@@ -23,6 +27,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   subject: null,
   code: "",
   explanation: null,
+  difficulty: "Facile",
 }));
 
 export const learningPythonProjects = [
@@ -126,8 +131,9 @@ const guidedProjects = [
       "À chaque tour, regarde les cases voisines et déplace-toi si elle vaut '-' (chemin) ou 'o' (sortie).",
       "Mémorise chaque déplacement dans une liste pour savoir par où tu es passé.",
       "Si tu es bloqué, dépile ton dernier déplacement et fais le mouvement inverse (right<->left, up<->down) pour revenir en arrière.",
-      "Lèves toi va voir un cobra et dire leur ton top 3 spotify",
+      "Lèves toi va voir un manta pour lui dire ton top 3 spotify.",
     ],
+    difficulty: "Difficile",
   },
   {
     id: "appleton-calculator",
@@ -137,6 +143,7 @@ const guidedProjects = [
     subject: AppletonSubject,
     code: "",
     explanation: null,
+    difficulty: "Moyen",
   },
 ];
 
