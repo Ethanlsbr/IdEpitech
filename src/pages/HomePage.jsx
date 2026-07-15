@@ -2,6 +2,7 @@ import { useState } from "react";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import ProjectCard from "../components/ProjectCard";
+import PatternPage from "../components/PatternPage";
 import { LANGUAGES, DIFFICULTIES } from "../projects";
 
 export default function HomePage({ projects, onOpen }) {
@@ -15,11 +16,11 @@ export default function HomePage({ projects, onOpen }) {
   );
 
   return (
-    <div className="thin-scroll h-full overflow-auto bg-[#0d1117]">
+    <PatternPage>
       <HeaderBar />
       <main className="mx-auto max-w-5xl px-6 py-8">
         <section>
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
             Apprentissage
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -37,14 +38,14 @@ export default function HomePage({ projects, onOpen }) {
         </section>
         <section className="mt-10">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
               Projets
             </h2>
             <div className="flex gap-2">
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="rounded-md border border-zinc-800 bg-[#161b22] px-2 py-1 text-xs text-zinc-300 outline-none"
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
               >
                 <option value="all">Tous les langages</option>
                 {Object.entries(LANGUAGES).map(([id, lang]) => (
@@ -56,7 +57,7 @@ export default function HomePage({ projects, onOpen }) {
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-                className="rounded-md border border-zinc-800 bg-[#161b22] px-2 py-1 text-xs text-zinc-300 outline-none"
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
               >
                 <option value="all">Toutes difficultés</option>
                 {DIFFICULTIES.map((level) => (
@@ -70,7 +71,11 @@ export default function HomePage({ projects, onOpen }) {
           {filteredProjects.length > 0 ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} onOpen={onOpen} />
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onOpen={onOpen}
+                />
               ))}
             </div>
           ) : (
@@ -80,6 +85,6 @@ export default function HomePage({ projects, onOpen }) {
           )}
         </section>
       </main>
-    </div>
+    </PatternPage>
   );
 }
