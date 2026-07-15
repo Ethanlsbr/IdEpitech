@@ -102,7 +102,7 @@ function Markdown({ source }) {
 
 function MarkdownViewer({ entry, onBack }) {
   return (
-    <div className="thin-scroll flex h-full flex-col bg-[var(--bg)]">
+    <PatternPage animated={false}>
       <header className="flex items-center gap-4 border-b border-[var(--border)] bg-[var(--surface)] px-6 py-4">
         <button
           type="button"
@@ -125,7 +125,7 @@ function MarkdownViewer({ entry, onBack }) {
           <Markdown source={entry.code} />
         </article>
       </main>
-    </div>
+    </PatternPage>
   );
 }
 
@@ -138,7 +138,7 @@ export function Glossary() {
       {active ? (
         <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
       ) : (
-        <div className="thin-scroll h-full overflow-auto">
+        <PatternPage>
           <HeaderBar />
           <main className="mx-auto max-w-5xl px-6 py-8">
             <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
@@ -154,7 +154,7 @@ export function Glossary() {
               ))}
             </div>
           </main>
-        </div>
+        </PatternPage>
       )}
     </div>
   );
