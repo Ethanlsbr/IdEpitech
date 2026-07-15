@@ -14,8 +14,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
   const stdoutRef = useRef("");
 
   const appendOutput = useCallback(({ stream, text }) => {
-    if (stream === "stdout")
-      stdoutRef.current += text;
+    if (stream === "stdout") stdoutRef.current += text;
     setLines((prev) => {
       const last = prev[prev.length - 1];
       if (last && last.stream === stream) {
@@ -47,7 +46,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         ...prev,
         {
           stream: "system",
-          text: `\n$ run · ${new Date().toLocaleTimeString('fr-FR', { hour12: false }) }\n`,
+          text: `\n$ run · ${new Date().toLocaleTimeString("fr-FR", { hour12: false })}\n`,
         },
       ]);
       const res = await run(project.code + code);
@@ -58,7 +57,9 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         const ok = stdoutRef.current.trim() === project.expected.trim();
         appendOutput({
           stream: ok ? "result" : "stderr",
-          text: ok ? "\nValidé!\nTu peux passer à l'exercice suivant\n" : "\nPas encore (et c'est ok), réessaie.\n",
+          text: ok
+            ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
+            : "\nPas encore (et c'est ok), réessaie.\n",
         });
       }
     },

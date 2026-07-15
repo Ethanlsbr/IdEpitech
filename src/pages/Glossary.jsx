@@ -8,6 +8,7 @@ import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import PatternPage from "../components/PatternPage";
 import { glossary } from "../glossary";
+import { LANGUAGES } from "../projects";
 import { useTheme } from "../theme/ThemeContext";
 
 const markdownComponents = {
@@ -141,18 +142,30 @@ export function Glossary() {
         <PatternPage>
           <HeaderBar />
           <main className="mx-auto max-w-5xl px-6 py-8">
-            <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-              Glossaire Python
-            </h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {glossary.map((entry) => (
-                <LearningCard
-                  key={entry.id}
-                  project={entry}
-                  onOpen={setActiveId}
-                />
-              ))}
-            </div>
+            {Object.entries(LANGUAGES).map(([id, lang]) => {
+              const entries = glossary.filter(
+                (entry) => entry.language === id,
+              );
+
+              if (entries.length === 0) return null;
+
+              return (
+                <section key={id} className="mb-10 last:mb-0">
+                  <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+                    Glossaire {lang.label}
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {entries.map((entry) => (
+                      <LearningCard
+                        key={entry.id}
+                        project={entry}
+                        onOpen={setActiveId}
+                      />
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
           </main>
         </PatternPage>
       )}

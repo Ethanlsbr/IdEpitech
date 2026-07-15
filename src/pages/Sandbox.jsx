@@ -4,19 +4,26 @@ import Toolbar from "../components/Toolbar";
 import Subject from "../components/Subject";
 import { usePythonLanguage, SAMPLE_PYTHON } from "../languages/python";
 import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
+import { useCLanguage, SAMPLE_C } from "../languages/c";
 import Hints from "../components/Hints";
 
 const STORAGE_KEY = "manta-code-";
 
 export default function Sandbox({ project, onBack }) {
   const language = project.language;
-  const isHtml = language === "html";
+
+  const getSample = (language) => {
+    if (language == "html") return SAMPLE_HTML;
+    if (language == "python") return SAMPLE_PYTHON;
+    if (language == "c") return SAMPLE_C;
+    return "";
+  };
 
   const [code, setCode] = useState(() => {
     return (
       localStorage.getItem(STORAGE_KEY + project.id) ??
       project.explanation ??
-      (isHtml ? SAMPLE_HTML : SAMPLE_PYTHON)
+      getSample(language)
     );
   });
   const [editorWidth, setEditorWidth] = useState(50);
@@ -31,9 +38,15 @@ export default function Sandbox({ project, onBack }) {
 
   const onRequestPanel = useCallback(() => setRightPanel(true), []);
 
-  const python = usePythonLanguage({ onRequestPanel, project });
-  const html = useHtmlLanguage({ onRequestPanel, project });
-  const active = isHtml ? html : python;
+  const getActive = (language) => {
+    if (language == "html") return useHtmlLanguage({ onRequestPanel, project });
+    if (language == "python")
+      return usePythonLanguage({ onRequestPanel, project });
+    if (language == "c") return useCLanguage({ onRequestPanel, project });
+    return "";
+  };
+
+  const active = getActive(language);
 
   const { status, version, execute, renderPanel } = active;
 
@@ -82,7 +95,7 @@ export default function Sandbox({ project, onBack }) {
         version={version}
         onRun={handleRun}
         onBack={onBack}
-        langage={language}
+        language={language}
         projectName={project.name}
       />
 
