@@ -124,7 +124,8 @@ const guidedProjects = [
     description: "Guidez Thésée hors du labyrinthe en déroulant le fil.",
     subject: ArianeSubject,
     code: ArianeCode,
-    explanation: null,
+    explanation:
+      "# Charge un labyrinthe : print_map() (la plus facile), print_medium_map() ou print_hard_map()\nprint_map()\n\n# Déplace Thésée avec up(), down(), left(), right()\n# Une case déjà visitée devient '.' — appelle finish() quand tu es sur la sortie 'o'\n",
     hints: [
       "Utilise une boucle while qui continue tant que tu n'es pas sur la sortie 'o'.",
       "À chaque tour, regarde les cases voisines et déplace-toi si elle vaut '-' (chemin) ou 'o' (sortie).",
