@@ -60,7 +60,7 @@ export function parseRun(lines) {
   const text = runLines
     .filter((line) => line.stream === "stdout")
     .map((line) => line.text)
-    .join("\n");
+    .join("");
 
   const found = extractFirstList(text);
   if (!found) return null;

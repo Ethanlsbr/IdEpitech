@@ -14,13 +14,12 @@ export function usePythonLanguage({ onRequestPanel, project }) {
   const stdoutRef = useRef("");
 
   const appendOutput = useCallback(({ stream, text }) => {
-    if (stream === "stdout")
-      stdoutRef.current += text;
+    if (stream === "stdout") stdoutRef.current += text;
     setLines((prev) => {
       const last = prev[prev.length - 1];
       if (last && last.stream === stream) {
         const merged = [...prev];
-        merged[merged.length - 1] = { stream, text: last.text + "\n" + text };
+        merged[merged.length - 1] = { stream, text: last.text + text };
 
         return merged;
       }
@@ -47,22 +46,31 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         ...prev,
         {
           stream: "system",
-          text: `\n$ run · ${new Date().toLocaleTimeString('fr-FR', { hour12: false }) }\n`,
+          text: `\n$ run · ${new Date().toLocaleTimeString("fr-FR", { hour12: false })}\n`,
         },
       ]);
-      const res = await run(project.code + code);
-      if (res?.ok && res.result != null) {
+      const source = [project.beforeCode, code, project.afterCode]
+        .filter(Boolean)
+        .map((part) => (part.endsWith("\n") ? part : part + "\n"))
+        .join("");
+      const res = await run(source);
+      if (!res?.ok) return;
+
+      if (res.result != null) {
         appendOutput({ stream: "result", text: `=> ${res.result}\n` });
       }
+
       if (project.expected != null) {
         const ok = stdoutRef.current.trim() === project.expected.trim();
         appendOutput({
           stream: ok ? "result" : "stderr",
-          text: ok ? "\nValidé!\nTu peux passer à l'exercice suivant\n" : "\nPas encore (et c'est ok), réessaie.\n",
+          text: ok
+            ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
+            : "\nPas encore (et c'est ok), réessaie.\n",
         });
       }
     },
-    [status, run, interrupt, appendOutput, onRequestPanel],
+    [status, run, interrupt, appendOutput, onRequestPanel, project],
   );
 
   const submitInput = useCallback(
