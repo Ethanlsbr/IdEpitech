@@ -51,6 +51,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         },
       ]);
       const res = await run(project.code + code);
+      setAwaitingInput(false);
       if (res?.ok && res.result != null) {
         appendOutput({ stream: "result", text: `=> ${res.result}\n` });
       }

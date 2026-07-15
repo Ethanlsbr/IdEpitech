@@ -11,8 +11,23 @@ const DATA_SIZE = 1 << 20;
 const data = new Uint8Array(new SharedArrayBuffer(DATA_SIZE));
 const interrupt = new Uint8Array(new SharedArrayBuffer(1));
 
+const MAX_OUTPUT_CHUNKS = 7500;
+let outputCount = 0;
+
 function makeWriter(stream) {
-  return (text) => self.postMessage({ type: "output", stream, text });
+  return (text) => {
+    outputCount += 1;
+    if (outputCount > MAX_OUTPUT_CHUNKS) return;
+    if (outputCount === MAX_OUTPUT_CHUNKS) {
+      self.postMessage({
+        type: "output",
+        stream: "stderr",
+        text: "… sortie tronquée (trop de lignes)",
+      });
+      return;
+    }
+    self.postMessage({ type: "output", stream, text });
+  };
 }
 
 function stdin() {
@@ -50,7 +65,7 @@ async function run(id, code) {
     await pyodide.loadPackagesFromImports(code, {
       messageCallback: (msg) => self.postMessage({ type: "status", text: msg }),
     });
-    const result = await pyodide.runPythonAsync(code);
+    const result = pyodide.runPython(code);
     let repr;
     if (result !== undefined && result !== null) {
       try {
