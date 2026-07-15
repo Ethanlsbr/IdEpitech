@@ -9,7 +9,7 @@ import {
 
 const PyodideContext = createContext(null);
 
-const EXEC_TIMEOUT_MS = 2_000;
+const EXEC_TIMEOUT_MS = 5_000;
 
 export function PyodideProvider({ children }) {
   const workerRef = useRef(null);
