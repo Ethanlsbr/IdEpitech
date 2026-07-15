@@ -102,7 +102,7 @@ function Markdown({ source }) {
 
 function MarkdownViewer({ entry, onBack }) {
   return (
-    <div className="thin-scroll flex h-full flex-col bg-[var(--bg)]">
+    <PatternPage animated={false}>
       <header className="flex items-center gap-4 border-b border-[var(--border)] bg-[var(--surface)] px-6 py-4">
         <button
           type="button"
@@ -125,7 +125,7 @@ function MarkdownViewer({ entry, onBack }) {
           <Markdown source={entry.code} />
         </article>
       </main>
-    </div>
+    </PatternPage>
   );
 }
 
@@ -134,31 +134,28 @@ export function Glossary() {
   const active = glossary.find((entry) => entry.id === activeId) ?? null;
 
   return (
-    <>
-      <MobileBlock />
-      <div className="hidden h-full md:block">
-        {active ? (
-          <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
-        ) : (
-          <PatternPage>
-            <HeaderBar />
-            <main className="mx-auto max-w-5xl px-6 py-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                Glossaire Python
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {glossary.map((entry) => (
-                  <LearningCard
-                    key={entry.id}
-                    project={entry}
-                    onOpen={setActiveId}
-                  />
-                ))}
-              </div>
-            </main>
-          </PatternPage>
-        )}
-      </div>
-    </>
+    <div className="h-full block">
+      {active ? (
+        <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
+      ) : (
+        <PatternPage>
+          <HeaderBar />
+          <main className="mx-auto max-w-5xl px-6 py-8">
+            <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+              Glossaire Python
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {glossary.map((entry) => (
+                <LearningCard
+                  key={entry.id}
+                  project={entry}
+                  onOpen={setActiveId}
+                />
+              ))}
+            </div>
+          </main>
+        </PatternPage>
+      )}
+    </div>
   );
 }

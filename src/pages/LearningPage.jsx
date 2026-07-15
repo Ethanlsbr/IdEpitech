@@ -5,6 +5,7 @@ import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import PatternPage from "../components/PatternPage";
 import { learningPythonProjects } from "../projects";
+import { useNavigate } from "react-router-dom";
 
 const LEARNING_STORAGE_KEY = "manta-active-learning";
 
@@ -14,6 +15,7 @@ export function LearningPage() {
   );
   const active =
     learningPythonProjects.find((project) => project.id === activeId) ?? null;
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (activeId) {
@@ -25,7 +27,11 @@ export function LearningPage() {
 
   return (
     <>
-      <MobileBlock />
+      <MobileBlock
+        onBack={() => {
+          navigate("/");
+        }}
+      />
       <div className="hidden h-full md:block">
         {active ? (
           <Sandbox project={active} onBack={() => setActiveId(null)} />
