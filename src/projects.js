@@ -35,6 +35,7 @@ export const learningPythonProjects = [
   {
     id: "print",
     name: "Print",
+    index: 1,
     language: "python",
     description: "Écris ton premier message dans la console.",
     subject: null,
@@ -47,6 +48,7 @@ export const learningPythonProjects = [
   {
     id: "comment",
     name: "Les Commentaires",
+    index: 2,
     language: "python",
     description: "Ajoute une note qui ne s'exécute pas.",
     subject: null,
@@ -59,6 +61,7 @@ export const learningPythonProjects = [
   {
     id: "variable",
     name: "Les Variables",
+    index: 3,
     language: "python",
     description: "Stocke une information pour la réutiliser ensuite.",
     subject: null,
@@ -71,6 +74,7 @@ export const learningPythonProjects = [
   {
     id: "calc",
     name: "Les Calculs",
+    index: 4,
     language: "python",
     description: "Fais calculer Python à ta place.",
     subject: null,
@@ -83,6 +87,7 @@ export const learningPythonProjects = [
   {
     id: "calc2",
     name: "Les Calculs 2",
+    index: 5,
     language: "python",
     description: "Enchaîne les quatre opérations sur des variables données.",
     subject: null,
@@ -95,6 +100,7 @@ export const learningPythonProjects = [
   {
     id: "condition",
     name: "Les Conditions",
+    index: 6,
     language: "python",
     description: "N'agis que dans un seul cas.",
     subject: null,
@@ -107,6 +113,7 @@ export const learningPythonProjects = [
   {
     id: "condition2",
     name: "Les Conditions 2",
+    index: 7,
     language: "python",
     description: "Traite aussi le cas contraire.",
     subject: null,
@@ -119,6 +126,7 @@ export const learningPythonProjects = [
   {
     id: "loop",
     name: "Les Boucles",
+    index: 8,
     language: "python",
     description: "Répète une action sans réécrire la même ligne.",
     subject: null,
@@ -131,6 +139,7 @@ export const learningPythonProjects = [
   {
     id: "loop2",
     name: "Les Boucles 2",
+    index: 9,
     language: "python",
     description: "Répète tant qu'une condition reste vraie.",
     subject: null,
@@ -143,6 +152,7 @@ export const learningPythonProjects = [
   {
     id: "array",
     name: "Les Listes",
+    index: 10,
     language: "python",
     description: "Stocke plusieurs valeurs dans une seule variable.",
     subject: null,
@@ -155,6 +165,7 @@ export const learningPythonProjects = [
   {
     id: "array2",
     name: "Les Listes 2",
+    index: 11,
     language: "python",
     description: "Ajoute un élément à une liste existante.",
     subject: null,
@@ -169,6 +180,7 @@ export const learningPythonProjects = [
   {
     id: "array3",
     name: "Les Listes 3",
+    index: 12,
     language: "python",
     description: "Retire un élément d'une liste.",
     subject: null,
@@ -181,6 +193,7 @@ export const learningPythonProjects = [
   {
     id: "function",
     name: "Les Fonctions",
+    index: 13,
     language: "python",
     description: "Regroupe du code sous un nom pour le réutiliser.",
     subject: null,
@@ -194,6 +207,7 @@ export const learningPythonProjects = [
   {
     id: "function2",
     name: "Les Fonctions 2",
+    index: 14,
     language: "python",
     description:
       "Fais une fonction qui reçoit une valeur et renvoie un résultat.",
