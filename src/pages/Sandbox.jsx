@@ -132,6 +132,7 @@ export default function Sandbox({ project, onBack }) {
         onBack={onBack}
         language={language}
         projectName={project.name}
+        ok={project.hasEnd && localStorage.getItem(project.id) === "true"}
       />
 
       <main

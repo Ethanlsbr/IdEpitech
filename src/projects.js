@@ -35,6 +35,7 @@ const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   afterCode: "",
   explanation: null,
   difficulty: "Facile",
+  hasEnd: false,
 }));
 
 export const learningPythonProjects = [
@@ -45,6 +46,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Écris ton premier message dans la console.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -58,6 +60,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Ajoute une note qui ne s'exécute pas.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -71,6 +74,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Stocke une information pour la réutiliser ensuite.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{prenom}<==')",
     explanation:
@@ -84,6 +88,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Fais calculer Python à ta place.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -97,6 +102,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Enchaîne les quatre opérations sur des variables données.",
     subject: null,
+    hasEnd: true,
     beforeCode: "a: int = -3\nb: int = 67",
     afterCode: "",
     explanation:
@@ -110,6 +116,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "N'agis que dans un seul cas.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{age}<==')",
     explanation:
@@ -123,6 +130,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Traite aussi le cas contraire.",
     subject: null,
+    hasEnd: true,
     beforeCode: "age: int = 4",
     afterCode: "",
     explanation:
@@ -136,6 +144,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Répète une action sans réécrire la même ligne.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -149,6 +158,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Répète tant qu'une condition reste vraie.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -162,6 +172,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Stocke plusieurs valeurs dans une seule variable.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "liste.append(4)\nprint(f'Verification interne ==>{liste}<==')",
     explanation:
@@ -175,6 +186,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Ajoute un élément à une liste existante.",
     subject: null,
+    hasEnd: true,
     beforeCode: 'fruits: list[str] = ["Pomme", "Banane"]',
     afterCode:
       "fruits.append('Kiwi')\nprint(f'Verification interne ==>{fruits}<==')",
@@ -190,6 +202,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Retire un élément d'une liste.",
     subject: null,
+    hasEnd: true,
     beforeCode: "notes: list[int] = [12, 15, 8, 20]",
     afterCode: "print(f'Verification interne ==>{notes}<==')",
     explanation:
@@ -203,6 +216,7 @@ export const learningPythonProjects = [
     language: "python",
     description: "Regroupe du code sous un nom pour le réutiliser.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode:
       "print('Verification interne ==>')\nprint(appel())\nprint('<==')",
@@ -218,6 +232,7 @@ export const learningPythonProjects = [
     description:
       "Fais une fonction qui reçoit une valeur et renvoie un résultat.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{le_double(69)}<==')",
     explanation:
@@ -233,6 +248,7 @@ export const learningCProjects = [
     language: "c",
     description: "La structure de base d'un programme C.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -251,6 +267,7 @@ int main(void)
     language: "c",
     description: "Affiche du texte et des valeurs avec printf.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -272,6 +289,7 @@ int main(void)
     language: "c",
     description: "Explique ton code sans le modifier.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -291,6 +309,7 @@ int main(void)
     language: "c",
     description: "Stocke des informations, avec un type obligatoire.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -310,6 +329,7 @@ int main(void)
     language: "c",
     description: "Effectue des calculs.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -328,6 +348,7 @@ int main(void)
     language: "c",
     description: "Prends des décisions avec if.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -347,6 +368,7 @@ int main(void)
     language: "c",
     description: "Répète plusieurs fois une action.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -365,6 +387,7 @@ int main(void)
     language: "c",
     description: "Stocke plusieurs valeurs.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -384,6 +407,7 @@ int main(void)
     language: "c",
     description: "Manipule du texte avec des tableaux de char.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -403,6 +427,7 @@ int main(void)
     language: "c",
     description: "Regroupe du code réutilisable.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -422,6 +447,7 @@ int main(void)
     language: "c",
     description: "Manipule l'adresse d'une variable.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -456,7 +482,7 @@ const guidedProjects = [
     beforeCode: ArianeCode,
     afterCode: "",
     explanation:
-      "# Charge un labyrinthe : print_map() (la plus facile), print_medium_map() ou print_hard_map()\nprint_map()\n\n# Déplace Thésée avec up(), down(), left(), right()\n# Une case déjà visitée devient '.' — appelle finish() quand tu es sur la sortie 'o'\n",
+      "# Charge un labyrinthe : print_map() (la plus facile), print_easy_map(), print_medium_map() ou print_hard_map()\nprint_map()\n\n# Déplace Thésée avec up(), down(), left(), right()\n# Une case déjà visitée devient '.' — appelle finish() quand tu es sur la sortie 'o'\n",
     hints: [
       "Utilise une boucle while qui continue tant que tu n'es pas sur la sortie 'o'.",
       "À chaque tour, regarde les cases voisines et déplace-toi si elle vaut '-' (chemin) ou 'o' (sortie).",
@@ -465,6 +491,7 @@ const guidedProjects = [
       "Lèves toi va voir un manta pour lui dire ton top 3 spotify.",
     ],
     difficulty: "Difficile",
+    hasEnd: true,
   },
   {
     id: "appleton-calculator",
@@ -476,6 +503,7 @@ const guidedProjects = [
     afterCode: "",
     explanation: null,
     difficulty: "Moyen",
+    hasEnd: false,
   },
 ];
 

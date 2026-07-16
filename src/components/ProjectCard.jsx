@@ -1,7 +1,7 @@
 import { LANGUAGES } from "../projects";
 import { useTheme } from "../theme/ThemeContext";
 
-export default function ProjectCard({ project, onOpen }) {
+export default function ProjectCard({ project, onOpen, ok }) {
   const lang = LANGUAGES[project.language];
   const { theme } = useTheme();
   const shell =
@@ -17,11 +17,40 @@ export default function ProjectCard({ project, onOpen }) {
     >
       <div className="flex items-center justify-between">
         <span className="text-3xl">{lang.icon}</span>
-        <span
-          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${lang.badge}`}
-        >
-          {lang.label}
-        </span>
+        <div className="flex items-center gap-2">
+          {!project.hasEnd ? (
+            <span
+              className="flex h-5 items-center justify-center rounded-full bg-[var(--surface-hover)] px-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-faint)]"
+              title="Projet libre, sans validation"
+            >
+              Libre
+            </span>
+          ) : ok ? (
+            <span
+              className="flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold"
+              style={{
+                backgroundColor:
+                  "color-mix(in srgb, var(--lang-color) 12%, transparent)",
+                color: "var(--lang-color)",
+              }}
+              title="Terminé"
+            >
+              ✓
+            </span>
+          ) : (
+            <span
+              className="flex h-5 items-center justify-center rounded-full bg-[var(--surface-hover)] px-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-faint)]"
+              title="À faire"
+            >
+              À faire
+            </span>
+          )}
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${lang.badge}`}
+          >
+            {lang.label}
+          </span>
+        </div>
       </div>
       <div>
         <h2 className="text-sm font-semibold text-[var(--text)]">

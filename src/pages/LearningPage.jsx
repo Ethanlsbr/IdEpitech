@@ -3,6 +3,7 @@ import Sandbox from "./Sandbox";
 import MobileBlock from "../components/MobileBlock";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
+import CollapsibleSection from "../components/CollapsibleSection";
 import PatternPage from "../components/PatternPage";
 import { learningProjects, LANGUAGES } from "../projects";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +25,20 @@ export function LearningPage() {
       localStorage.removeItem(LEARNING_STORAGE_KEY);
     }
   }, [activeId]);
+
+  const isProjetOk = (id) => {
+    return localStorage.getItem(id) == "true";
+  };
+
+  const countOk = (lang) => {
+    let count = 0;
+    learningProjects.map((project) => {
+      if (project.language === lang && isProjetOk(project.id)) {
+        count++;
+      }
+    });
+    return count;
+  };
 
   return (
     <>
@@ -47,20 +62,21 @@ export function LearningPage() {
                 if (exercises.length === 0) return null;
 
                 return (
-                  <section key={id} className="mb-10 last:mb-0">
-                    <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                      {lang.label}
-                    </h2>
+                  <CollapsibleSection
+                    key={id}
+                    title={`${lang.label} - ${countOk(id)}/${exercises.length}`}
+                  >
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       {exercises.map((project) => (
                         <LearningCard
                           key={project.id}
                           project={project}
                           onOpen={setActiveId}
+                          ok={isProjetOk(project.id)}
                         />
                       ))}
                     </div>
-                  </section>
+                  </CollapsibleSection>
                 );
               })}
             </main>
