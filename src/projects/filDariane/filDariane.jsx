@@ -105,12 +105,6 @@ export function parseRun(lines) {
   if (commands.includes("PlayerOut") && commands.includes("CountVictory"))
     victory = true;
 
-  console.log(
-    commands.includes("PlayerOut") && commands.includes("CountVictory"),
-    commands.includes("PlayerOut"),
-    commands.includes("CountVictory"),
-  );
-
   return { grid, start, moves, outcome, victory };
 }
 

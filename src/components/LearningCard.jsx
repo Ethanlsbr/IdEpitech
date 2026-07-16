@@ -19,8 +19,6 @@ export default function LearningCard({
     }
   };
 
-  console.log(project);
-
   const title = project?.name ?? name;
   const desc = project?.description ?? description;
   const shell =
