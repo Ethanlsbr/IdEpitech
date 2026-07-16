@@ -4,7 +4,7 @@ import MobileBlock from "../components/MobileBlock";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import PatternPage from "../components/PatternPage";
-import { learningPythonProjects } from "../projects";
+import { learningProjects, LANGUAGES } from "../projects";
 import { useNavigate } from "react-router-dom";
 
 const LEARNING_STORAGE_KEY = "manta-active-learning";
@@ -14,7 +14,7 @@ export function LearningPage() {
     localStorage.getItem(LEARNING_STORAGE_KEY),
   );
   const active =
-    learningPythonProjects.find((project) => project.id === activeId) ?? null;
+    learningProjects.find((project) => project.id === activeId) ?? null;
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -39,18 +39,30 @@ export function LearningPage() {
           <PatternPage>
             <HeaderBar />
             <main className="mx-auto max-w-5xl px-6 py-8">
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                Python
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {learningPythonProjects.map((project) => (
-                  <LearningCard
-                    key={project.id}
-                    project={project}
-                    onOpen={setActiveId}
-                  />
-                ))}
-              </div>
+              {Object.entries(LANGUAGES).map(([id, lang]) => {
+                const exercises = learningProjects.filter(
+                  (project) => project.language === id,
+                );
+
+                if (exercises.length === 0) return null;
+
+                return (
+                  <section key={id} className="mb-10 last:mb-0">
+                    <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+                      {lang.label}
+                    </h2>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {exercises.map((project) => (
+                        <LearningCard
+                          key={project.id}
+                          project={project}
+                          onOpen={setActiveId}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
             </main>
           </PatternPage>
         )}

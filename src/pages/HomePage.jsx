@@ -47,7 +47,7 @@ export default function HomePage({ projects, onOpen }) {
                 onChange={(e) => setLanguage(e.target.value)}
                 className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
               >
-                <option value="all">Tous les langages</option>
+                <option value="all">Tous les languages</option>
                 {Object.entries(LANGUAGES).map(([id, lang]) => (
                   <option key={id} value={id}>
                     {lang.label}

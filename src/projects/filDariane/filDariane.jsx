@@ -265,10 +265,11 @@ export default function FilDariane({ lines, status, onClear }) {
           <div className="m-auto text-center text-sm text-[var(--text-faint)]">
             Exécutez votre code pour guider Thésée.
             <br />
-            écrivez en première ligne {" "}
-            <code className="text-zinc-300">print_map()</code> ou 
-            <code className="text-zinc-300">print_medium_map()</code> ou 
-            <code className="text-zinc-300">print_hard_map()</code> pour choisir la difficulté du labyrinthe, puis{" "}
+            écrivez en première ligne{" "}
+            <code className="text-zinc-300">print_map()</code> ou
+            <code className="text-zinc-300">print_medium_map()</code> ou
+            <code className="text-zinc-300">print_hard_map()</code> pour choisir
+            la difficulté du labyrinthe, puis{" "}
             <code className="text-zinc-300">
               up() · down() · left() · right()
             </code>
