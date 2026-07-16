@@ -28,7 +28,7 @@ export const DIFFICULTIES = ["Facile", "Moyen", "Difficile"];
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   id: `libre-${language}`,
   name: "Code Libre",
-  language,v
+  language,
   description: `Écrivez et exécutez du ${LANGUAGES[language].label} librement.`,
   subject: null,
   beforeCode: "",
