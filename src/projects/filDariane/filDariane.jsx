@@ -60,7 +60,7 @@ export function parseRun(lines) {
   const text = runLines
     .filter((line) => line.stream === "stdout")
     .map((line) => line.text)
-    .join("\n");
+    .join("");
 
   const found = extractFirstList(text);
   if (!found) return null;
@@ -131,6 +131,11 @@ export default function FilDariane({ lines, status, onClear }) {
   );
   const error = parsed?.error ?? null;
   const run = error ? null : parsed;
+  const output = lines
+    .filter((line) => line.stream === "stdout")
+    .map((line) => line.text)
+    .join("\n")
+    .trim();
   const total = run ? run.moves.length : 0;
 
   const [step, setStep] = useState(0);
@@ -252,15 +257,23 @@ export default function FilDariane({ lines, status, onClear }) {
               ))}
             </div>
           </>
+        ) : output ? (
+          <pre className="thin-scroll overflow-auto whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-zinc-300">
+            {output}
+          </pre>
         ) : (
           <div className="m-auto text-center text-sm text-[var(--text-faint)]">
             Exécutez votre code pour guider Thésée.
             <br />
-            Utilisez{" "}
-            <code className="text-[var(--text-muted)]">
+            écrivez en première ligne{" "}
+            <code className="text-zinc-300">print_map()</code> ou
+            <code className="text-zinc-300">print_medium_map()</code> ou
+            <code className="text-zinc-300">print_hard_map()</code> pour choisir
+            la difficulté du labyrinthe, puis{" "}
+            <code className="text-zinc-300">
               up() · down() · left() · right()
-            </code>{" "}
-            pour le déplacer.
+            </code>
+            .
           </div>
         )}
       </div>

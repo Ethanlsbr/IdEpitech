@@ -12,7 +12,8 @@ const data = new Uint8Array(new SharedArrayBuffer(DATA_SIZE));
 const interrupt = new Uint8Array(new SharedArrayBuffer(1));
 
 function makeWriter(stream) {
-  return (text) => self.postMessage({ type: "output", stream, text });
+  return (text) =>
+    self.postMessage({ type: "output", stream, text: text + "\n" });
 }
 
 function stdin() {

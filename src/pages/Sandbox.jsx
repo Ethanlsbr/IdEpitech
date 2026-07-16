@@ -9,8 +9,15 @@ import Hints from "../components/Hints";
 
 const STORAGE_KEY = "manta-code-";
 
+function buildHtmlDocument({ html, css, javascript }) {
+  const styleTag = css ? `\n<style>\n${css}\n</style>` : "";
+  const scriptTag = javascript ? `\n<script>\n${javascript}\n</script>` : "";
+  return `${html}${styleTag}${scriptTag}`;
+}
+
 export default function Sandbox({ project, onBack }) {
   const language = project.language;
+  const isHtml = language === "html";
 
   const getSample = (language) => {
     if (language == "html") return SAMPLE_HTML;
@@ -19,13 +26,35 @@ export default function Sandbox({ project, onBack }) {
     return "";
   };
 
-  const [code, setCode] = useState(() => {
-    return (
-      localStorage.getItem(STORAGE_KEY + project.id) ??
-      project.explanation ??
-      getSample(language)
-    );
+  const [lang, setLang] = useState(language);
+
+  const [files, setFiles] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEY + project.id);
+
+    if (isHtml) {
+      if (saved) {
+        try {
+          return { html: "", css: "", javascript: "", ...JSON.parse(saved) };
+        } catch {
+          // Legacy value: a single HTML string stored before the split.
+          return { html: saved, css: "", javascript: "" };
+        }
+      }
+      return {
+        html: project.explanation ?? SAMPLE_HTML,
+        css: "",
+        javascript: "",
+      };
+    }
+
+    return { [language]: saved ?? project.explanation ?? getSample(language) };
   });
+
+  const code = files[lang] ?? "";
+  const setCode = useCallback(
+    (next) => setFiles((prev) => ({ ...prev, [lang]: next })),
+    [lang],
+  );
   const [editorWidth, setEditorWidth] = useState(50);
   const [rightPanel, setRightPanel] = useState(false);
   const runRef = useRef(null);
@@ -33,8 +62,11 @@ export default function Sandbox({ project, onBack }) {
   const dragStateRef = useRef({ startX: 0, startWidth: 50 });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY + project.id, code);
-  }, [code]);
+    localStorage.setItem(
+      STORAGE_KEY + project.id,
+      isHtml ? JSON.stringify(files) : files[language],
+    );
+  }, [files]);
 
   const onRequestPanel = useCallback(() => setRightPanel(true), []);
 
@@ -50,7 +82,10 @@ export default function Sandbox({ project, onBack }) {
 
   const { status, version, execute, renderPanel } = active;
 
-  const handleRun = useCallback(() => execute(code), [execute, code]);
+  const handleRun = useCallback(
+    () => execute(isHtml ? buildHtmlDocument(files) : files[language]),
+    [execute, files, isHtml, language],
+  );
 
   runRef.current = handleRun;
 
@@ -114,6 +149,8 @@ export default function Sandbox({ project, onBack }) {
             onChange={setCode}
             onRunRef={runRef}
             language={language}
+            lang={lang}
+            onLangChange={setLang}
           />
         </section>
         <button

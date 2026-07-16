@@ -8,7 +8,6 @@ import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import PatternPage from "../components/PatternPage";
 import { glossary } from "../glossary";
-import { LANGUAGES } from "../projects";
 import { useTheme } from "../theme/ThemeContext";
 
 const markdownComponents = {
@@ -89,6 +88,14 @@ const markdownComponents = {
   ),
 };
 
+const SECTIONS = [
+  { language: "python", label: "Glossaire Python" },
+  { language: "html", label: "Glossaire HTML" },
+  { language: "css", label: "Glossaire CSS" },
+  { language: "js", label: "Glossaire JavaScript" },
+  { language: "c", label: "Glossaire C" },
+];
+
 function Markdown({ source }) {
   return (
     <ReactMarkdown
@@ -141,18 +148,18 @@ export function Glossary() {
       ) : (
         <PatternPage>
           <HeaderBar />
-          <main className="mx-auto max-w-5xl px-6 py-8">
-            {Object.entries(LANGUAGES).map(([id, lang]) => {
+          <main className="mx-auto max-w-5xl px-6 py-8 gap-5">
+            {SECTIONS.map(({ language, label }) => {
               const entries = glossary.filter(
-                (entry) => entry.language === id,
+                (entry) => entry.language === language,
               );
 
               if (entries.length === 0) return null;
 
               return (
-                <section key={id} className="mb-10 last:mb-0">
+                <section key={language} className="mb-10 last:mb-0">
                   <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                    Glossaire {lang.label}
+                    {label}
                   </h2>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {entries.map((entry) => (
