@@ -68,6 +68,9 @@ export function usePythonLanguage({ onRequestPanel, project }) {
             ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
             : "\nPas encore (et c'est ok), réessaie.\n",
         });
+        if (ok) {
+          localStorage.setItem(project.id, true);
+        }
       }
     },
     [status, run, interrupt, appendOutput, onRequestPanel, project],
@@ -89,6 +92,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
           lines={lines}
           status={status}
           onClear={() => setLines([])}
+          project={project}
         />
       );
     }

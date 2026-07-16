@@ -28,22 +28,25 @@ export const DIFFICULTIES = ["Facile", "Moyen", "Difficile"];
 const sandboxProjects = Object.keys(LANGUAGES).map((language) => ({
   id: `libre-${language}`,
   name: "Code Libre",
-  language,
+  language,v
   description: `Écrivez et exécutez du ${LANGUAGES[language].label} librement.`,
   subject: null,
   beforeCode: "",
   afterCode: "",
   explanation: null,
   difficulty: "Facile",
+  hasEnd: false,
 }));
 
 export const learningPythonProjects = [
   {
     id: "print",
     name: "Print",
+    index: 1,
     language: "python",
     description: "Écris ton premier message dans la console.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -53,9 +56,11 @@ export const learningPythonProjects = [
   {
     id: "comment",
     name: "Les Commentaires",
+    index: 2,
     language: "python",
     description: "Ajoute une note qui ne s'exécute pas.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -65,9 +70,11 @@ export const learningPythonProjects = [
   {
     id: "variable",
     name: "Les Variables",
+    index: 3,
     language: "python",
     description: "Stocke une information pour la réutiliser ensuite.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{prenom}<==')",
     explanation:
@@ -77,9 +84,11 @@ export const learningPythonProjects = [
   {
     id: "calc",
     name: "Les Calculs",
+    index: 4,
     language: "python",
     description: "Fais calculer Python à ta place.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -89,9 +98,11 @@ export const learningPythonProjects = [
   {
     id: "calc2",
     name: "Les Calculs 2",
+    index: 5,
     language: "python",
     description: "Enchaîne les quatre opérations sur des variables données.",
     subject: null,
+    hasEnd: true,
     beforeCode: "a: int = -3\nb: int = 67",
     afterCode: "",
     explanation:
@@ -101,9 +112,11 @@ export const learningPythonProjects = [
   {
     id: "condition",
     name: "Les Conditions",
+    index: 6,
     language: "python",
     description: "N'agis que dans un seul cas.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{age}<==')",
     explanation:
@@ -113,9 +126,11 @@ export const learningPythonProjects = [
   {
     id: "condition2",
     name: "Les Conditions 2",
+    index: 7,
     language: "python",
     description: "Traite aussi le cas contraire.",
     subject: null,
+    hasEnd: true,
     beforeCode: "age: int = 4",
     afterCode: "",
     explanation:
@@ -125,9 +140,11 @@ export const learningPythonProjects = [
   {
     id: "loop",
     name: "Les Boucles",
+    index: 8,
     language: "python",
     description: "Répète une action sans réécrire la même ligne.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -137,9 +154,11 @@ export const learningPythonProjects = [
   {
     id: "loop2",
     name: "Les Boucles 2",
+    index: 9,
     language: "python",
     description: "Répète tant qu'une condition reste vraie.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "",
     explanation:
@@ -149,9 +168,11 @@ export const learningPythonProjects = [
   {
     id: "array",
     name: "Les Listes",
+    index: 10,
     language: "python",
     description: "Stocke plusieurs valeurs dans une seule variable.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "liste.append(4)\nprint(f'Verification interne ==>{liste}<==')",
     explanation:
@@ -161,9 +182,11 @@ export const learningPythonProjects = [
   {
     id: "array2",
     name: "Les Listes 2",
+    index: 11,
     language: "python",
     description: "Ajoute un élément à une liste existante.",
     subject: null,
+    hasEnd: true,
     beforeCode: 'fruits: list[str] = ["Pomme", "Banane"]',
     afterCode:
       "fruits.append('Kiwi')\nprint(f'Verification interne ==>{fruits}<==')",
@@ -175,9 +198,11 @@ export const learningPythonProjects = [
   {
     id: "array3",
     name: "Les Listes 3",
+    index: 12,
     language: "python",
     description: "Retire un élément d'une liste.",
     subject: null,
+    hasEnd: true,
     beforeCode: "notes: list[int] = [12, 15, 8, 20]",
     afterCode: "print(f'Verification interne ==>{notes}<==')",
     explanation:
@@ -187,9 +212,11 @@ export const learningPythonProjects = [
   {
     id: "function",
     name: "Les Fonctions",
+    index: 13,
     language: "python",
     description: "Regroupe du code sous un nom pour le réutiliser.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode:
       "print('Verification interne ==>')\nprint(appel())\nprint('<==')",
@@ -200,10 +227,12 @@ export const learningPythonProjects = [
   {
     id: "function2",
     name: "Les Fonctions 2",
+    index: 14,
     language: "python",
     description:
       "Fais une fonction qui reçoit une valeur et renvoie un résultat.",
     subject: null,
+    hasEnd: true,
     beforeCode: "",
     afterCode: "print(f'Verification interne ==>{le_double(69)}<==')",
     explanation:
@@ -219,6 +248,7 @@ export const learningCProjects = [
     language: "c",
     description: "La structure de base d'un programme C.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -237,6 +267,7 @@ int main(void)
     language: "c",
     description: "Affiche du texte et des valeurs avec printf.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -258,6 +289,7 @@ int main(void)
     language: "c",
     description: "Explique ton code sans le modifier.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -277,6 +309,7 @@ int main(void)
     language: "c",
     description: "Stocke des informations, avec un type obligatoire.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -296,6 +329,7 @@ int main(void)
     language: "c",
     description: "Effectue des calculs.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -314,6 +348,7 @@ int main(void)
     language: "c",
     description: "Prends des décisions avec if.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -333,6 +368,7 @@ int main(void)
     language: "c",
     description: "Répète plusieurs fois une action.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -351,6 +387,7 @@ int main(void)
     language: "c",
     description: "Stocke plusieurs valeurs.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -370,6 +407,7 @@ int main(void)
     language: "c",
     description: "Manipule du texte avec des tableaux de char.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -389,6 +427,7 @@ int main(void)
     language: "c",
     description: "Regroupe du code réutilisable.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -408,6 +447,7 @@ int main(void)
     language: "c",
     description: "Manipule l'adresse d'une variable.",
     subject: null,
+    hasEnd: true,
     code: "",
     explanation: `#include <stdio.h>
 
@@ -442,7 +482,7 @@ const guidedProjects = [
     beforeCode: ArianeCode,
     afterCode: "",
     explanation:
-      "# Charge un labyrinthe : print_map() (la plus facile), print_medium_map() ou print_hard_map()\nprint_map()\n\n# Déplace Thésée avec up(), down(), left(), right()\n# Une case déjà visitée devient '.' — appelle finish() quand tu es sur la sortie 'o'\n",
+      "# Charge un labyrinthe : print_map() (la plus facile), print_easy_map(), print_medium_map() ou print_hard_map()\nprint_map()\n\n# Déplace Thésée avec up(), down(), left(), right()\n# Une case déjà visitée devient '.' — appelle finish() quand tu es sur la sortie 'o'\n",
     hints: [
       "Utilise une boucle while qui continue tant que tu n'es pas sur la sortie 'o'.",
       "À chaque tour, regarde les cases voisines et déplace-toi si elle vaut '-' (chemin) ou 'o' (sortie).",
@@ -451,6 +491,7 @@ const guidedProjects = [
       "Lèves toi va voir un manta pour lui dire ton top 3 spotify.",
     ],
     difficulty: "Difficile",
+    hasEnd: true,
   },
   {
     id: "appleton-calculator",
@@ -462,6 +503,7 @@ const guidedProjects = [
     afterCode: "",
     explanation: null,
     difficulty: "Moyen",
+    hasEnd: false,
   },
 ];
 

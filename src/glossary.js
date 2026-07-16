@@ -886,6 +886,8 @@ Résultat :
 Bonjour !
 \`\`\`
 
+Ici, par exemple, la fonction se nomme "dire_bonjour".
+
 ---
 
 ## Les paramètres
@@ -904,6 +906,8 @@ Résultat :
 \`\`\`txt
 Bonjour Alice
 \`\`\`
+
+Ici, par exemple, la fonction se nomme "dire_bonjour", prend une chaîne de caractères en paramètre et ne retourne rien.
 
 ---
 
@@ -926,6 +930,8 @@ Résultat :
 11
 \`\`\`
 
+Ici, par exemple, la fonction se nomme "addition", prend deux entiers en paramètre et retorune un entier.
+
 ---
 
 ## Une fonction avec plusieurs paramètres
@@ -942,6 +948,8 @@ Résultat :
 \`\`\`txt
 Emma a 16 ans.
 \`\`\`
+
+Enfin, cette fonction se nomme "presentation", prend une chaîne de caractères et un entier en paramètre et ne retourne rien.
 `,
   },
   {

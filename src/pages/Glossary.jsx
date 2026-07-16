@@ -6,6 +6,7 @@ import "highlight.js/styles/github-dark.css";
 import MobileBlock from "../components/MobileBlock";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
+import CollapsibleSection from "../components/CollapsibleSection";
 import PatternPage from "../components/PatternPage";
 import { glossary } from "../glossary";
 import { useTheme } from "../theme/ThemeContext";
@@ -157,10 +158,7 @@ export function Glossary() {
               if (entries.length === 0) return null;
 
               return (
-                <section key={language} className="mb-10 last:mb-0">
-                  <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
-                    {label}
-                  </h2>
+                <CollapsibleSection key={language} title={label}>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {entries.map((entry) => (
                       <LearningCard
@@ -170,7 +168,7 @@ export function Glossary() {
                       />
                     ))}
                   </div>
-                </section>
+                </CollapsibleSection>
               );
             })}
           </main>

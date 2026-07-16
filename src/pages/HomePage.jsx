@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import ProjectCard from "../components/ProjectCard";
 import PatternPage from "../components/PatternPage";
-import { LANGUAGES, DIFFICULTIES } from "../projects";
+import { LANGUAGES, DIFFICULTIES, learningProjects } from "../projects";
 
 export default function HomePage({ projects, onOpen }) {
   const [language, setLanguage] = useState("all");
@@ -15,13 +15,39 @@ export default function HomePage({ projects, onOpen }) {
       (difficulty === "all" || project.difficulty === difficulty),
   );
 
+  const [allLearnings, setAllLearnings] = useState(false);
+
+  const isProjetOk = (id) => {
+    return localStorage.getItem(id) == "true";
+  };
+
+  const learningTotal = learningProjects.length;
+  const learningDone = learningProjects.filter((p) => isProjetOk(p.id)).length;
+
+  const countableProjects = projects.filter((p) => p.hasEnd);
+  const projectsTotal = countableProjects.length;
+  const projectsDone = countableProjects.filter((p) => isProjetOk(p.id)).length;
+
+  useEffect(() => {
+    let allOks = true;
+    learningProjects.map((project) => {
+      if (!isProjetOk(project.id)) {
+        allOks = false;
+      }
+    });
+    setAllLearnings(allOks);
+  }, []);
+
   return (
     <PatternPage>
       <HeaderBar />
       <main className="mx-auto max-w-5xl px-6 py-8">
         <section>
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+          <h2 className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
             Apprentissage
+            <span className="rounded-full bg-[var(--surface)] px-2 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-[var(--text-muted)]">
+              {learningDone}/{learningTotal}
+            </span>
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <LearningCard
@@ -33,13 +59,17 @@ export default function HomePage({ projects, onOpen }) {
               name={"Exercices d'Apprentissage"}
               description={"Apprenez les bases"}
               goTo={"/learning"}
+              ok={allLearnings}
             />
           </div>
         </section>
         <section className="mt-10">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
+            <h2 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-faint)]">
               Projets
+              <span className="rounded-full bg-[var(--surface)] px-2 py-0.5 text-[10px] font-semibold normal-case tracking-normal text-[var(--text-muted)]">
+                {projectsDone}/{projectsTotal}
+              </span>
             </h2>
             <div className="flex gap-2">
               <select
@@ -75,6 +105,7 @@ export default function HomePage({ projects, onOpen }) {
                   key={project.id}
                   project={project}
                   onOpen={onOpen}
+                  ok={project.hasEnd && isProjetOk(project.id)}
                 />
               ))}
             </div>

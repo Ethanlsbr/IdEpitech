@@ -33,6 +33,7 @@ export default function Toolbar({
   onBack,
   language,
   projectName,
+  ok,
 }) {
   const s = STATUS[status] || STATUS.loading;
   const canRun = status === "ready" || status === "running";
@@ -61,6 +62,14 @@ export default function Toolbar({
       <h1 className="notch absolute left-1/2 top-0 flex -translate-x-1/2 items-center gap-1.5 rounded-b-2xl border-x border-b border-[var(--border-strong)] px-6 pb-3 pt-2.5 text-xs font-semibold text-[var(--text)] shadow-[0_8px_18px_-10px_rgba(0,0,0,0.8)]">
         <span className="font-normal text-[var(--text-muted)]">Project</span>
         {projectName}
+        {ok && (
+          <span
+            className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/15 text-[10px] font-bold text-emerald-400"
+            title="Terminé"
+          >
+            ✓
+          </span>
+        )}
       </h1>
 
       <div className="md:flex items-center gap-3 hidden">

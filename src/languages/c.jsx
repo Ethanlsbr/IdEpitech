@@ -74,6 +74,9 @@ export function useCLanguage({ onRequestPanel, project }) {
             ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
             : "\nPas encore (et c'est ok), réessaie.\n",
         });
+        if (ok) {
+          localStorage.setItem(project.id, true);
+        }
       }
     },
     [status, run, interrupt, appendOutput, onRequestPanel, project],

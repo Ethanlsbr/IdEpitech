@@ -100,9 +100,12 @@ export function parseRun(lines) {
   const moves = commands.filter((line) => Object.hasOwn(MOVES, line));
 
   let outcome = null;
+  let victory = false;
   if (commands.includes("PlayerOut")) outcome = "won";
+  if (commands.includes("PlayerOut") && commands.includes("CountVictory"))
+    victory = true;
 
-  return { grid, start, moves, outcome };
+  return { grid, start, moves, outcome, victory };
 }
 
 function walk(start, moves, count) {
@@ -123,7 +126,7 @@ function cellStyle(grid, visited, current, y, x) {
   return CELL_STYLE[grid[y][x]] ?? "bg-transparent";
 }
 
-export default function FilDariane({ lines, status, onClear }) {
+export default function FilDariane({ lines, status, onClear, project }) {
   const running = status === "running";
   const parsed = useMemo(
     () => (running ? null : parseRun(lines)),
@@ -159,6 +162,12 @@ export default function FilDariane({ lines, status, onClear }) {
     : {};
   const finished = run && step >= total;
   const outcome = finished ? run.outcome : null;
+
+  useEffect(() => {
+    if (finished && run.victory) {
+      localStorage.setItem(project.id, "true");
+    }
+  }, [finished, run]);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-[var(--bg)]">

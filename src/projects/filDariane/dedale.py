@@ -1,4 +1,7 @@
-from time import sleep
+FIRST = """xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+x-----------------------------x
+x----------------------------ox
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
 EASY = """xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 x--------x--------x--------------------------------------------x
@@ -108,6 +111,10 @@ xxxxx-xxxxxxx-x-xxx-x-x-xxx-xxxxxxx-xxxxx-xxxxxxxxx-xxx-x-xxx-x-xxxxx-x-xxxxxxx-
 x-------------x-----x-----x---------------x-----------x-------x-------x------------ox
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
+
+__MAP = None
+
+
 def load_from_file(data):
     map = []
     for line in data.splitlines():
@@ -131,15 +138,27 @@ def _use_map(data):
 
 
 def print_map():
+    global __MAP
+    _use_map(FIRST)
+    __MAP = "FIRST"
+
+
+def print_easy_map():
+    global __MAP
     _use_map(EASY)
+    __MAP = "EASY"
 
 
 def print_medium_map():
+    global __MAP
     _use_map(MEDIUM)
+    __MAP = "MEDIUM"
 
 
 def print_hard_map():
+    global __MAP
     _use_map(HARD)
+    __MAP = "HARD"
 
 
 def up():
@@ -178,6 +197,8 @@ def finish():
     global map, PosY, PosX
     if map[PosY][PosX] == "o":
         print("PlayerOut")
+        if __MAP == "HARD":
+            print("CountVictory")
 
 
 def testVictory():
@@ -206,4 +227,3 @@ def testVictory():
                 left()
             if past == "l":
                 right()
-    finish()
