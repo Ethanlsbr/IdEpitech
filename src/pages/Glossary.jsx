@@ -93,6 +93,7 @@ const SECTIONS = [
   { language: "html", label: "Glossaire HTML" },
   { language: "css", label: "Glossaire CSS" },
   { language: "js", label: "Glossaire JavaScript" },
+  { language: "c", label: "Glossaire C" },
 ];
 
 function Markdown({ source }) {
@@ -147,7 +148,7 @@ export function Glossary() {
       ) : (
         <PatternPage>
           <HeaderBar />
-          <main className="mx-auto max-w-5xl px-6 py-8">
+          <main className="mx-auto max-w-5xl px-6 py-8 gap-5">
             {SECTIONS.map(({ language, label }) => {
               const entries = glossary.filter(
                 (entry) => entry.language === language,

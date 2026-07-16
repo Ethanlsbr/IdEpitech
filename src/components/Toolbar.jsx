@@ -12,25 +12,32 @@ const STATUS = {
   error: { label: "Erreur", color: "bg-red-500", pulse: false },
 };
 
+const getIcon = (language) => {
+  if (language == "html") return LANGUAGES.html.icon;
+  if (language == "python") return LANGUAGES.python.icon;
+  if (language == "c") return LANGUAGES.c.icon;
+  return "?";
+};
+
+const getLabel = (language, version) => {
+  if (language == "html") return version ? `HTML ${version}` : "HTML";
+  if (language == "python") return version ? `Python ${version}` : "Pyodide";
+  if (language == "c") return version ? `C ${version}` : `C`;
+  return "?";
+};
+
 export default function Toolbar({
   status,
   version,
   onRun,
   onBack,
-  langage,
+  language,
   projectName,
 }) {
   const s = STATUS[status] || STATUS.loading;
   const canRun = status === "ready" || status === "running";
-  const isHtml = langage === "html";
-  const icon = isHtml ? LANGUAGES.html.icon : LANGUAGES.python.icon;
-  const label = isHtml
-    ? version
-      ? `HTML ${version}`
-      : "HTML"
-    : version
-      ? `Python ${version}`
-      : "Pyodide";
+  const icon = getIcon(language);
+  const label = getLabel(language, version);
 
   return (
     <header className="relative flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-4 py-2">
