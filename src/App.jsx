@@ -31,6 +31,7 @@ export default function App() {
               <Toolbar
                 onBack={() => setActiveId(null)}
                 projectName={active.name}
+                ok={active.hasEnd && localStorage.getItem(active.id) === "true"}
               />
               <Subject subject={active.subject} />
             </div>

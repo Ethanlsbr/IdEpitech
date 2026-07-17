@@ -7,6 +7,7 @@ export default function LearningCard({
   goTo,
   project,
   onOpen,
+  ok,
 }) {
   let navigate = useNavigate();
   const { theme } = useTheme();
@@ -32,11 +33,32 @@ export default function LearningCard({
     >
       <div className="flex items-center justify-between">
         <span className="text-3xl">📚</span>
-        <span
-          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-purple-500/10 text-purple-300`}
-        >
-          Learning
-        </span>
+        <div className="flex items-center gap-2">
+          {ok ? (
+            <span
+              className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-500/10 text-xs font-bold text-purple-300"
+              title="Terminé"
+            >
+              ✓
+            </span>
+          ) : (
+            project &&
+            onOpen &&
+            project.hasEnd && (
+              <span
+                className="flex h-5 items-center justify-center rounded-full bg-[var(--surface-hover)] px-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--text-faint)]"
+                title="À faire"
+              >
+                À faire
+              </span>
+            )
+          )}
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-purple-500/10 text-purple-300`}
+          >
+            Learning
+          </span>
+        </div>
       </div>
       <div>
         <h2 className="text-sm font-semibold text-[var(--text)]">{title}</h2>
