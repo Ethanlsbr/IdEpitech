@@ -55,7 +55,7 @@ export function useCLanguage({ onRequestPanel, project }) {
         },
       ]);
 
-      const res = await run(project.code + code);
+      const res = await run(project.beforeCode + code + project.afterCode);
       setAwaitingInput(false);
 
       if (res?.error) {

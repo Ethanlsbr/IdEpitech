@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
 import Console from "../components/Console";
-import FilDariane from "../projects/filDariane/filDariane";
 import { usePyodide } from "../usePyodide";
 
 export const SAMPLE_PYTHON = `# Welcome to Manta Editor
@@ -86,9 +85,10 @@ export function usePythonLanguage({ onRequestPanel, project }) {
   );
 
   const renderPanel = useCallback(() => {
-    if (project.id === "fil-ariane") {
+    if (project.component != null) {
+      const Component = project.component;
       return (
-        <FilDariane
+        <Component
           lines={lines}
           status={status}
           onClear={() => setLines([])}
