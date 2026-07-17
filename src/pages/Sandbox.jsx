@@ -36,7 +36,6 @@ export default function Sandbox({ project, onBack }) {
         try {
           return { html: "", css: "", javascript: "", ...JSON.parse(saved) };
         } catch {
-          // Legacy value: a single HTML string stored before the split.
           return { html: saved, css: "", javascript: "" };
         }
       }
@@ -133,6 +132,7 @@ export default function Sandbox({ project, onBack }) {
         language={language}
         projectName={project.name}
         ok={project.hasEnd && localStorage.getItem(project.id) === "true"}
+        code={isHtml ? buildHtmlDocument(files) : files[language]}
       />
 
       <main
