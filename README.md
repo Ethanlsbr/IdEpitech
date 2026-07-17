@@ -1,47 +1,59 @@
 # 🐍 IDEpitech
 
-Un IDE Python qui tourne **entièrement dans le navigateur** : éditeur
-[Monaco](https://microsoft.github.io/monaco-editor/) + exécution
-[Pyodide](https://pyodide.org/) (CPython compilé en WebAssembly), en React + Tailwind v4.
+A learning IDE that runs **entirely in the browser** — no install, no account, no server-side execution.
 
-## Fonctionnalités
+## What you get
 
-- **Éditeur Monaco** (coloration, autocomplétion, multi-curseur) configuré pour Python.
-- **Exécution Python réelle** via Pyodide dans un **Web Worker** (l'UI ne gèle jamais).
-- **Console** avec sortie streamée `stdout` / `stderr` colorée et valeur de retour.
-- **`input()` interactif** — saisie synchrone gérée par `SharedArrayBuffer` + `Atomics`.
-- **Imports automatiques** : `import numpy`, `pandas`… déclenchent le chargement du paquet.
-- Raccourci **⌘/Ctrl + Entrée** pour lancer le code.
+- **Free sandbox** — one per language, to write and run whatever you want.
+- **Learning track** (`/learning`) — short exercises (print, variables, conditions, loops, lists, functions, pointers…) whose output is checked against an expected result. Progress is stored in `localStorage`.
+- **Guided projects** — bigger subjects shipped with a PDF statement, hints, and sometimes a custom visualiser (e.g. _Fil d'Ariane_ animates Theseus walking the maze your code solves).
+- **Glossary** (`/glossary`) — the vocabulary used across the exercises.
+- **Interactive `input()`** — synchronous stdin, handled with `SharedArrayBuffer` + `Atomics`, so the UI never freezes.
+- **Themes** — switchable look and feel, light and dark.
 
-## Démarrer
+## Supported languages
+
+| Language   | Runtime                                                                                                            | Runs on                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| **Python** | [Pyodide](https://pyodide.org/) (CPython → WebAssembly), loaded from the jsDelivr CDN                              | Web Worker. `import numpy`, `pandas`… auto-loads the package |
+| **C**      | [wasm-clang](https://github.com/binji/wasm-clang) (Clang 8.0.1 → WebAssembly), self-hosted in `public/wasm-clang/` | Web Worker. Compiles _and_ links in the browser              |
+| **HTML**   | The browser itself                                                                                                 | Sandboxed `<iframe>` preview, live                           |
+
+## Use it online
+
+<https://idepitech.vercel.app>
+
+Everything runs on your machine — your code never leaves the tab.
+
+## Run it locally
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # build de production
+npm run build    # production build
+npm run preview  # serve the production build
 ```
 
-## Comment ça marche
+Requires Node 18+ and a Chromium- or Firefox-based browser. Use a desktop screen: the editor is hidden on small viewports.
 
-Pyodide est chargé depuis le CDN jsDelivr à l'intérieur de `src/pyodide.worker.js`.
-Le worker expose `stdout`/`stderr` et un `stdin` synchrone. Pour que `input()`
-bloque le worker en attendant la saisie, le navigateur doit être en
-**cross-origin isolation** : `vite.config.js` envoie donc les en-têtes
-`Cross-Origin-Opener-Policy: same-origin` et
-`Cross-Origin-Embedder-Policy: credentialless`, ce qui active `SharedArrayBuffer`.
+## Add a project
 
-> ⚠️ En déploiement, ces deux en-têtes HTTP doivent être servis par ton hébergeur,
-> sinon `input()` ne fonctionnera pas (le reste oui).
+Projects are declared in [src/projects.jsx](src/projects.jsx). Adding one is a code change, so it goes through a **pull request** — see below.
 
-## Structure
+1. Pick the list your project belongs to:
+   - `learningPythonProjects` / `learningCProjects` — short, auto-checked exercises.
+   - `guidedProjects` — a full subject with a PDF, shown on the home page.
+2. Add an entry
+3. Put your assets in `src/projects/<myProject>/` (statement `.md`, `.pdf`, images, helper `.py` imported with `?raw`). Follow the layout of [src/projects/filDariane/](src/projects/filDariane/).
+4. Need a custom visualiser instead of the plain console? Add a `<myProject>.jsx` component next to the assets, like `filDariane.jsx`.
+5. Run `npm run dev`, check your exercise passes with a correct solution **and** fails with a wrong one.
 
+### Pull request flow
+
+```bash
+git checkout -b feat/my-project
+git commit -m "feat: add my-project"
+git push -u origin feat/my-project
 ```
-src/
-  App.jsx               état global, câblage éditeur ↔ console
-  usePyodide.js         hook : pilote le worker, run() et sendInput()
-  pyodide.worker.js     worker : charge Pyodide, exécute, gère stdin/stdout
-  components/
-    Editor.jsx          Monaco
-    Console.jsx         sortie + ligne de saisie input()
-    Toolbar.jsx         statut, bouton Exécuter
-```
+
+Then open a PR against `main` on [github.com/Ethanlsbr/IdEpitech](https://github.com/Ethanlsbr/IdEpitech). Direct pushes to `main` are not the way in — every project is reviewed and merged through a PR.
