@@ -11,9 +11,28 @@ const DATA_SIZE = 1 << 20;
 const data = new Uint8Array(new SharedArrayBuffer(DATA_SIZE));
 const interrupt = new Uint8Array(new SharedArrayBuffer(1));
 
+const MAX_OUTPUT_CHUNKS = 7500;
+let outputCount = 0;
+
 function makeWriter(stream) {
-  return (text) =>
-    self.postMessage({ type: "output", stream, text: text + "\n" });
+  const decoder = new TextDecoder();
+  return {
+    write: (buffer) => {
+      outputCount += 1;
+      if (outputCount > MAX_OUTPUT_CHUNKS) return buffer.length;
+      if (outputCount === MAX_OUTPUT_CHUNKS) {
+        self.postMessage({
+          type: "output",
+          stream: "stderr",
+          text: "… sortie tronquée (trop de lignes)\n",
+        });
+        return buffer.length;
+      }
+      const text = decoder.decode(buffer, { stream: true });
+      if (text) self.postMessage({ type: "output", stream, text });
+      return buffer.length;
+    },
+  };
 }
 
 function stdin() {
@@ -27,11 +46,9 @@ function stdin() {
 }
 
 async function init() {
-  pyodide = await loadPyodide({
-    indexURL: INDEX_URL,
-    stdout: makeWriter("stdout"),
-    stderr: makeWriter("stderr"),
-  });
+  pyodide = await loadPyodide({ indexURL: INDEX_URL });
+  pyodide.setStdout(makeWriter("stdout"));
+  pyodide.setStderr(makeWriter("stderr"));
   pyodide.setStdin({ stdin, autoEOF: true });
   pyodide.setInterruptBuffer(interrupt);
   await pyodide.loadPackage("micropip");
@@ -47,11 +64,12 @@ async function run(id, code) {
   await initPromise;
   if (!ready) return;
   interrupt[0] = 0;
+  outputCount = 0;
   try {
     await pyodide.loadPackagesFromImports(code, {
       messageCallback: (msg) => self.postMessage({ type: "status", text: msg }),
     });
-    const result = await pyodide.runPythonAsync(code);
+    const result = pyodide.runPython(code);
     let repr;
     if (result !== undefined && result !== null) {
       try {

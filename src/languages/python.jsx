@@ -54,6 +54,7 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         .map((part) => (part.endsWith("\n") ? part : part + "\n"))
         .join("");
       const res = await run(source);
+      setAwaitingInput(false);
       if (!res?.ok) return;
 
       if (res.result != null) {
