@@ -1,5 +1,4 @@
 import { LANGUAGES } from "../projects";
-import ThemeSwitcher from "./ThemeSwitcher";
 
 const STATUS = {
   loading: {
@@ -26,6 +25,15 @@ const getLabel = (language, version) => {
   return "?";
 };
 
+function extension(lang) {
+  if (lang === "python") return "py";
+  if (lang === "html") return "html";
+  if (lang === "css") return "css";
+  if (lang === "js") return "js";
+  if (lang === "c") return "c";
+  return "txt";
+}
+
 export default function Toolbar({
   status,
   version,
@@ -34,11 +42,35 @@ export default function Toolbar({
   language,
   projectName,
   ok,
+  code,
 }) {
   const s = STATUS[status] || STATUS.loading;
   const canRun = status === "ready" || status === "running";
   const icon = getIcon(language);
   const label = getLabel(language, version);
+
+  function exportCode(code) {
+    const filename = `${projectName.replaceAll(" ", "_")}.${extension(language)}`;
+    var a = document.createElement("a"),
+      file = new File([code], filename, {
+        type: "text/plain",
+      });
+    if (window.navigator.msSaveOrOpenBlob)
+      // IE10+
+      window.navigator.msSaveOrOpenBlob(file, filename);
+    else {
+      // Others
+      var url = URL.createObjectURL(file);
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    }
+  }
 
   return (
     <header className="relative flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-4 py-2">
@@ -60,7 +92,7 @@ export default function Toolbar({
       </div>
 
       <h1 className="notch absolute left-1/2 top-0 flex -translate-x-1/2 items-center gap-1.5 rounded-b-2xl border-x border-b border-[var(--border-strong)] px-6 pb-3 pt-2.5 text-xs font-semibold text-[var(--text)] shadow-[0_8px_18px_-10px_rgba(0,0,0,0.8)]">
-        <span className="font-normal text-[var(--text-muted)]">Project</span>
+        <span className="font-normal text-[var(--text-muted)]">Projet</span>
         {projectName}
         {ok && (
           <span
@@ -79,6 +111,17 @@ export default function Toolbar({
           />
           <span className="text-xs text-[var(--text-muted)]">{s.label}</span>
         </div>
+
+        <button
+          onClick={() => {
+            exportCode(code);
+          }}
+          title="Télécharger le code"
+          className="flex items-center gap-1.5 rounded-md border border-[var(--border-strong)] px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] transition hover:border-[var(--accent)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
+        >
+          <span className="text-sm leading-none">⭳</span>
+          Exporter
+        </button>
 
         <button
           onClick={onRun}

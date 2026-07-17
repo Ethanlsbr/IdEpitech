@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/ThemeContext";
-import ThemeSwitcher from "./ThemeSwitcher";
+import SettingsButton from "./SettingsButton";
 import EpitechLogoWhite from "../assets/epitech-eu_BIG.D.svg";
 import EpitechLogoBlue from "../assets/epitech-eu_BIG.svg";
 
@@ -52,7 +52,7 @@ export default function HeaderBar() {
         </a>
       )}
 
-      <ThemeSwitcher />
+      <SettingsButton />
     </header>
   );
 }
