@@ -4,16 +4,22 @@ import { useTheme } from "../theme/ThemeContext";
 export default function ProjectCard({ project, onOpen, ok }) {
   const lang = LANGUAGES[project.language];
   const { theme } = useTheme();
-  const shell =
+  const themeCard =
     theme.slots?.card ??
     "rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]";
+  const shell =
+    ok === "gold"
+      ? `${themeCard} border-amber-400/40! bg-amber-400/[0.06]! hover:border-amber-400/70! hover:bg-amber-400/10!`
+      : themeCard;
 
   return (
     <button
       type="button"
       onClick={() => onOpen(project.id)}
       style={{ "--lang-color": lang.color }}
-      className={`group flex flex-col gap-3 p-5 text-left transition hover:!border-[var(--lang-color)] ${shell}`}
+      className={`group flex flex-col gap-3 p-5 text-left transition ${
+        ok === "gold" ? "" : "hover:!border-[var(--lang-color)]"
+      } ${shell}`}
     >
       <div className="flex items-center justify-between">
         <span className="text-3xl">{lang.icon}</span>
@@ -24,6 +30,13 @@ export default function ProjectCard({ project, onOpen, ok }) {
               title="Projet libre, sans validation"
             >
               Libre
+            </span>
+          ) : ok === "gold" ? (
+            <span
+              className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-400/20 text-xs font-bold text-amber-400"
+              title="Terminé — bonus doré"
+            >
+              ✓
             </span>
           ) : ok ? (
             <span
@@ -60,7 +73,11 @@ export default function ProjectCard({ project, onOpen, ok }) {
           {project.description}
         </p>
       </div>
-      <span className="mt-auto text-xs font-medium text-[var(--lang-color)] opacity-0 transition group-hover:opacity-100">
+      <span
+        className={`mt-auto text-xs font-medium opacity-0 transition group-hover:opacity-100 ${
+          ok === "gold" ? "text-amber-400" : "text-[var(--lang-color)]"
+        }`}
+      >
         Ouvrir →
       </span>
     </button>

@@ -81,6 +81,15 @@ h2_style = ParagraphStyle(
     spaceAfter=25,
     leading=16,
 )
+h3_style = ParagraphStyle(
+    "h3",
+    fontName=FONT_BOLD,
+    fontSize=13,
+    textColor=NAVY,
+    spaceBefore=45,
+    spaceAfter=25,
+    leading=16,
+)
 body_style = ParagraphStyle(
     "body",
     fontName=FONT,
@@ -167,7 +176,13 @@ def h1(text):
 
 
 def h2(text):
+    if story:
+        story.append(PageBreak())
     story.append(Paragraph(_inline(text), h2_style))
+
+
+def h3(text):
+    story.append(Paragraph(_inline(text), h3_style))
 
 
 def p(text):
@@ -321,8 +336,10 @@ def parse_markdown(text, base_dir="."):
                 title = content
             elif level == 1:
                 h1(content)
-            else:
+            elif level == 2:
                 h2(content)
+            else:
+                h3(content)
             i += 1
             continue
 

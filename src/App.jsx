@@ -5,6 +5,7 @@ import MobileBlock from "./components/MobileBlock";
 import { projects } from "./projects";
 import Subject from "./components/Subject";
 import Toolbar from "./components/Toolbar";
+import { completionMark } from "./completion";
 
 const STORAGE_KEY = "manta-active-project";
 
@@ -31,7 +32,7 @@ export default function App() {
               <Toolbar
                 onBack={() => setActiveId(null)}
                 projectName={active.name}
-                ok={active.hasEnd && localStorage.getItem(active.id) === "true"}
+                ok={active.hasEnd && completionMark(active.id)}
               />
               <Subject subject={active.subject} />
             </div>

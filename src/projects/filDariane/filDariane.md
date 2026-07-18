@@ -20,6 +20,19 @@ Essayez de faire un algorithme simple pour commencer, puis, si vous vous sentez 
 
 ## II. Trouver son chemin
 
+### Charger un labyrinthe
+
+Avant tout, il vous faut un labyrinthe à résoudre. Chargez-en un avec l'une de ces fonctions, de la plus facile à la plus difficile :
+
+```py
+print_map()         # la plus facile
+print_easy_map()
+print_medium_map()
+print_hard_map()    # pour gagner la golden mark
+```
+
+Commencez par `print_map()` pour prendre vos marques, puis augmentez progressivement la difficulté à mesure que votre algorithme se perfectionne.
+
 ### Droit dans le mur
 
 Avant de commencer, vous pouvez tester le résultat attendu que vous allez devoir reproduire ; mais si vous préférez ne pas être spoilé, passez à l'étape suivante.
@@ -43,11 +56,11 @@ Avant de vous lancer dans votre algorithme, vous devez avoir en tête les points
 - Les valeurs de la map sont :
 
 | caractère | définition                   |
-| --------- | ---------------------------- |
-| `"x"`     | pour les murs                |
-| `"-"`     | pour les zones « libres »    |
-| `"o"`     | pour la ligne d'arrivée      |
-| `"."`     | pour les zones déjà visitées |
+| :-------: | ---------------------------- |
+|   `"x"`   | pour les murs                |
+|   `"-"`   | pour les zones « libres »    |
+|   `"o"`   | pour la ligne d'arrivée      |
+|   `"."`   | pour les zones déjà visitées |
 
 - Le code est appelé une seule fois : à vous de vous arrêter à la fin du labyrinthe en utilisant la fonction `finish`.
 - L'affichage est mis à jour à chaque fois que l'une des fonctions de mouvement est exécutée.

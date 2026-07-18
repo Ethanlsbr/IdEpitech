@@ -6,6 +6,7 @@ import { usePythonLanguage, SAMPLE_PYTHON } from "../languages/python";
 import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
 import { useCLanguage, SAMPLE_C } from "../languages/c";
 import Hints from "../components/Hints";
+import { completionMark } from "../completion";
 
 const STORAGE_KEY = "manta-code-";
 
@@ -15,7 +16,7 @@ function buildHtmlDocument({ html, css, javascript }) {
   return `${html}${styleTag}${scriptTag}`;
 }
 
-export default function Sandbox({ project, onBack }) {
+export default function Sandbox({ project, onBack, onNext }) {
   const language = project.language;
   const isHtml = language === "html";
 
@@ -57,6 +58,7 @@ export default function Sandbox({ project, onBack }) {
   const [editorWidth, setEditorWidth] = useState(50);
   const [rightPanel, setRightPanel] = useState(false);
   const runRef = useRef(null);
+  const nextRef = useRef(null);
   const splitRef = useRef(null);
   const dragStateRef = useRef({ startX: 0, startWidth: 50 });
 
@@ -69,11 +71,32 @@ export default function Sandbox({ project, onBack }) {
 
   const onRequestPanel = useCallback(() => setRightPanel(true), []);
 
+  const goNext = useCallback(() => {
+    if (!onNext) return;
+    if (!(project.hasEnd && completionMark(project.id))) return;
+    onNext();
+  }, [onNext, project]);
+
+  nextRef.current = goNext;
+
+  useEffect(() => {
+    if (!onNext) return;
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey && event.metaKey && event.key === "Enter") {
+        event.preventDefault();
+        goNext();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onNext, goNext]);
+
   const getActive = (language) => {
     if (language == "html") return useHtmlLanguage({ onRequestPanel, project });
     if (language == "python")
-      return usePythonLanguage({ onRequestPanel, project });
-    if (language == "c") return useCLanguage({ onRequestPanel, project });
+      return usePythonLanguage({ onRequestPanel, project, onNext });
+    if (language == "c")
+      return useCLanguage({ onRequestPanel, project, onNext });
     return "";
   };
 
@@ -131,7 +154,7 @@ export default function Sandbox({ project, onBack }) {
         onBack={onBack}
         language={language}
         projectName={project.name}
-        ok={project.hasEnd && localStorage.getItem(project.id) === "true"}
+        ok={project.hasEnd && completionMark(project.id)}
         code={isHtml ? buildHtmlDocument(files) : files[language]}
       />
 
@@ -149,6 +172,7 @@ export default function Sandbox({ project, onBack }) {
             value={code}
             onChange={setCode}
             onRunRef={runRef}
+            onNextRef={nextRef}
             language={language}
             lang={lang}
             onLangChange={setLang}
