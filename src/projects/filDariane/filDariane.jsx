@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { saveCompletion } from "../../completion";
 
 const TRAIL_STYLE = "bg-[var(--text-faint)]";
 const PLAYER_STYLE = "bg-rose-400 ring-1 ring-rose-200";
@@ -101,8 +102,13 @@ export function parseRun(lines) {
 
   let outcome = null;
   let victory = false;
-  if (commands.includes("PlayerOut")) outcome = "won";
-  if (commands.includes("PlayerOut") && commands.includes("CountVictory"))
+  if (commands.includes("PlayerOut") && !commands.includes("testVictory"))
+    outcome = "won";
+  if (
+    commands.includes("PlayerOut") &&
+    commands.includes("CountVictory") &&
+    !commands.includes("testVictory")
+  )
     victory = true;
 
   return { grid, start, moves, outcome, victory };
@@ -164,9 +170,9 @@ export default function FilDariane({ lines, status, onClear, project }) {
   const outcome = finished ? run.outcome : null;
 
   useEffect(() => {
-    if (finished && run.victory) {
-      localStorage.setItem(project.id, "true");
-    }
+    if (!finished || !run) return;
+    if (run.victory) saveCompletion(project.id, true);
+    else if (run.outcome === "won") saveCompletion(project.id, false);
   }, [finished, run]);
 
   return (

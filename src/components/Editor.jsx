@@ -12,6 +12,7 @@ export default function Editor({
   value,
   onChange,
   onRunRef,
+  onNextRef,
   language,
   lang,
   onLangChange,
@@ -21,9 +22,16 @@ export default function Editor({
 
   function handleMount(editor, monaco) {
     monacoRef.current = monaco;
+    editor.focus();
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
       onRunRef.current?.();
     });
+    editor.addCommand(
+      monaco.KeyMod.CtrlCmd | monaco.KeyMod.WinCtrl | monaco.KeyCode.Enter,
+      () => {
+        onNextRef?.current?.();
+      },
+    );
   }
 
   return (

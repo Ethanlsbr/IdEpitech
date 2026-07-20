@@ -96,8 +96,12 @@ export default function Toolbar({
         {projectName}
         {ok && (
           <span
-            className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/15 text-[10px] font-bold text-emerald-400"
-            title="Terminé"
+            className={`flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold ${
+              ok === "gold"
+                ? "bg-amber-400/20 text-amber-400"
+                : "bg-emerald-500/15 text-emerald-400"
+            }`}
+            title={ok === "gold" ? "Terminé — bonus doré" : "Terminé"}
           >
             ✓
           </span>

@@ -4,22 +4,33 @@ import LearningCard from "../components/LearningCard";
 import ProjectCard from "../components/ProjectCard";
 import PatternPage from "../components/PatternPage";
 import { LANGUAGES, DIFFICULTIES, learningProjects } from "../projects";
+import { completionMark, isCompleted } from "../completion";
 
 export default function HomePage({ projects, onOpen }) {
   const [language, setLanguage] = useState("all");
   const [difficulty, setDifficulty] = useState("all");
+  const [completion, setCompletion] = useState("all");
+
+  const matchesCompletion = (project) => {
+    if (completion === "all") return true;
+    if (!project.hasEnd) return false;
+    const mark = completionMark(project.id);
+    if (completion === "no") return mark === false;
+    if (completion === "yes") return mark === true;
+    if (completion === "gold") return mark === "gold";
+    return true;
+  };
 
   const filteredProjects = projects.filter(
     (project) =>
       (language === "all" || project.language === language) &&
-      (difficulty === "all" || project.difficulty === difficulty),
+      (difficulty === "all" || project.difficulty === difficulty) &&
+      matchesCompletion(project),
   );
 
   const [allLearnings, setAllLearnings] = useState(false);
 
-  const isProjetOk = (id) => {
-    return localStorage.getItem(id) == "true";
-  };
+  const isProjetOk = (id) => isCompleted(id);
 
   const learningTotal = learningProjects.length;
   const learningDone = learningProjects.filter((p) => isProjetOk(p.id)).length;
@@ -77,7 +88,7 @@ export default function HomePage({ projects, onOpen }) {
                 onChange={(e) => setLanguage(e.target.value)}
                 className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
               >
-                <option value="all">Tous les languages</option>
+                <option value="all">Tous les langages</option>
                 {Object.entries(LANGUAGES).map(([id, lang]) => (
                   <option key={id} value={id}>
                     {lang.label}
@@ -96,6 +107,16 @@ export default function HomePage({ projects, onOpen }) {
                   </option>
                 ))}
               </select>
+              <select
+                value={completion}
+                onChange={(e) => setCompletion(e.target.value)}
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
+              >
+                <option value="all">Toutes complétions</option>
+                <option value="no">Non complété</option>
+                <option value="yes">Complété</option>
+                <option value="gold">Gold</option>
+              </select>
             </div>
           </div>
           {filteredProjects.length > 0 ? (
@@ -105,7 +126,7 @@ export default function HomePage({ projects, onOpen }) {
                   key={project.id}
                   project={project}
                   onOpen={onOpen}
-                  ok={project.hasEnd && isProjetOk(project.id)}
+                  ok={project.hasEnd && completionMark(project.id)}
                 />
               ))}
             </div>

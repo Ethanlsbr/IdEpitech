@@ -1,13 +1,15 @@
 import { useCallback, useRef, useState } from "react";
 import Console from "../components/Console";
+import LearningConsole from "../components/LearningConsole";
 import { usePyodide } from "../usePyodide";
+import { saveCompletion } from "../completion";
 
 export const SAMPLE_PYTHON = `# Welcome to Manta Editor
 
 print("Hello Manta!\\nDiscover code with IDEpitech")
 `;
 
-export function usePythonLanguage({ onRequestPanel, project }) {
+export function usePythonLanguage({ onRequestPanel, project, onNext }) {
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
   const stdoutRef = useRef("");
@@ -60,16 +62,23 @@ export function usePythonLanguage({ onRequestPanel, project }) {
         appendOutput({ stream: "result", text: `=> ${res.result}\n` });
       }
 
-      if (project.expected != null) {
-        const ok = stdoutRef.current.trim() === project.expected.trim();
+      if (project.expected != null || project.goldenExpected != null) {
+        const out = stdoutRef.current.trim();
+        const gold =
+          project.goldenExpected != null &&
+          out === project.goldenExpected.trim();
+        const ok =
+          gold || (project.expected != null && out === project.expected.trim());
         appendOutput({
           stream: ok ? "result" : "stderr",
-          text: ok
-            ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
-            : "\nPas encore (et c'est ok), réessaie.\n",
+          text: gold
+            ? "\n✨ Validé avec brio ! Vous décrochez la marque dorée.\n"
+            : ok
+              ? "\nValidé!\nTu peux passer à l'exercice suivant\n"
+              : "\nPas encore (et c'est ok), réessaie.\n",
         });
         if (ok) {
-          localStorage.setItem(project.id, true);
+          saveCompletion(project.id, gold);
         }
       }
     },
@@ -98,15 +107,21 @@ export function usePythonLanguage({ onRequestPanel, project }) {
       );
     }
 
-    return (
-      <Console
-        lines={lines}
-        awaitingInput={awaitingInput}
-        onSubmitInput={submitInput}
-        onClear={() => setLines([])}
-      />
-    );
-  }, [project.id, lines, status, awaitingInput, submitInput]);
+    const consoleProps = {
+      lines,
+      awaitingInput,
+      onSubmitInput: submitInput,
+      onClear: () => setLines([]),
+    };
+
+    if (onNext !== undefined) {
+      return (
+        <LearningConsole project={project} onNext={onNext} {...consoleProps} />
+      );
+    }
+
+    return <Console {...consoleProps} />;
+  }, [project, lines, status, awaitingInput, submitInput, onNext]);
 
   return { status, version, execute, renderPanel };
 }

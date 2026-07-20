@@ -21,6 +21,7 @@ export default function Hints({ project }) {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState(() => loadState(project.id));
   const [now, setNow] = useState(Date.now());
+  const [viewIndex, setViewIndex] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 30000);
     return () => clearInterval(timer);
@@ -33,7 +34,9 @@ export default function Hints({ project }) {
     const next = { count: state.count + 1, last: Date.now() };
     localStorage.setItem(STORAGE_KEY + project.id, JSON.stringify(next));
     setState(next);
+    setViewIndex(next.count - 1);
   };
+  const safeIndex = Math.min(viewIndex, Math.max(state.count - 1, 0));
 
   const label =
     state.count >= hints.length
@@ -48,22 +51,42 @@ export default function Hints({ project }) {
           <span className="text-xs font-semibold text-[var(--text-muted)]">
             Indices ({state.count}/{hints.length})
           </span>
-          <ul className="mt-2 max-h-60 space-y-2 overflow-auto">
-            {state.count === 0 ? (
-              <li className="text-xs italic text-[var(--text-faint)]">
-                Aucun indice débloqué pour l'instant.
-              </li>
-            ) : (
-              hints.slice(0, state.count).map((hint, i) => (
-                <li
-                  key={i}
-                  className="text-xs leading-relaxed text-[var(--text-muted)]"
-                >
-                  💡 {hint}
-                </li>
-              ))
-            )}
-          </ul>
+          {state.count === 0 ? (
+            <p className="mt-2 text-xs italic text-[var(--text-faint)]">
+              Aucun indice débloqué pour l'instant.
+            </p>
+          ) : (
+            <div className="mt-2 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setViewIndex((i) => Math.max(i - 1, 0))}
+                disabled={safeIndex === 0}
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-[var(--border)] text-[var(--text-muted)] transition hover:bg-[var(--surface-hover)] disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label="Indice précédent"
+              >
+                ‹
+              </button>
+              <p className="min-h-[3rem] flex-1 text-xs leading-relaxed text-[var(--text-muted)]">
+                💡 {hints[safeIndex]}
+              </p>
+              <button
+                type="button"
+                onClick={() =>
+                  setViewIndex((i) => Math.min(i + 1, state.count - 1))
+                }
+                disabled={safeIndex >= state.count - 1}
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-[var(--border)] text-[var(--text-muted)] transition hover:bg-[var(--surface-hover)] disabled:cursor-not-allowed disabled:opacity-30"
+                aria-label="Indice suivant"
+              >
+                ›
+              </button>
+            </div>
+          )}
+          {state.count > 0 && (
+            <div className="mt-1 text-center text-[10px] text-[var(--text-faint)]">
+              {safeIndex + 1} / {state.count}
+            </div>
+          )}
           <button
             type="button"
             onClick={claim}

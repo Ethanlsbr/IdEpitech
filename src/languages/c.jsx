@@ -1,6 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import Console from "../components/Console";
+import LearningConsole from "../components/LearningConsole";
 import { useClang } from "../useClang";
+import { saveCompletion } from "../completion";
 
 export const SAMPLE_C = `// Bienvenue dans l'Editeur Manta
 #include <stdio.h>
@@ -12,7 +14,7 @@ int main(void)
 }
 `;
 
-export function useCLanguage({ onRequestPanel, project }) {
+export function useCLanguage({ onRequestPanel, project, onNext }) {
   const [lines, setLines] = useState([]);
   const [awaitingInput, setAwaitingInput] = useState(false);
   const stdoutRef = useRef("");
@@ -75,7 +77,7 @@ export function useCLanguage({ onRequestPanel, project }) {
             : "\nPas encore (et c'est ok), réessaie.\n",
         });
         if (ok) {
-          localStorage.setItem(project.id, true);
+          saveCompletion(project.id, false);
         }
       }
     },
@@ -91,17 +93,22 @@ export function useCLanguage({ onRequestPanel, project }) {
     [appendOutput, sendInput],
   );
 
-  const renderPanel = useCallback(
-    () => (
-      <Console
-        lines={lines}
-        awaitingInput={awaitingInput}
-        onSubmitInput={submitInput}
-        onClear={() => setLines([])}
-      />
-    ),
-    [lines, awaitingInput, submitInput],
-  );
+  const renderPanel = useCallback(() => {
+    const consoleProps = {
+      lines,
+      awaitingInput,
+      onSubmitInput: submitInput,
+      onClear: () => setLines([]),
+    };
+
+    if (onNext !== undefined) {
+      return (
+        <LearningConsole project={project} onNext={onNext} {...consoleProps} />
+      );
+    }
+
+    return <Console {...consoleProps} />;
+  }, [project, lines, awaitingInput, submitInput, onNext]);
 
   return { status, version, execute, renderPanel };
 }

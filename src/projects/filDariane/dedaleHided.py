@@ -114,9 +114,118 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 __MAP = None
 
-_ = lambda __: __import__("zlib").decompress(__import__("base64").b64decode(__[::-1]))
-exec(
-    (_)(
-        b"ut3RR/x4Pgq/Rjxv+C/tSsSPN0D0uZzIleKptUcOeK/z9UZAIpCrxWAPUqjGCZcpLgF9NFHb3yD8LtbI/dskOzknw12wSaPh4T+czfCnkEe0ndsovjymjQ6OPc9mild7Qg9aXGfDOSDAYWXYX4oxLTkma/oTc2HmndcTXzbiM5c+dcaGIDnPmShhlWKls0JwqJJnm3RgUGXVVq2RTJF0lsX9rsjY9VILLWvqb/CtIpPiduVRRDR3v8HVvfcF0TF1MCJF0eGcM9rJghZzoz9Cd+5bR5/b6Zld7GohGVV5rMf7aW3KjF1fj4165p383SLMIfddSH7ez4kUNaZU0P606J1/bKttwyZJ/qAn5pj4PIyUYFVz0e0usKcnQndNEANF5T91a1+o/S0lbY93xZbYM+4iRzVQglShhAvIqv81anMwTpMwowF4ey9Pb63Au00YZiRwMIQezd/exJH3yIuyCDlVYE6cCxH++LG3y0v5FLhIG6DQSZBfANC+wfve4zKafsy5u0dunZbm6/n6nweuUHlh694ucoxEPCEKmE0SmIkwkRpHEv8aWAzUVyeMkC6l6mAsZWKdjCJvmZm3lVJtzdtU6bbvkyg4ruWzwC6Ru+X2mLJsBY+Kl/sY2pCw2ieatNINg0j7nxYEQL19CioN83Ayb7kFlWLN96sdjqhAamlQLfRuVCh8T7S3jdJYN2bVJHhVFYilGjKLiO6BHYZgbQxGOwhMU1MWabiCizmZwJpCKaVCeuq6paiIrPjixMzVAgJFTgjGTOy/b8iCBhFFAAgG+5RLCOhTxspYLz02mUCwmRYC+9/vnX+5CSghBDKkgPptPtd9I2ulYXecOUMyCpqj3qWHDYdmaNglZaHHQURB+cmi89+xYAj2v1kllyJe"
-    )
-)
+
+def load_from_file(data):
+    map = []
+    for line in data.splitlines():
+        map.append(list(line.rstrip()))
+    for i, row in enumerate(map):
+        for j, char in enumerate(row):
+            if char == "-":
+                return map, i, j
+    return None, -1, -1
+
+
+def _use_map(data):
+    global map, PosY, PosX, path
+    map, PosY, PosX = load_from_file(data)
+    path = []
+    if map is None:
+        print("No possible starting point found.")
+        return
+    print(PosY, PosX)
+    print(map)
+
+
+def print_map():
+    global __MAP
+    _use_map(FIRST)
+    __MAP = "FIRST"
+
+
+def print_easy_map():
+    global __MAP
+    _use_map(EASY)
+    __MAP = "EASY"
+
+
+def print_medium_map():
+    global __MAP
+    _use_map(MEDIUM)
+    __MAP = "MEDIUM"
+
+
+def print_hard_map():
+    global __MAP
+    _use_map(HARD)
+    __MAP = "HARD"
+
+
+def up():
+    global map, PosY, PosX
+    if PosY != 0 and map[PosY - 1][PosX] != "x":
+        map[PosY][PosX] = "."
+        PosY -= 1
+        print("North")
+
+
+def down():
+    global map, PosY, PosX
+    if PosY != len(map) - 1 and map[PosY + 1][PosX] != "x":
+        map[PosY][PosX] = "."
+        PosY += 1
+        print("South")
+
+
+def left():
+    global map, PosY, PosX
+    if PosX != 0 and map[PosY][PosX - 1] != "x":
+        map[PosY][PosX] = "."
+        PosX -= 1
+        print("West")
+
+
+def right():
+    global map, PosY, PosX
+    if PosX != len(map[PosY]) - 1 and map[PosY][PosX + 1] != "x":
+        map[PosY][PosX] = "."
+        PosX += 1
+        print("East")
+
+
+def finish():
+    global map, PosY, PosX
+    if map[PosY][PosX] == "o":
+        print("PlayerOut")
+        if __MAP == "HARD":
+            print("CountVictory")
+
+
+def testVictory():
+    print("testVictory called")
+    compteur = 0
+    while map[PosY][PosX] != "o" and compteur < 1500:
+        compteur += 1
+        if map[PosY][PosX + 1] in "-o":
+            right()
+            path.append("r")
+        elif map[PosY][PosX - 1] in "-o":
+            left()
+            path.append("l")
+        elif map[PosY + 1][PosX] in "-o":
+            down()
+            path.append("d")
+        elif map[PosY - 1][PosX] in "-o":
+            up()
+            path.append("u")
+        else:
+            past = path.pop()
+            if past == "u":
+                down()
+            if past == "d":
+                up()
+            if past == "r":
+                left()
+            if past == "l":
+                right()
+    finish()
