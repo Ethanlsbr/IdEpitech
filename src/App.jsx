@@ -5,6 +5,7 @@ import MobileBlock from "./components/MobileBlock";
 import { projects } from "./projects";
 import Subject from "./components/Subject";
 import Toolbar from "./components/Toolbar";
+import CreateSubject from "./projects/createSubject/CreateSubject";
 import { completionMark } from "./completion";
 
 const STORAGE_KEY = "manta-active-project";
@@ -26,7 +27,14 @@ export default function App() {
   return (
     <div className="h-full block">
       {active ? (
-        active.subject ? (
+        active.custom === "create-subject" ? (
+          <>
+            <MobileBlock onBack={() => setActiveId(null)} />
+            <div className="hidden h-full md:block">
+              <CreateSubject onBack={() => setActiveId(null)} />
+            </div>
+          </>
+        ) : active.subject ? (
           <>
             <div className="md:hidden h-full block">
               <Toolbar

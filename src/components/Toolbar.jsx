@@ -45,6 +45,14 @@ export default function Toolbar({
   code,
 }) {
   const s = STATUS[status] || STATUS.loading;
+  const statusLabel =
+    status === "loading"
+      ? language === "c"
+        ? "Chargement du compilateur C…"
+        : language === "python"
+          ? "Chargement de Pyodide…"
+          : "Chargement…"
+      : s.label;
   const canRun = status === "ready" || status === "running";
   const icon = getIcon(language);
   const label = getLabel(language, version);
@@ -113,7 +121,9 @@ export default function Toolbar({
           <span
             className={`h-2 w-2 rounded-full ${s.color} ${s.pulse ? "animate-pulse" : ""}`}
           />
-          <span className="text-xs text-[var(--text-muted)]">{s.label}</span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {statusLabel}
+          </span>
         </div>
 
         <button

@@ -9,7 +9,7 @@ import {
 
 const PyodideContext = createContext(null);
 
-const EXEC_TIMEOUT_MS = 5_000;
+const EXEC_TIMEOUT_MS = 500_000;
 
 export function PyodideProvider({ children }) {
   const workerRef = useRef(null);
@@ -105,7 +105,11 @@ export function PyodideProvider({ children }) {
           timedOutRef.current = false;
           awaitingInputRef.current = false;
           setStatus("ready");
-          runResolveRef.current?.({ ok: true, result: msg.result });
+          runResolveRef.current?.({
+            ok: true,
+            result: msg.result,
+            pdf: msg.pdf,
+          });
           runResolveRef.current = null;
           break;
         case "interrupted": {
