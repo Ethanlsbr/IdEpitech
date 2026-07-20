@@ -99,29 +99,43 @@ export default function Sandbox({ project, onBack }) {
     setEditorWidth(Math.min(80, Math.max(20, nextWidth)));
   }, []);
 
-  const stopDragging = useCallback(() => {
-    window.removeEventListener("pointermove", handleDragMove);
-    window.removeEventListener("pointerup", stopDragging);
-    window.removeEventListener("pointercancel", stopDragging);
+  const stopDragging = useCallback((event) => {
+    const target = event.currentTarget;
+    if (target.hasPointerCapture?.(event.pointerId)) {
+      target.releasePointerCapture(event.pointerId);
+    }
+    target.removeEventListener("pointermove", handleDragMove);
+    target.removeEventListener("pointerup", stopDragging);
+    target.removeEventListener("pointercancel", stopDragging);
+
+    document.body.style.userSelect = "";
+    document.body.style.cursor = "";
+    dragStateRef.current = null;
   }, [handleDragMove]);
 
   const handleDividerPointerDown = useCallback(
     (event) => {
       if (event.button !== 0) return;
-
       event.preventDefault();
+
+      const target = event.currentTarget;
+      target.setPointerCapture(event.pointerId);
+
       dragStateRef.current = {
         startX: event.clientX,
         startWidth: editorWidth,
+        pointerId: event.pointerId,
       };
 
-      window.addEventListener("pointermove", handleDragMove);
-      window.addEventListener("pointerup", stopDragging);
-      window.addEventListener("pointercancel", stopDragging);
+      document.body.style.userSelect = "none";
+      document.body.style.cursor = "col-resize";
+
+      target.addEventListener("pointermove", handleDragMove);
+      target.addEventListener("pointerup", stopDragging);
+      target.addEventListener("pointercancel", stopDragging);
     },
     [editorWidth, handleDragMove, stopDragging],
   );
-
   return (
     <div className="relative hidden h-full flex-col md:flex">
       <Toolbar
@@ -154,11 +168,12 @@ export default function Sandbox({ project, onBack }) {
             onLangChange={setLang}
           />
         </section>
-        <button
-          type="button"
+        <div
+          role="separator"
+          aria-orientation="vertical"
           aria-label="Resize editor and console"
           onPointerDown={handleDividerPointerDown}
-          className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-[var(--border)] md:hover:bg-sky-500/60"
+          className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-[var(--border)] md:hover:bg-sky-500/60 select-none"
           style={{ touchAction: "none" }}
         />
         <section className="flex min-h-0 min-w-0 flex-col md:flex-1">
