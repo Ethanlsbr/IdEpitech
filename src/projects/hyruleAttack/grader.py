@@ -12,7 +12,6 @@ _SOLUTION = [
     [3, 4, 5, 2, 8, 6, 1, 7, 9],
 ]
 
-# Python obfuscation by pyobfuscator.com
 _ = lambda __: __import__("zlib").decompress(__import__("base64").b64decode(__[::-1]))
 exec(
     (_)(
