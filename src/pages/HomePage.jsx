@@ -3,8 +3,14 @@ import HeaderBar from "../components/HeaderBar";
 import LearningCard from "../components/LearningCard";
 import ProjectCard from "../components/ProjectCard";
 import PatternPage from "../components/PatternPage";
-import { LANGUAGES, DIFFICULTIES, learningProjects } from "../projects";
+import {
+  LANGUAGES,
+  DIFFICULTIES,
+  COBRA_DIFFICULTIES,
+  learningProjects,
+} from "../projects";
 import { completionMark, isCompleted } from "../completion";
+import { useTheme } from "../theme/ThemeContext";
 
 export default function HomePage({ projects, onOpen }) {
   const [language, setLanguage] = useState("all");
@@ -20,6 +26,8 @@ export default function HomePage({ projects, onOpen }) {
     if (completion === "gold") return mark === "gold";
     return true;
   };
+
+  const { theme } = useTheme();
 
   const createSubjectProject = projects.find(
     (project) => project.custom === "create-subject",
@@ -65,7 +73,7 @@ export default function HomePage({ projects, onOpen }) {
               {learningDone}/{learningTotal}
             </span>
           </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <LearningCard
               name={"Glossaire"}
               description={"Apprenez les mots clés"}
@@ -79,7 +87,7 @@ export default function HomePage({ projects, onOpen }) {
             />
             <LearningCard
               name={"Agenda"}
-              description={"Les prochains événements des campus"}
+              description={"Les prochains événements..."}
               goTo={"/agenda"}
               icon={"📅"}
               badge={"Agenda"}
@@ -122,11 +130,20 @@ export default function HomePage({ projects, onOpen }) {
               className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
             >
               <option value="all">Toutes difficultés</option>
-              {DIFFICULTIES.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
-              ))}
+              {theme.type == "manta"
+                ? DIFFICULTIES.map((level) => (
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
+                  ))
+                : COBRA_DIFFICULTIES.map((level, index) => (
+                    <option
+                      key={DIFFICULTIES[index]}
+                      value={DIFFICULTIES[index]}
+                    >
+                      {level}
+                    </option>
+                  ))}
             </select>
             <select
               value={completion}
