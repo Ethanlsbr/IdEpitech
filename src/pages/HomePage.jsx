@@ -72,6 +72,13 @@ export default function HomePage({ projects, onOpen }) {
               goTo={"/learning"}
               ok={allLearnings}
             />
+            <LearningCard
+              name={"Agenda"}
+              description={"Les prochains événements des campus"}
+              goTo={"/agenda"}
+              icon={"📅"}
+              badge={"Agenda"}
+            />
           </div>
         </section>
         <section className="mt-10">
