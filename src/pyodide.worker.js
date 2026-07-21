@@ -52,6 +52,8 @@ async function init() {
   pyodide.setStdin({ stdin, autoEOF: true });
   pyodide.setInterruptBuffer(interrupt);
   await pyodide.loadPackage("micropip");
+  const micropip = pyodide.pyimport("micropip");
+  await micropip.install("reportlab");
   ready = true;
   self.postMessage({ type: "ready", version: pyodide.version });
 }
@@ -78,7 +80,18 @@ async function run(id, code) {
         repr = String(result);
       }
     }
-    self.postMessage({ type: "done", id, result: repr ?? null });
+    let pdf = null;
+    try {
+      const bytes = pyodide.FS.readFile("/output.pdf");
+      pyodide.FS.unlink("/output.pdf");
+      pdf = bytes.buffer;
+    } catch {
+      pdf = null;
+    }
+    self.postMessage(
+      { type: "done", id, result: repr ?? null, pdf },
+      pdf ? [pdf] : [],
+    );
   } catch (error) {
     const message = String(error.message || error);
     if (message.includes("KeyboardInterrupt")) {

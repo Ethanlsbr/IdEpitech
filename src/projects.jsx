@@ -2,6 +2,7 @@ import { LANG } from "./datas/languages";
 import { learningPythonProjects } from "./datas/learningPythonProjects";
 import { learningCProjects } from "./datas/learningCProjects";
 import { guidedProjects } from "./datas/guidedProjets";
+import { createSubjectProject } from "./datas/createSubjectProject";
 
 export const LANGUAGES = LANG;
 
@@ -25,4 +26,8 @@ export const learningProjects = [
   ...learningCProjects,
 ];
 
-export const projects = [...sandboxProjects, ...guidedProjects];
+export const projects = [
+  ...sandboxProjects,
+  createSubjectProject,
+  ...guidedProjects,
+];
