@@ -21,8 +21,13 @@ export default function HomePage({ projects, onOpen }) {
     return true;
   };
 
+  const createSubjectProject = projects.find(
+    (project) => project.custom === "create-subject",
+  );
+
   const filteredProjects = projects.filter(
     (project) =>
+      !project.custom &&
       (language === "all" || project.language === language) &&
       (difficulty === "all" || project.difficulty === difficulty) &&
       matchesCompletion(project),
@@ -72,6 +77,14 @@ export default function HomePage({ projects, onOpen }) {
               goTo={"/learning"}
               ok={allLearnings}
             />
+            {createSubjectProject && (
+              <LearningCard
+                project={createSubjectProject}
+                onOpen={onOpen}
+                icon={"📝"}
+                tag={"Sujet"}
+              />
+            )}
           </div>
         </section>
         <section className="mt-10">
@@ -82,42 +95,42 @@ export default function HomePage({ projects, onOpen }) {
                 {projectsDone}/{projectsTotal}
               </span>
             </h2>
-            <div className="flex gap-2">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
-              >
-                <option value="all">Tous les langages</option>
-                {Object.entries(LANGUAGES).map(([id, lang]) => (
-                  <option key={id} value={id}>
-                    {lang.label}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
-              >
-                <option value="all">Toutes difficultés</option>
-                {DIFFICULTIES.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={completion}
-                onChange={(e) => setCompletion(e.target.value)}
-                className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
-              >
-                <option value="all">Toutes complétions</option>
-                <option value="no">Non complété</option>
-                <option value="yes">Complété</option>
-                <option value="gold">Gold</option>
-              </select>
-            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-5">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
+            >
+              <option value="all">Tous les langages</option>
+              {Object.entries(LANGUAGES).map(([id, lang]) => (
+                <option key={id} value={id}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
+            >
+              <option value="all">Toutes difficultés</option>
+              {DIFFICULTIES.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select>
+            <select
+              value={completion}
+              onChange={(e) => setCompletion(e.target.value)}
+              className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--text-muted)] outline-none transition hover:border-emerald-500/50 hover:bg-[var(--surface-hover)]"
+            >
+              <option value="all">Toutes complétions</option>
+              <option value="no">Non complété</option>
+              <option value="yes">Complété</option>
+              <option value="gold">Gold</option>
+            </select>
           </div>
           {filteredProjects.length > 0 ? (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

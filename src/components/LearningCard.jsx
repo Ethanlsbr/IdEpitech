@@ -8,6 +8,8 @@ export default function LearningCard({
   project,
   onOpen,
   ok,
+  icon = "📚",
+  tag = "Learning",
 }) {
   let navigate = useNavigate();
   const { theme } = useTheme();
@@ -38,7 +40,7 @@ export default function LearningCard({
       onClick={handleClick}
     >
       <div className="flex items-center justify-between">
-        <span className="text-3xl">📚</span>
+        <span className="text-3xl">{icon}</span>
         <div className="flex items-center gap-2">
           {ok === "gold" ? (
             <span
@@ -69,7 +71,7 @@ export default function LearningCard({
           <span
             className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-purple-500/10 text-purple-300`}
           >
-            Learning
+            {tag}
           </span>
         </div>
       </div>
