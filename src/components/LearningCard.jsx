@@ -9,7 +9,7 @@ export default function LearningCard({
   onOpen,
   ok,
   icon = "📚",
-  tag = "Learning",
+  badge = "Learning",
 }) {
   let navigate = useNavigate();
   const { theme } = useTheme();
@@ -71,7 +71,7 @@ export default function LearningCard({
           <span
             className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide bg-purple-500/10 text-purple-300`}
           >
-            {tag}
+            {badge}
           </span>
         </div>
       </div>
