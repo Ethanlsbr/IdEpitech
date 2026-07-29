@@ -15,8 +15,9 @@ export default function MobileBlock({ onBack }) {
               Oups, mauvais environnement !
             </h1>
             <p className="mt-2 max-w-sm text-sm text-[var(--text-muted)]">
-              IDEpitech a besoin d&apos;un grand écran pour {theme.verb} à
-              l&apos;aise. Reviens sur un ordinateur pour coder confortablement.
+              IDEpitech a besoin d&apos;un grand écran pour{" "}
+              {theme.type == "manta" ? "nager" : "ramper"} à l&apos;aise.
+              Reviens sur un ordinateur pour coder confortablement.
             </p>
           </div>
 

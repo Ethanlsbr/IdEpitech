@@ -23,6 +23,19 @@ import {
   hintsFilDariane,
 } from "../projects/filDariane/values";
 
+export const DIFF = [
+  "🥚 - Oeuf",
+  "🐠🐠 - Raie",
+  "🦈🦈🦈 - Raie Manta",
+  "🐉🐉🐉🐉 - Raie Léviathan",
+];
+export const COBRA_DIFF = [
+  "🥚 - Oeuf",
+  "🐍🐍 - Cobra",
+  "🐍🐍🐍 - Cobra Royal",
+  "🐉🐉🐉🐉 - Léviathan",
+];
+
 export const guidedProjects = [
   {
     id: "fil-ariane",
@@ -34,7 +47,7 @@ export const guidedProjects = [
     afterCode: "",
     explanation: explanationFilDariane,
     hints: hintsFilDariane,
-    difficulty: "Difficile",
+    difficulty: DIFF[2],
     hasEnd: true,
     component: FilDariane,
   },
@@ -46,7 +59,7 @@ export const guidedProjects = [
     subject: AppletonSubject,
     beforeCode: "",
     afterCode: "",
-    difficulty: "Moyen",
+    difficulty: DIFF[1],
     hasEnd: false,
   },
   {
@@ -61,7 +74,7 @@ export const guidedProjects = [
     goldenExpected: goldenExpectedHyruleAttack,
     explanation: explanationHyruleAttack,
     hints: hintsHyruleAttack,
-    difficulty: "Moyen",
+    difficulty: DIFF[2],
     hasEnd: true,
   },
   {
@@ -74,7 +87,7 @@ export const guidedProjects = [
     afterCode: "",
     explanation: explanationHyruleDefense,
     hints: hintsHyruleDefense,
-    difficulty: "Difficile",
+    difficulty: DIFF[3],
     hasEnd: true,
     component: HyruleDefense,
   },

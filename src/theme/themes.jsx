@@ -110,7 +110,7 @@ export const THEMES = {
     id: "default",
     label: "Default",
     logo: "🐟",
-    verb: "nager",
+    type: "manta",
     pattern: (color) => {
       null;
     },
@@ -151,7 +151,7 @@ export const THEMES = {
     id: "manta",
     label: "Manta",
     logo: "🐟",
-    verb: "nager",
+    type: "manta",
     pattern: mantaPattern,
     colors: {
       dark: {
@@ -190,7 +190,7 @@ export const THEMES = {
     id: "cobra",
     label: "Cobra",
     logo: "🐍",
-    verb: "ramper",
+    type: "cobra",
     pattern: cobraPattern,
     colors: {
       dark: {
@@ -229,7 +229,7 @@ export const THEMES = {
     id: "aquarium",
     label: "Manta Aquarium",
     logo: "🐠",
-    verb: "nager",
+    type: "manta",
     pattern: bubblePattern,
     slots: { card: bubbleCard },
     Overlay: AquariumOverlay,
@@ -270,7 +270,7 @@ export const THEMES = {
     id: "forest",
     label: "Cobra Deep Forest",
     logo: "🌲",
-    verb: "ramper",
+    type: "cobra",
     pattern: leafPattern,
     slots: { card: leafCard },
     Overlay: ForestOverlay,
