@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { saveCompletion } from "../../completion";
+import Icon from "../../components/Icon";
 
 const TRAIL_STYLE = "bg-[var(--text-faint)]";
 const PLAYER_STYLE = "bg-rose-400 ring-1 ring-rose-200";
@@ -177,12 +178,10 @@ export default function FilDariane({ lines, status, onClear, project }) {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-[var(--bg)]">
-      <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-1.5">
-        <span className="text-xs font-semibold tracking-wide text-[var(--text-muted)]">
-          LABYRINTHE
-        </span>
+      <div className="panel-head">
+        <span className="panel-title">LABYRINTHE</span>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+          <label className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
             Vitesse
             <input
               type="range"
@@ -193,33 +192,38 @@ export default function FilDariane({ lines, status, onClear, project }) {
               onChange={(e) =>
                 setDelay(MIN_DELAY + MAX_DELAY - Number(e.target.value))
               }
-              className="h-1 w-24 cursor-pointer accent-sky-400"
+              className="h-1 w-24 cursor-pointer accent-[var(--accent)]"
             />
             <span className="w-12 tabular-nums text-[var(--text-faint)]">
               {delay} ms
             </span>
           </label>
-          <button
-            onClick={onClear}
-            className="rounded px-2 py-0.5 text-xs text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
-          >
+          <button onClick={onClear} className="btn btn-ghost btn-sm">
+            <Icon name="stop" size={12} />
             Arrêter
           </button>
         </div>
       </div>
 
-      <div className="thin-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-auto p-4">
+      <div className="thin-scroll flex min-h-0 flex-1 flex-col gap-4 overflow-auto p-5">
         {running ? (
           <div className="m-auto flex items-center gap-2 text-sm text-[var(--text-muted)]">
-            <span className="h-3 w-3 animate-ping rounded-full bg-sky-400" />
+            <span
+              className="status-dot animate-pulse"
+              style={{ "--tone": "var(--accent)" }}
+            />
             Exécution en cours…
           </div>
         ) : error ? (
-          <div className="mx-auto w-full max-w-2xl rounded-md border border-red-500/30 bg-red-500/10 p-4">
-            <div className="mb-2 text-xs font-semibold tracking-wide text-red-300">
+          <div
+            className="callout mx-auto w-full max-w-2xl p-4"
+            style={{ "--tone": "var(--danger)" }}
+          >
+            <div className="mb-2 flex items-center gap-2 text-xs font-bold tracking-[0.08em]">
+              <Icon name="alert" size={15} />
               ERREUR PYTHON
             </div>
-            <pre className="thin-scroll overflow-auto whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-red-200">
+            <pre className="thin-scroll overflow-auto font-mono text-[13px] leading-relaxed whitespace-pre-wrap">
               {error}
             </pre>
           </div>
@@ -227,11 +231,11 @@ export default function FilDariane({ lines, status, onClear, project }) {
           <>
             {outcome && (
               <div
-                className={`mx-auto rounded-md px-4 py-2 text-center text-sm font-semibold ${
-                  outcome === "won"
-                    ? "bg-emerald-500/15 text-emerald-300"
-                    : "bg-amber-500/15 text-amber-300"
-                }`}
+                className="callout mx-auto px-4 py-2.5 text-center text-sm font-semibold"
+                style={{
+                  "--tone":
+                    outcome === "won" ? "var(--success)" : "var(--warning)",
+                }}
               >
                 {outcome === "won"
                   ? "🎉 Thésée est sorti du labyrinthe !"
@@ -239,7 +243,7 @@ export default function FilDariane({ lines, status, onClear, project }) {
               </div>
             )}
             <div
-              className="mx-auto grid w-full max-w-3xl gap-0px"
+              className="mx-auto grid w-full max-w-3xl overflow-hidden rounded-lg border border-[var(--border)]"
               style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
             >
               {run.grid.flatMap((row, y) =>
@@ -262,10 +266,10 @@ export default function FilDariane({ lines, status, onClear, project }) {
               {LEGEND.map(({ style, label }) => (
                 <span
                   key={label}
-                  className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]"
+                  className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]"
                 >
                   <span
-                    className={`inline-block h-3 w-3 rounded-sm ${style}`}
+                    className={`inline-block h-3 w-3 rounded-[4px] ${style}`}
                   />
                   {label}
                 </span>
@@ -273,19 +277,19 @@ export default function FilDariane({ lines, status, onClear, project }) {
             </div>
           </>
         ) : output ? (
-          <pre className="thin-scroll overflow-auto whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-zinc-300">
+          <pre className="thin-scroll overflow-auto font-mono text-[13px] leading-relaxed whitespace-pre-wrap text-[var(--text)]">
             {output}
           </pre>
         ) : (
-          <div className="m-auto text-center text-sm text-[var(--text-faint)]">
+          <div className="m-auto max-w-md text-center text-sm leading-loose text-[var(--text-muted)]">
             Exécutez votre code pour guider Thésée.
             <br />
             écrivez en première ligne{" "}
-            <code className="text-zinc-300">print_map()</code> ou
-            <code className="text-zinc-300">print_medium_map()</code> ou
-            <code className="text-zinc-300">print_hard_map()</code> pour choisir
+            <code className="inline-code">print_map()</code> ou
+            <code className="inline-code">print_medium_map()</code> ou
+            <code className="inline-code">print_hard_map()</code> pour choisir
             la difficulté du labyrinthe, puis{" "}
-            <code className="text-zinc-300">
+            <code className="inline-code">
               up() · down() · left() · right()
             </code>
             .

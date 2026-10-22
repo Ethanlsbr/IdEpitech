@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { saveCompletion } from "../../completion";
+import Icon from "../../components/Icon";
 
 const STEP_DELAY = 220;
 const MIN_DELAY = 20;
@@ -170,7 +171,7 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
   let banner = null;
   if (atEnd && solved) {
     banner = {
-      style: "bg-emerald-500/15 text-emerald-300",
+      tone: "var(--success)",
       text:
         difficulty === "difficile"
           ? "✨ Le sceau le plus difficile est restauré ! Hyrule est sauvée."
@@ -178,20 +179,20 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
     };
   } else if (atEnd && fault) {
     banner = {
-      style: "bg-rose-500/15 text-rose-300",
+      tone: "var(--danger)",
       text: "⚠️ Le sceau est corrompu : une rune apparaît deux fois (en rouge).",
     };
   } else if (atEnd && grid) {
     banner = {
-      style: "bg-amber-500/15 text-amber-300",
+      tone: "var(--warning)",
       text: "🕯️ Le sceau est incomplet, des runes manquent encore.",
     };
   }
 
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-[var(--bg)]">
-      <div className="flex items-center justify-between border-b border-[var(--border)] px-3 py-1.5">
-        <span className="text-xs font-semibold tracking-wide text-[var(--text-muted)]">
+      <div className="panel-head">
+        <span className="panel-title">
           SCEAU SHEIKAH
           {difficulty && (
             <span className="ml-2 text-[var(--text-faint)]">
@@ -205,7 +206,7 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
           )}
         </span>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+          <label className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
             Vitesse
             <input
               type="range"
@@ -216,30 +217,35 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
               onChange={(e) =>
                 setDelay(MIN_DELAY + MAX_DELAY - Number(e.target.value))
               }
-              className="h-1 w-24 cursor-pointer accent-sky-400"
+              className="h-1 w-24 cursor-pointer accent-[var(--accent)]"
             />
           </label>
-          <button
-            onClick={onClear}
-            className="rounded px-2 py-0.5 text-xs text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
-          >
+          <button onClick={onClear} className="btn btn-ghost btn-sm">
+            <Icon name="stop" size={12} />
             Arrêter
           </button>
         </div>
       </div>
 
-      <div className="thin-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-auto p-4">
+      <div className="thin-scroll flex min-h-0 flex-1 flex-col gap-4 overflow-auto p-5">
         {running ? (
           <div className="m-auto flex items-center gap-2 text-sm text-[var(--text-muted)]">
-            <span className="h-3 w-3 animate-ping rounded-full bg-sky-400" />
+            <span
+              className="status-dot animate-pulse"
+              style={{ "--tone": "var(--accent)" }}
+            />
             Résolution en cours…
           </div>
         ) : error ? (
-          <div className="mx-auto w-full max-w-2xl rounded-md border border-red-500/30 bg-red-500/10 p-4">
-            <div className="mb-2 text-xs font-semibold tracking-wide text-red-300">
+          <div
+            className="callout mx-auto w-full max-w-2xl p-4"
+            style={{ "--tone": "var(--danger)" }}
+          >
+            <div className="mb-2 flex items-center gap-2 text-xs font-bold tracking-[0.08em]">
+              <Icon name="alert" size={15} />
               ERREUR PYTHON
             </div>
-            <pre className="thin-scroll overflow-auto whitespace-pre-wrap font-mono text-[13px] leading-relaxed text-red-200">
+            <pre className="thin-scroll overflow-auto font-mono text-[13px] leading-relaxed whitespace-pre-wrap">
               {error}
             </pre>
           </div>
@@ -247,19 +253,24 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
           <>
             {banner && (
               <div
-                className={`mx-auto rounded-md px-4 py-2 text-center text-sm font-semibold ${banner.style}`}
+                className="callout mx-auto px-4 py-2.5 text-center text-sm font-semibold"
+                style={{ "--tone": banner.tone }}
               >
                 {banner.text}
               </div>
             )}
-            <div className="mx-auto grid aspect-square w-full max-w-md grid-cols-9 bg-[var(--surface)]">
+            <div className="mx-auto grid aspect-square w-full max-w-md grid-cols-9 overflow-hidden rounded-lg bg-[var(--surface)] shadow-[var(--shadow-md)]">
               {grid.flatMap((row, y) =>
                 row.map((v, x) => {
                   const key = `${y},${x}`;
                   const isFault = fault?.has(key);
                   let tone = "text-[var(--text-muted)]";
-                  if (isFault) tone = "bg-rose-500/25 text-rose-300";
-                  else if (solved) tone = "bg-emerald-500/15 text-emerald-300";
+                  if (isFault)
+                    tone =
+                      "bg-[color-mix(in_oklab,var(--danger)_22%,transparent)] text-[var(--danger)]";
+                  else if (solved)
+                    tone =
+                      "bg-[color-mix(in_oklab,var(--success)_14%,transparent)] text-[var(--success)]";
                   else if (!v) tone = "bg-slate-500/10 text-transparent";
                   else tone = "text-[var(--text)]";
                   return (
@@ -281,10 +292,10 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
               {LEGEND.map(({ style, label }) => (
                 <span
                   key={label}
-                  className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]"
+                  className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]"
                 >
                   <span
-                    className={`inline-block h-3 w-3 rounded-sm ${style}`}
+                    className={`inline-block h-3 w-3 rounded-[4px] ${style}`}
                   />
                   {label}
                 </span>
@@ -292,14 +303,14 @@ export default function HyruleDefense({ lines, status, onClear, project }) {
             </div>
           </>
         ) : (
-          <div className="m-auto max-w-md text-center text-sm text-[var(--text-faint)]">
+          <div className="m-auto max-w-md text-center text-sm leading-loose text-[var(--text-muted)]">
             Exécutez votre code pour restaurer le sceau.
             <br />
             Chargez un sceau avec{" "}
-            <code className="text-zinc-300">charger_facile()</code>,{" "}
-            <code className="text-zinc-300">charger_moyen()</code> ou{" "}
-            <code className="text-zinc-300">charger_difficile()</code>, puis
-            appelez <code className="text-zinc-300">afficher(sudoku)</code> à
+            <code className="inline-code">charger_facile()</code>,{" "}
+            <code className="inline-code">charger_moyen()</code> ou{" "}
+            <code className="inline-code">charger_difficile()</code>, puis
+            appelez <code className="inline-code">afficher(sudoku)</code> à
             chaque tour.
           </div>
         )}

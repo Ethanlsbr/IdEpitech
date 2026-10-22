@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useHideDecorations } from "../components/ThemeBackground";
 import Editor from "../components/Editor";
 import Toolbar from "../components/Toolbar";
 import Subject from "../components/Subject";
@@ -6,6 +7,7 @@ import { usePythonLanguage, SAMPLE_PYTHON } from "../languages/python";
 import { useHtmlLanguage, SAMPLE_HTML } from "../languages/html";
 import { useCLanguage, SAMPLE_C } from "../languages/c";
 import Hints from "../components/Hints";
+import Icon from "../components/Icon";
 import { completionMark } from "../completion";
 
 const STORAGE_KEY = "manta-code-";
@@ -17,6 +19,7 @@ function buildHtmlDocument({ html, css, javascript }) {
 }
 
 export default function Sandbox({ project, onBack, onNext }) {
+  useHideDecorations(true);
   const language = project.language;
   const isHtml = language === "html";
 
@@ -122,19 +125,22 @@ export default function Sandbox({ project, onBack, onNext }) {
     setEditorWidth(Math.min(80, Math.max(20, nextWidth)));
   }, []);
 
-  const stopDragging = useCallback((event) => {
-    const target = event.currentTarget;
-    if (target.hasPointerCapture?.(event.pointerId)) {
-      target.releasePointerCapture(event.pointerId);
-    }
-    target.removeEventListener("pointermove", handleDragMove);
-    target.removeEventListener("pointerup", stopDragging);
-    target.removeEventListener("pointercancel", stopDragging);
+  const stopDragging = useCallback(
+    (event) => {
+      const target = event.currentTarget;
+      if (target.hasPointerCapture?.(event.pointerId)) {
+        target.releasePointerCapture(event.pointerId);
+      }
+      target.removeEventListener("pointermove", handleDragMove);
+      target.removeEventListener("pointerup", stopDragging);
+      target.removeEventListener("pointercancel", stopDragging);
 
-    document.body.style.userSelect = "";
-    document.body.style.cursor = "";
-    dragStateRef.current = null;
-  }, [handleDragMove]);
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+      dragStateRef.current = null;
+    },
+    [handleDragMove],
+  );
 
   const handleDividerPointerDown = useCallback(
     (event) => {
@@ -160,7 +166,7 @@ export default function Sandbox({ project, onBack, onNext }) {
     [editorWidth, handleDragMove, stopDragging],
   );
   return (
-    <div className="relative hidden h-full flex-col md:flex">
+    <div className="relative hidden h-full flex-col bg-[var(--bg)] md:flex">
       <Toolbar
         status={status}
         version={version}
@@ -177,7 +183,7 @@ export default function Sandbox({ project, onBack, onNext }) {
         className="grid flex-1 grid-cols-1 overflow-hidden md:flex md:flex-row"
       >
         <section
-          className="min-h-0 min-w-0 border-[var(--border)] md:border-r"
+          className="min-h-0 min-w-0"
           style={{
             flex: `0 0 ${editorWidth}%`,
           }}
@@ -197,37 +203,38 @@ export default function Sandbox({ project, onBack, onNext }) {
           aria-orientation="vertical"
           aria-label="Resize editor and console"
           onPointerDown={handleDividerPointerDown}
-          className="hidden md:block md:h-full md:w-2 md:flex-none md:cursor-col-resize md:bg-[var(--border)] md:hover:bg-sky-500/60 select-none"
-          style={{ touchAction: "none" }}
+          className="split-handle hidden md:block"
         />
         <section className="flex min-h-0 min-w-0 flex-col md:flex-1">
           {project.subject && (
-            <div className="flex flex-none border-b border-[var(--border)]">
+            <div className="tabs" role="tablist">
               <button
                 type="button"
+                role="tab"
+                aria-selected={!rightPanel}
                 onClick={() => setRightPanel(false)}
-                className={`flex-1 px-3 py-1.5 text-xs font-medium ${
-                  !rightPanel
-                    ? "bg-[var(--tab-active)] text-white"
-                    : "text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
-                }`}
+                className="tab"
               >
+                <Icon name="file" size={14} />
                 SUJET
               </button>
               <button
                 type="button"
+                role="tab"
+                aria-selected={rightPanel}
                 onClick={() => setRightPanel(true)}
-                className={`flex-1 px-3 py-1.5 text-xs font-medium ${
-                  rightPanel
-                    ? "bg-[var(--tab-active)] text-white"
-                    : "text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]"
-                }`}
+                className="tab"
               >
+                <Icon name="terminal" size={14} />
                 {project.id === "fil-ariane" ? "LABYRINTHE" : "CONSOLE"}
               </button>
             </div>
           )}
-          {rightPanel ? renderPanel() : <Subject subject={project.subject} />}
+          {rightPanel || !project.subject ? (
+            renderPanel()
+          ) : (
+            <Subject subject={project.subject} />
+          )}
         </section>
       </main>
       <Hints project={project} />
