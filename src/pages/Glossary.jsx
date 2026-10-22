@@ -90,6 +90,7 @@ const markdownComponents = {
 };
 
 const SECTIONS = [
+  { language: "basics", label: "Les Bases (avant de coder)" },
   { language: "python", label: "Glossaire Python" },
   { language: "html", label: "Glossaire HTML" },
   { language: "css", label: "Glossaire CSS" },
@@ -109,7 +110,45 @@ function Markdown({ source }) {
   );
 }
 
-function MarkdownViewer({ entry, onBack }) {
+function MarkedownNavigation({ onPrev, prev, onNext, next }) {
+  const textPrev = prev
+    ? "← " +
+      prev.language[0].toUpperCase() +
+      prev.language.slice(1) +
+      " : " +
+      prev.name
+    : "Bonne Lecture !";
+  const textNext = next
+    ? next.language[0].toUpperCase() +
+      next.language.slice(1) +
+      " : " +
+      next.name +
+      " →"
+    : "Bravo...";
+
+  return (
+    <div className="flex items-start justify-between py-5">
+      <button
+        type="button"
+        onClick={onPrev}
+        disabled={prev == null}
+        className="rounded-lg border border-[var(--border-strong)] px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] transition hover:border-purple-500/60 hover:text-purple-300"
+      >
+        {textPrev}
+      </button>
+      <button
+        type="button"
+        onClick={onNext}
+        disabled={next == null}
+        className="rounded-lg border border-[var(--border-strong)] px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] transition hover:border-purple-500/60 hover:text-purple-300"
+      >
+        {textNext}
+      </button>
+    </div>
+  );
+}
+
+function MarkdownViewer({ entry, onBack, onPrev, prev, onNext, next }) {
   return (
     <PatternPage animated={false}>
       <header className="flex items-center gap-4 border-b border-[var(--border)] bg-[var(--surface)] px-6 py-4">
@@ -131,7 +170,19 @@ function MarkdownViewer({ entry, onBack }) {
       </header>
       <main className="thin-scroll flex-1 overflow-auto">
         <article className="mx-auto max-w-3xl px-6 py-8">
+          <MarkedownNavigation
+            onPrev={onPrev}
+            prev={prev}
+            onNext={onNext}
+            next={next}
+          />
           <Markdown source={entry.code} />
+          <MarkedownNavigation
+            onPrev={onPrev}
+            prev={prev}
+            onNext={onNext}
+            next={next}
+          />
         </article>
       </main>
     </PatternPage>
@@ -141,11 +192,21 @@ function MarkdownViewer({ entry, onBack }) {
 export function Glossary() {
   const [activeId, setActiveId] = useState(null);
   const active = glossary.find((entry) => entry.id === activeId) ?? null;
+  const index = glossary.findIndex((entry) => entry.id === activeId);
+  const prev = index > 0 ? glossary[index - 1] : null;
+  const next = index < glossary.length ? glossary[index + 1] : null;
 
   return (
     <div className="h-full block">
       {active ? (
-        <MarkdownViewer entry={active} onBack={() => setActiveId(null)} />
+        <MarkdownViewer
+          entry={active}
+          onBack={() => setActiveId(null)}
+          onPrev={() => setActiveId(prev.id)}
+          prev={prev}
+          onNext={() => setActiveId(next.id)}
+          next={next}
+        />
       ) : (
         <PatternPage>
           <HeaderBar />

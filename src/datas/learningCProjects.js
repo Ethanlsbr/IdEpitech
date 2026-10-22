@@ -6,7 +6,7 @@ export const learningCProjects = [
     description: "La structure de base d'un programme C.",
     subject: null,
     hasEnd: true,
-    code: "",
+    code: "// coucou\n",
     explanation: `#include <stdio.h>
 
 // Complète le programme pour afficher exactement : Bonjour !
