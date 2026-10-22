@@ -12,7 +12,7 @@ const isolationHeaders = {
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: { headers: isolationHeaders },
+  server: { headers: isolationHeaders, port:3030 },
   preview: { headers: isolationHeaders },
   worker: {
     // Worker classique : importScripts() pour charger Pyodide depuis le CDN.

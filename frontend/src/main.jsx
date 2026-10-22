@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import { PyodideProvider } from "./usePyodide";
+import { PyodideProvider } from "./usePyodide.jsx";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LearningPage } from "./pages/LearningPage.jsx";
