@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sandbox from "./Sandbox";
 import MobileBlock from "../components/MobileBlock";
