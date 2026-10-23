@@ -61,7 +61,16 @@ export default function HeaderBar() {
         <span />
       )}
 
-      <div className="justify-self-end">
+      <div className="flex items-center gap-2 justify-self-end">
+        <button
+          type="button"
+          onClick={() => navigate("/achievements")}
+          title="Succès"
+          aria-label="Succès"
+          className="btn btn-outline btn-icon"
+        >
+          <Icon name="trophy" size={17} />
+        </button>
         <SettingsButton />
       </div>
 
