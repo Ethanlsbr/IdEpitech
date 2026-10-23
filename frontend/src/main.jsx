@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { PyodideProvider } from "./usePyodide.jsx";
 import "./index.css";
+import "./theme/themes.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LearningPage } from "./pages/LearningPage.jsx";
 import { Glossary } from "./pages/Glossary.jsx";
