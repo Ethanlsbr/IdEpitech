@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")).render(
         <BrowserRouter>
           <Routes>
             <Route
-              path="/"
+              path="/:id?"
               element={
                 <PyodideProvider>
                   <App />
@@ -29,21 +29,14 @@ createRoot(document.getElementById("root")).render(
               }
             />
             <Route
-              path="/learning"
+              path="/learning/:id?"
               element={
                 <PyodideProvider>
                   <LearningPage />
                 </PyodideProvider>
               }
             />
-            <Route
-              path="/glossary"
-              element={
-                <PyodideProvider>
-                  <Glossary />
-                </PyodideProvider>
-              }
-            />
+            <Route path="/glossary/:id?" element={<Glossary />} />
             <Route path="/agenda" element={<Agenda />} />
           </Routes>
         </BrowserRouter>
