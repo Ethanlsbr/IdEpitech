@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -159,7 +159,9 @@ function MarkdownViewer({ entry, onBack, onPrev, prev, onNext, next }) {
 }
 
 export function Glossary() {
-  const [activeId, setActiveId] = useState(null);
+  const { id: activeId } = useParams();
+  const navigate = useNavigate();
+  const openEntry = (id) => navigate(`/glossary/${id}`);
   const active = glossary.find((entry) => entry.id === activeId) ?? null;
   const index = glossary.findIndex((entry) => entry.id === activeId);
   const prev = index > 0 ? glossary[index - 1] : null;
@@ -171,10 +173,10 @@ export function Glossary() {
         <MarkdownViewer
           key={active.id}
           entry={active}
-          onBack={() => setActiveId(null)}
-          onPrev={() => setActiveId(prev.id)}
+          onBack={() => navigate("/glossary")}
+          onPrev={() => openEntry(prev.id)}
           prev={prev}
-          onNext={() => setActiveId(next.id)}
+          onNext={() => openEntry(next.id)}
           next={next}
         />
       ) : (
@@ -196,7 +198,7 @@ export function Glossary() {
                       <LearningCard
                         key={entry.id}
                         project={entry}
-                        onOpen={setActiveId}
+                        onOpen={openEntry}
                         index={index}
                       />
                     ))}
