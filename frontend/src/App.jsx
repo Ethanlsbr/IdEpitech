@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import HomePage from "./pages/HomePage";
 import Sandbox from "./pages/Sandbox";
 import MobileBlock from "./components/MobileBlock";
