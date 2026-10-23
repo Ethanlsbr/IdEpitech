@@ -34,8 +34,33 @@ const PATHS = {
       <path d="m6 6 12 12" />
     </>
   ),
-  play: <path d="M7 4.5v15a.75.75 0 0 0 1.14.64l12-7.5a.75.75 0 0 0 0-1.28l-12-7.5A.75.75 0 0 0 7 4.5z" fill="currentColor" />,
+  play: (
+    <path
+      d="M7 4.5v15a.75.75 0 0 0 1.14.64l12-7.5a.75.75 0 0 0 0-1.28l-12-7.5A.75.75 0 0 0 7 4.5z"
+      fill="currentColor"
+    />
+  ),
   stop: <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" />,
+  crosshair: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+    </>
+  ),
+  scan: (
+    <>
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+    </>
+  ),
+  replay: (
+    <>
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+    </>
+  ),
   download: (
     <>
       <path d="M12 15V3" />
